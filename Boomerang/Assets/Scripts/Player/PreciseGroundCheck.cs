@@ -16,6 +16,9 @@ public class PreciseGroundCheck : MonoBehaviour
     //Starting y position relative to the player
     private float starty;
 
+    //
+    private int collide;
+
     //Player's movement script
     private PlayerMovement playerMovement;
 
@@ -25,6 +28,7 @@ public class PreciseGroundCheck : MonoBehaviour
         offset = 0;
         playerMovement = GetComponentInParent<PlayerMovement>();
         starty = transform.position.y - playerMovement.gameObject.transform.position.y;
+        collide = 0;
 
         //Don't collide with player
         Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), GetComponentInParent<BoxCollider2D>(), true);
@@ -36,6 +40,10 @@ public class PreciseGroundCheck : MonoBehaviour
         //Set position to be at the bottom of the player and a little farther depending on how fast the player is falling down
         offset = Mathf.Abs(Mathf.Min(playerMovement.getRigidbody().velocity.y / 30, 0));
         transform.position = new Vector3(transform.position.x, transform.parent.position.y + starty - offset, transform.position.z);
+
+        if(grounded && collide > 1)
+            grounded = false;
+        collide++;
     }
 
     //Helps code in OnCollisionStay2D happen quicker, triggers at the start of collision
@@ -47,23 +55,31 @@ public class PreciseGroundCheck : MonoBehaviour
     //Triggers when FeetCheck collides with another collider
     private void OnCollisionStay2D(Collision2D collision)
     {
-        //if a collider is in FeetCheck and is in the groundLayer
-        if(collision != null && (((1 << collision.gameObject.layer) & groundLayer) != 0))
+        if(collision != null)
         {
-            //bool none = true;
-            for(int i = 0; i < collision.contactCount; i++)
+            //if a collider is in FeetCheck and is in the groundLayer
+            if(collision != null && (((1 << collision.gameObject.layer) & groundLayer) != 0))
             {
-                float normaly = collision.GetContact(i).normal.y;
-                //if the surface being collided with is not vertical (or almost vertical) then set grounded to true
-                if(normaly < -playerMovement.getSlip() || normaly > playerMovement.getSlip())
+                //bool none = true;
+                for(int i = 0; i < collision.contactCount; i++)
                 {
-                    grounded = true;
-                    //none = false;
+                    float normaly = collision.GetContact(i).normal.y;
+                    //if the surface being collided with is not vertical (or almost vertical) then set grounded to true
+                    if(normaly < -playerMovement.getSlip() || normaly > playerMovement.getSlip())
+                    {
+                        grounded = true;
+                        //none = false;
+                    }
+                    //Debug.Log("normaly: " + normaly);
                 }
-                //Debug.Log("normaly: " + normaly);
+                /*if(none)
+                    grounded = false;*/
             }
-            /*if(none)
-                grounded = false;*/
+            collide = 0;
+        }
+        else
+        {
+            grounded = false;
         }
     }
 
