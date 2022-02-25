@@ -17,7 +17,7 @@ public class PreciseGroundCheck : MonoBehaviour
     private float starty;
 
     //
-    private int collide;
+    private float framesSinceLastCollide;
 
     //Player's movement script
     private PlayerMovement playerMovement;
@@ -28,7 +28,7 @@ public class PreciseGroundCheck : MonoBehaviour
         offset = 0;
         playerMovement = GetComponentInParent<PlayerMovement>();
         starty = transform.position.y - playerMovement.gameObject.transform.position.y;
-        collide = 0;
+        framesSinceLastCollide = 0;
 
         //Don't collide with player
         Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), GetComponentInParent<BoxCollider2D>(), true);
@@ -40,10 +40,13 @@ public class PreciseGroundCheck : MonoBehaviour
         //Set position to be at the bottom of the player and a little farther depending on how fast the player is falling down
         offset = Mathf.Abs(Mathf.Min(playerMovement.getRigidbody().velocity.y / 30, 0));
         transform.position = new Vector3(transform.position.x, transform.parent.position.y + starty - offset, transform.position.z);
+    }
 
-        if(grounded && collide > 1)
+    void FixedUpdate()
+    {
+        if(grounded && framesSinceLastCollide >= 2)
             grounded = false;
-        collide++;
+        framesSinceLastCollide++;
     }
 
     //Helps code in OnCollisionStay2D happen quicker, triggers at the start of collision
@@ -60,7 +63,6 @@ public class PreciseGroundCheck : MonoBehaviour
             //if a collider is in FeetCheck and is in the groundLayer
             if(collision != null && (((1 << collision.gameObject.layer) & groundLayer) != 0))
             {
-                //bool none = true;
                 for(int i = 0; i < collision.contactCount; i++)
                 {
                     float normaly = collision.GetContact(i).normal.y;
@@ -68,14 +70,11 @@ public class PreciseGroundCheck : MonoBehaviour
                     if(normaly < -playerMovement.getSlip() || normaly > playerMovement.getSlip())
                     {
                         grounded = true;
-                        //none = false;
+                        framesSinceLastCollide = 0;
                     }
                     //Debug.Log("normaly: " + normaly);
                 }
-                /*if(none)
-                    grounded = false;*/
             }
-            collide = 0;
         }
         else
         {
