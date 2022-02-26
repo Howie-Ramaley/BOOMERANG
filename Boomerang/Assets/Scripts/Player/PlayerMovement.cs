@@ -130,10 +130,7 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         //TO-DO:
-        //roll
-        //boomerang
         //fix getting stuck on small stuff rarely
-        //fix player falling when moving off of downward slopes
 
         //Horizontal movement
         
@@ -158,8 +155,7 @@ public class PlayerMovement : MonoBehaviour
         else if(Input.GetKey(KeyCode.D))
         {
             //Go right
-            if(animate.getAnimState() == PlayerAnimation.AnimationState.idle || animate.getAnimState() == PlayerAnimation.AnimationState.fallingLand)
-                animate.run();
+            animate.run();
             facingRight = true;
             if(velx < speed)
             {
@@ -180,8 +176,7 @@ public class PlayerMovement : MonoBehaviour
         else if (Input.GetKey(KeyCode.A))
         {
             //Go left
-            if(animate.getAnimState() == PlayerAnimation.AnimationState.idle || animate.getAnimState() == PlayerAnimation.AnimationState.fallingLand)
-                animate.run();
+            animate.run();
             facingRight = false;
             if(velx > -speed)
             {
@@ -201,7 +196,8 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            //animation.idle();
+            //if(isGrounded() && preciseGroundCheck.getOffset() < 0.01F)
+                //animate.idle();
             //Slow down and come to a stop
             if(velx > speed)
             {
@@ -246,7 +242,7 @@ public class PlayerMovement : MonoBehaviour
 
         //Vertical movement
 
-        if(!isGrounded())
+        if(!isNearGround())
             framesNotGrounded++;
         else
             framesNotGrounded = 0;
@@ -255,13 +251,12 @@ public class PlayerMovement : MonoBehaviour
         if(jumpKeyPressedFrames > 0 && framesNotGrounded < coyoteTime)
             Jump();
         //else if , the player is grounded, start halting the player's gravity
-        else if(gravityVel >= vely && isGrounded())
+        else if(gravityVel >= vely && isNearGround())
         {
             //if FeetCheck is right under the player, set player's gravity to 0
-            if(preciseGroundCheck.getOffset() < 0.01F)
+            if(isGrounded())
             {
-                if(animate.getAnimState() == PlayerAnimation.AnimationState.fall || animate.getAnimState() == PlayerAnimation.AnimationState.fallingLand)
-                    animate.land();
+                animate.land();
                 vely = 0;
                 gravityVel = 0;
             }
@@ -269,8 +264,7 @@ public class PlayerMovement : MonoBehaviour
             //Necessary so that player reaches all the way to the ground without stopping, but without sliding down slopes
             else
             {
-                if(animate.getAnimState() != PlayerAnimation.AnimationState.roll)
-                    animate.fallingLand();
+                animate.fallingLand();
                 vely = 0;
                 if(gravityVel > 0.1F)
                     gravityVel /= 10;
@@ -279,8 +273,7 @@ public class PlayerMovement : MonoBehaviour
         //else, the player is in the air, so increment gravity
         else
         {
-            if(animate.getAnimState() != PlayerAnimation.AnimationState.roll)
-                animate.fall();
+            animate.fall();
             gravityVel += (gravityScale * 0.1962F);
             if(gravityVel > gravityMax)
                 gravityVel = gravityMax;
@@ -301,8 +294,7 @@ public class PlayerMovement : MonoBehaviour
     //it's what you think it is
     private void Jump()
     {
-        if(animate.getAnimState() != PlayerAnimation.AnimationState.roll)
-            animate.jump();
+        animate.jump();
         vely = jumpSpeed;
         gravityVel = 0;
         jumpKeyPressedFrames = 0;
@@ -310,9 +302,14 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //More precise ground check for telling when to stop gravity. Observes trigger status of child object with collision box
-    private bool isGrounded()
+    private bool isNearGround()
     {
         return preciseGroundCheck.getGrounded();
+    }
+
+    public bool isGrounded()
+    {
+        return (preciseGroundCheck.getGrounded() && preciseGroundCheck.getOffset() < 0.01F);
     }
 
     /*UNUSED

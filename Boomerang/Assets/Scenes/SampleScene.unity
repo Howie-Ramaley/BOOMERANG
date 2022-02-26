@@ -4812,9 +4812,25 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1535931714, guid: c23dd36e749f67d4a904dd114fff7cae, type: 3}
+      propertyPath: rollInc
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1535931714, guid: c23dd36e749f67d4a904dd114fff7cae, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 677334224}
+    - target: {fileID: 1535931714, guid: c23dd36e749f67d4a904dd114fff7cae, type: 3}
+      propertyPath: jumpTime
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1535931714, guid: c23dd36e749f67d4a904dd114fff7cae, type: 3}
+      propertyPath: landTime
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1535931714, guid: c23dd36e749f67d4a904dd114fff7cae, type: 3}
+      propertyPath: fallingLandTime
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2127954280, guid: c23dd36e749f67d4a904dd114fff7cae, type: 3}
       propertyPath: m_TagString
       value: Player
