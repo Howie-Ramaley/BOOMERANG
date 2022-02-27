@@ -60,7 +60,7 @@ public class TookahMask : MonoBehaviour, IStunnable
                     approachingPoint2 = true;
                 }
             }
-            transform.position = new Vector3(transform.position.x + velx * speed, transform.position.y + vely * speed, transform.position.z);
+            transform.position = new Vector3(transform.position.x + velx, transform.position.y + vely, transform.position.z);
         }
     }
 
