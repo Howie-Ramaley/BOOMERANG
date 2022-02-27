@@ -3781,7 +3781,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1582164214}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 62435dc1255e10b47a6d0afa6f7c1620, type: 2}
   m_CullingMode: 0
@@ -4775,6 +4775,10 @@ PrefabInstance:
       value: Main Camera
       objectReference: {fileID: 0}
     - target: {fileID: 7306842756131764690, guid: 1d4564270859c8f4bbc6e7fdea192d93, type: 3}
+      propertyPath: m_ClearFlags
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7306842756131764690, guid: 1d4564270859c8f4bbc6e7fdea192d93, type: 3}
       propertyPath: m_BackGroundColor.a
       value: 1
       objectReference: {fileID: 0}
@@ -4789,6 +4793,10 @@ PrefabInstance:
     - target: {fileID: 7306842756131764690, guid: 1d4564270859c8f4bbc6e7fdea192d93, type: 3}
       propertyPath: m_BackGroundColor.r
       value: 0.2784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 7306842756131764691, guid: 1d4564270859c8f4bbc6e7fdea192d93, type: 3}
+      propertyPath: followDuration
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d4564270859c8f4bbc6e7fdea192d93, type: 3}
