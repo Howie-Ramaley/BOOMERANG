@@ -9,8 +9,8 @@ public class TookahMask : MonoBehaviour, IStunnable
     //private float x2;
     private Vector2 xy1 = new Vector2();
     private Vector2 xy2 = new Vector2();
-    private bool goingRight;
-    private bool goingUp;
+    //private bool goingRight;
+    //private bool goingUp;
     private bool approachingPoint2;
 
     private bool stunned;
@@ -28,8 +28,8 @@ public class TookahMask : MonoBehaviour, IStunnable
 
         
 
-        goingRight = false;
-        goingUp = false;
+        //goingRight = false;
+        //goingUp = false;
         stunned = false;
         approachingPoint2 = true;
     }

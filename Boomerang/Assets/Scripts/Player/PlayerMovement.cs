@@ -90,6 +90,8 @@ public class PlayerMovement : MonoBehaviour
     //Allow a roll if rollCooldownFrames is 0.
     private int rollCooldownFrames;
 
+    private FollowPlayer gameCamera;
+
 
     // Start is called before the first frame update
     void Start()
@@ -106,6 +108,7 @@ public class PlayerMovement : MonoBehaviour
         framesNotGrounded = coyoteTime;
         facingRight = true;
         rollCooldownFrames = 0;
+        gameCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<FollowPlayer>();
 
         //Don't rotate on collisions
         body.freezeRotation = true;
@@ -123,6 +126,18 @@ public class PlayerMovement : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.W))
             jumpKeyPressedFrames = 1;
+
+        //Update camera to follow player
+        string id = "player";
+        if(velx > 0.01F)
+            id += "Right";
+        else if(velx < -0.01F)
+            id += "Left";
+        if(animate.getAnimState() == PlayerAnimation.AnimationState.roll)
+            id += "Roll";
+        if(animate.getAnimState() == PlayerAnimation.AnimationState.jump)
+            id += "Jump";
+        gameCamera.setTarget(transform.position.x + velx / 20, transform.position.y + vely / 40, id);
     }
 
     //Gets player input and makes player move accordingly
