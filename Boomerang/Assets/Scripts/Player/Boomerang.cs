@@ -8,6 +8,9 @@ public class Boomerang : MonoBehaviour
 
     //
     [SerializeField] private int throwBufferTime;
+
+    //
+    [SerializeField] private int diagonalInputBufferTime;
     
     //
     [SerializeField] private float throwSpeed;
@@ -25,7 +28,7 @@ public class Boomerang : MonoBehaviour
     private int throwKeyPressedFrames;
 
     //
-    private enum Direction{up, left, down, right}
+    private enum Direction{up, left, down, right, upleft, upright, downleft, downright, none}
     private Direction throwDir;
 
     //
@@ -65,25 +68,46 @@ public class Boomerang : MonoBehaviour
     {
         if(readyToThrow)
         {
+            Direction dir = Direction.none;
+            bool twoKeys = false;
             if(Input.GetKeyDown(KeyCode.I))
-            {
-                throwDir = Direction.up;
-                throwKeyPressedFrames = 1;
-            }
+                dir = Direction.up;
             else if(Input.GetKeyDown(KeyCode.J))
-            {
-                throwDir = Direction.left;
-                throwKeyPressedFrames = 1;
-            }
+                dir = Direction.left;
             else if(Input.GetKeyDown(KeyCode.K))
-            {
-                throwDir = Direction.down;
-                throwKeyPressedFrames = 1;
-            }
+                dir = Direction.down;
             else if(Input.GetKeyDown(KeyCode.L))
+                dir = Direction.right;
+            if(dir != Direction.none && throwKeyPressedFrames == 0)
             {
-                throwDir = Direction.right;
-                throwKeyPressedFrames = 1;
+                twoKeys = true;
+                Direction nextDir = Direction.none;
+                if(Input.GetKeyDown(KeyCode.I) && dir != Direction.up)
+                    nextDir = Direction.up;
+                else if(Input.GetKeyDown(KeyCode.J) && dir != Direction.left)
+                    nextDir = Direction.left;
+                else if(Input.GetKeyDown(KeyCode.K) && dir != Direction.down)
+                    nextDir = Direction.down;
+                else if(Input.GetKeyDown(KeyCode.L) && dir != Direction.right)
+                    nextDir = Direction.right;
+                else
+                    twoKeys = false;
+                if(twoKeys)
+                {
+                    throwKeyPressedFrames = 1;
+                    throwDir = dir;
+                    throwDir = getDiagonal(nextDir);
+                }
+            }
+            if(dir != Direction.none && !twoKeys)
+            {
+                if(throwKeyPressedFrames == 0)
+                {
+                    throwKeyPressedFrames = 1;
+                    throwDir = dir;
+                }
+                else if(throwDir == Direction.up || throwDir == Direction.down || throwDir == Direction.left || throwDir == Direction.right)
+                    throwDir = getDiagonal(dir);
             }
         }
         else
@@ -101,9 +125,10 @@ public class Boomerang : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(throwKeyPressedFrames > 0 && readyToThrow)
+        if(throwKeyPressedFrames > diagonalInputBufferTime && readyToThrow)
         {
             //Throw boomerang
+            throwKeyPressedFrames = 0;
             framesSinceThrown = 1;
             readyToThrow = false;
             GetComponent<SpriteRenderer>().enabled = true;
@@ -116,6 +141,26 @@ public class Boomerang : MonoBehaviour
                 vely = throwSpeed;
             else if(throwDir == Direction.down)
                 vely = -throwSpeed;
+            else if(throwDir == Direction.upleft)
+            {
+                velx = throwSpeed * Mathf.Sin(315F * Mathf.PI / 180F);
+                vely = throwSpeed * Mathf.Cos(315F * Mathf.PI / 180F);
+            }
+            else if(throwDir == Direction.upright)
+            {
+                velx = throwSpeed * Mathf.Sin(45F * Mathf.PI / 180F);
+                vely = throwSpeed * Mathf.Cos(45F * Mathf.PI / 180F);
+            }
+            else if(throwDir == Direction.downleft)
+            {
+                velx = throwSpeed * Mathf.Sin(225F * Mathf.PI / 180F);
+                vely = throwSpeed * Mathf.Cos(225F * Mathf.PI / 180F);
+            }
+            else if(throwDir == Direction.downright)
+            {
+                velx = throwSpeed * Mathf.Sin(135F * Mathf.PI / 180F);
+                vely = throwSpeed * Mathf.Cos(135F * Mathf.PI / 180F);
+            }
         }
 
         if(returning)
@@ -134,7 +179,7 @@ public class Boomerang : MonoBehaviour
         if(throwKeyPressedFrames > 0)
         {
             throwKeyPressedFrames++;
-            if(throwKeyPressedFrames > throwBufferTime)
+            if(throwKeyPressedFrames > diagonalInputBufferTime + throwBufferTime)
                 throwKeyPressedFrames = 0;
         }
 
@@ -214,5 +259,41 @@ public class Boomerang : MonoBehaviour
             return Direction.up;
         else
             return Direction.left;
+    }
+
+    private Direction getDiagonal(Direction dir)
+    {
+        if(dir == throwDir)
+            return dir;
+        else if(dir == oppositeDirection(throwDir))
+            return dir;
+        else if(dir == Direction.up)
+        {
+            if(throwDir == Direction.left)
+                return Direction.upleft;
+            else
+                return Direction.upright;
+        }
+        else if(dir == Direction.left)
+        {
+            if(throwDir == Direction.up)
+                return Direction.upleft;
+            else
+                return Direction.downleft;
+        }
+        else if(dir == Direction.down)
+        {
+            if(throwDir == Direction.left)
+                return Direction.downleft;
+            else
+                return Direction.downright;
+        }
+        else
+        {
+            if(throwDir == Direction.up)
+                return Direction.upright;
+            else
+                return Direction.downright;
+        }
     }
 }
