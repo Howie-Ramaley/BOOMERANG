@@ -14,6 +14,7 @@ public class Tallboy : MonoBehaviour, IStunnable
     // Start is called before the first frame update
     void Start()
     {
+        xy1.x = transform.parent.Find("Point1").transform.position.x;
         xy1.y = transform.parent.Find("Point1").transform.position.y;
 
         xy2.x = transform.parent.Find("Point2").transform.position.x;
