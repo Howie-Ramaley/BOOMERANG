@@ -13,6 +13,9 @@ public class Boomerang : MonoBehaviour
     [SerializeField] private int diagonalInputBufferTime;
     
     //
+    [SerializeField] private int superThrowHoldTime;
+
+    //
     [SerializeField] private float throwSpeed;
 
     //
@@ -26,6 +29,9 @@ public class Boomerang : MonoBehaviour
 
     //
     private int throwKeyPressedFrames;
+
+    //
+    private int throwKeyHeldFrames;
 
     //
     private enum Direction{up, left, down, right, upleft, upright, downleft, downright, none}
@@ -47,17 +53,25 @@ public class Boomerang : MonoBehaviour
     //
     private List<GameObject> hitList;
 
+    //
+    private bool superThrow;
+
+    //
+    private bool stuck;
+
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         throwKeyPressedFrames = 0;
+        throwKeyHeldFrames = 0;
         readyToThrow = true;
         velx = 0;
         vely = 0;
         framesSinceThrown = 0;
         returning = false;
         hitList = new List<GameObject>();
+        superThrow = false;
 
         //Start out invisible and doesn't trigger stun states
         GetComponent<SpriteRenderer>().enabled = false;
@@ -112,22 +126,43 @@ public class Boomerang : MonoBehaviour
         }
         else
         {
-            if(Input.GetKeyDown(KeyCode.I))
-                returnBoomerang(Direction.up);
-            else if(Input.GetKeyDown(KeyCode.J))
-                returnBoomerang(Direction.left);
-            else if(Input.GetKeyDown(KeyCode.K))
-                returnBoomerang(Direction.down);
-            else if(Input.GetKeyDown(KeyCode.L))
-                returnBoomerang(Direction.right);
+            if(stuck)
+            {
+                if(Input.GetKeyDown(KeyCode.I))
+                    returnBoomerang(Direction.up);
+                else if(Input.GetKeyDown(KeyCode.J))
+                    returnBoomerang(Direction.left);
+                else if(Input.GetKeyDown(KeyCode.K))
+                    returnBoomerang(Direction.down);
+                else if(Input.GetKeyDown(KeyCode.L))
+                    returnBoomerang(Direction.right);
+            }
         }
     }
 
     void FixedUpdate()
     {
-        if(throwKeyPressedFrames > diagonalInputBufferTime && readyToThrow)
+        if(readyToThrow && throwKeyPressedFrames > 0 && (Input.GetKey(KeyCode.I) || Input.GetKey(KeyCode.J) || Input.GetKey(KeyCode.K) || Input.GetKey(KeyCode.L)))
+        {
+            throwKeyHeldFrames++;
+            if(throwKeyPressedFrames > 0 && throwKeyPressedFrames < throwBufferTime)
+                throwKeyPressedFrames = diagonalInputBufferTime - 1;
+            if(throwKeyHeldFrames > superThrowHoldTime)
+                GameObject.FindGameObjectWithTag("Player").transform.Find("PlayerSprite").gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+        }
+        else if(throwKeyPressedFrames > diagonalInputBufferTime && readyToThrow)
         {
             //Throw boomerang
+            Color color = Color.white;
+            int health = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>().getHealth();
+            if(health == 2)
+                color = new Color(1, 0.75f, 0.75f);
+            else if(health == 1)
+                color = new Color(1, 0.2f, 0.2f);
+            GameObject.FindGameObjectWithTag("Player").transform.Find("PlayerSprite").gameObject.GetComponent<SpriteRenderer>().color = color;
+            if(throwKeyHeldFrames > superThrowHoldTime)
+                superThrow = true;
+            throwKeyHeldFrames = 0;
             throwKeyPressedFrames = 0;
             framesSinceThrown = 1;
             readyToThrow = false;
@@ -222,15 +257,36 @@ public class Boomerang : MonoBehaviour
                     }
                     if(!found)
                     {
-                        enemy.stun();
+                        if(superThrow)
+                            enemy.stun();
                         returnBoomerang(oppositeDirection(throwDir));
                         hitList.Add(collider.gameObject);
                     }
                 }
             }
-
-            if(returning && collider.gameObject.tag == "Player")
+            else if(((1 << collider.gameObject.layer) & groundLayer) != 0)
             {
+                if(superThrow)
+                {
+                    superThrow = false;
+                    returning = false;
+                    throwKeyPressedFrames = 0;
+                    framesSinceThrown = 0;
+                    GetComponent<BoxCollider2D>().isTrigger = false;
+                    stuck = true;
+                    velx = 0;
+                    vely = 0;
+                    hitList.RemoveRange(0, hitList.Count);
+                }
+                else
+                {
+                    returnBoomerang(oppositeDirection(throwDir));
+                    hitList.Add(collider.gameObject);
+                }
+            }
+            else if(returning && collider.gameObject.tag == "Player")
+            {
+                superThrow = false;
                 readyToThrow = true;
                 returning = false;
                 throwKeyPressedFrames = 0;
@@ -247,6 +303,8 @@ public class Boomerang : MonoBehaviour
     private void returnBoomerang(Direction dir)
     {
         returning = true;
+        stuck = false;
+        GetComponent<BoxCollider2D>().isTrigger = true;
     }
 
     private Direction oppositeDirection(Direction dir)

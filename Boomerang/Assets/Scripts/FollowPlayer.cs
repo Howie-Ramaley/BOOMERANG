@@ -28,10 +28,8 @@ public class FollowPlayer : MonoBehaviour
         float height = 10.8F;
         Vector2 tl = transform.parent.Find("Top Left Camera Boundary").position;
         topLeft = new Vector2(tl.x + (width / 2), tl.y - (height / 2));
-        Debug.Log(topLeft.x + " " + topLeft.y);
         Vector2 br = transform.parent.Find("Bottom Right Camera Boundary").position;
         bottomRight = new Vector2(br.x - (width / 2), br.y + (height / 2));
-        Debug.Log(bottomRight.x + " " + bottomRight.y);
     }
 
     //Set the camera's position to follow the player's position

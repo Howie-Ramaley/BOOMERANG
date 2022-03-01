@@ -2557,7 +2557,7 @@ GameObject:
   - component: {fileID: 894614296}
   - component: {fileID: 894614298}
   - component: {fileID: 894614299}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Boomerang
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2671,9 +2671,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   throwBufferTime: 12
   diagonalInputBufferTime: 5
+  superThrowHoldTime: 15
   throwSpeed: 28
   autoReturnTime: 35
   returnSpeed: 28
