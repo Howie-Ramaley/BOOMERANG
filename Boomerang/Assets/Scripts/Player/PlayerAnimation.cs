@@ -11,6 +11,9 @@ public class PlayerAnimation : MonoBehaviour
     //Animator
     [SerializeField] private Animator animator;
 
+    //
+    [SerializeField] private float offsetY;
+
     //How fast the roll is in the procedural roll animation
     [SerializeField] int rollInc;
 
@@ -19,6 +22,8 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField] int fallingLandTime;
 
     [SerializeField] int landTime;
+
+    private float yScale;
 
     private int jumpFrames;
 
@@ -57,6 +62,12 @@ public class PlayerAnimation : MonoBehaviour
         jumpFrames = 0;
         landFrames = 0;
         fallingLandFrames = 0;
+        yScale = transform.parent.localScale.y;
+    }
+
+    void Update()
+    {
+        yScale = transform.parent.localScale.y;
     }
 
     void FixedUpdate()
@@ -148,12 +159,16 @@ public class PlayerAnimation : MonoBehaviour
             //Reset player's colliders, checks, and sprite back to normal
             animState = AnimationState.idle;
             updateAnimator(false, false, false);
-            boxCollider.isTrigger = false;
-            float yScale = transform.parent.localScale.y;
             headTransform.position = new Vector3(headTransform.position.x, transform.parent.position.y + 0.755F * yScale, headTransform.position.z);
-            transform.position = new Vector3(transform.position.x, transform.parent.position.y + 0.14F, transform.position.z);
-            capsuleTransform.position = new Vector3(capsuleTransform.position.x, transform.parent.position.y + 0.375F * yScale, capsuleTransform.position.z);
-            capsuleTransform.localScale = new Vector3(capsuleTransform.localScale.x, 0.75F, capsuleTransform.localScale.z);
+            transform.position = new Vector3(transform.position.x, transform.parent.position.y + (0.14F + offsetY) * yScale, transform.position.z);
+            
+            boxCollider.size = new Vector2(1, 1.125F);
+            boxCollider.offset = new Vector2(0, -0.1875F);
+            capsuleTransform.gameObject.SetActive(true);
+
+            //boxCollider.isTrigger = false;
+            //capsuleTransform.position = new Vector3(capsuleTransform.position.x, transform.parent.position.y + 0.375F * yScale, capsuleTransform.position.z);
+            //capsuleTransform.localScale = new Vector3(capsuleTransform.localScale.x, 0.75F, capsuleTransform.localScale.z);
         }
     }
 
@@ -164,12 +179,16 @@ public class PlayerAnimation : MonoBehaviour
             //Adjust player's colliders, checks, and sprite to be ball-sized
             animState = AnimationState.roll;
             updateAnimator(true, true, true);
-            boxCollider.isTrigger = true;
-            float yScale = transform.parent.localScale.y;
             headTransform.position = new Vector3(headTransform.position.x, transform.parent.position.y + 0.255F * yScale, headTransform.position.z);
-            transform.position = new Vector3(transform.position.x, transform.parent.position.y - 0.25F * yScale, transform.position.z);
-            capsuleTransform.position = new Vector3(capsuleTransform.position.x, transform.parent.position.y - 0.25F * yScale, capsuleTransform.position.z);
-            capsuleTransform.localScale = new Vector3(capsuleTransform.localScale.x, 1, capsuleTransform.localScale.z);
+            transform.position = new Vector3(transform.position.x, transform.parent.position.y + (-0.25F + offsetY) * yScale, transform.position.z);
+            
+            boxCollider.size = new Vector2(1, 1);
+            boxCollider.offset = new Vector2(0, -0.25F);
+            capsuleTransform.gameObject.SetActive(false);
+
+            //boxCollider.isTrigger = true;
+            //capsuleTransform.position = new Vector3(capsuleTransform.position.x, transform.parent.position.y - 0.25F * yScale, capsuleTransform.position.z);
+            //capsuleTransform.localScale = new Vector3(capsuleTransform.localScale.x, 1, capsuleTransform.localScale.z);
         }
     }
 
@@ -179,7 +198,7 @@ public class PlayerAnimation : MonoBehaviour
         {
             animState = AnimationState.run;
             updateAnimator(false, false, true);
-            transform.position = new Vector3(transform.position.x, transform.parent.position.y + 0.16F, transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.parent.position.y + (0.16F + offsetY) * yScale, transform.position.z);
         }
     }
 
@@ -189,7 +208,7 @@ public class PlayerAnimation : MonoBehaviour
         {
             animState = AnimationState.jump;
             updateAnimator(false, true, true);
-            transform.position = new Vector3(transform.position.x, transform.parent.position.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.parent.position.y + (offsetY) * yScale, transform.position.z);
             jumpFrames = 1;
         }
     }
@@ -200,7 +219,7 @@ public class PlayerAnimation : MonoBehaviour
         {
             animState = AnimationState.fall;
             updateAnimator(false, false, false);
-            transform.position = new Vector3(transform.position.x, transform.parent.position.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.parent.position.y + (offsetY) * yScale, transform.position.z);
         }
     }
 
@@ -210,7 +229,7 @@ public class PlayerAnimation : MonoBehaviour
         {
             animState = AnimationState.fallingLand;
             updateAnimator(false, false, false);
-            transform.position = new Vector3(transform.position.x, transform.parent.position.y + 0.3F, transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.parent.position.y + (0.3F + offsetY) * yScale, transform.position.z);
             fallingLandFrames = 1;
         }
     }
@@ -221,7 +240,7 @@ public class PlayerAnimation : MonoBehaviour
         {
             animState = AnimationState.land;
             updateAnimator(false, false, false);
-            transform.position = new Vector3(transform.position.x, transform.parent.position.y + 0.3F, transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.parent.position.y + (0.3F + offsetY) * yScale, transform.position.z);
             landFrames = 1;
         }
     }

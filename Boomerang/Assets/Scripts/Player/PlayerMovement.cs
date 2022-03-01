@@ -146,6 +146,11 @@ public class PlayerMovement : MonoBehaviour
     {
         //TO-DO:
         //fix getting stuck on small stuff rarely
+        //fix falling while running off downard angles
+        //fix playerhit bug with stun
+        //fix heart pickup
+        //fix animations
+        //have boomerang automatically recall when it gets far enough when stuck
 
         //Horizontal movement
         
