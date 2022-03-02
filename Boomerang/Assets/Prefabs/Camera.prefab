@@ -153,7 +153,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7306842756131764690, guid: 1d4564270859c8f4bbc6e7fdea192d93, type: 3}
       propertyPath: m_ClearFlags
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7306842756131764690, guid: 1d4564270859c8f4bbc6e7fdea192d93, type: 3}
       propertyPath: m_BackGroundColor.a
