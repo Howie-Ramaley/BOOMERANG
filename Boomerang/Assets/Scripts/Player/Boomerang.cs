@@ -259,6 +259,13 @@ public class Boomerang : MonoBehaviour
                     {
                         if(superThrow)
                             enemy.stun();
+                        else
+                        {
+                            float angle = -Mathf.Atan2(player.transform.position.y - transform.position.y, player.transform.position.x - transform.position.x) + Mathf.PI / 2;
+                            if(!returning)
+                                angle -= Mathf.PI;
+                            enemy.bump(angle);
+                        }
                         returnBoomerang(oppositeDirection(throwDir));
                         hitList.Add(collider.gameObject);
                     }

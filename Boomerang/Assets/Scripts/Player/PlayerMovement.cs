@@ -92,6 +92,8 @@ public class PlayerMovement : MonoBehaviour
 
     private FollowPlayer gameCamera;
 
+    private PlayerHealth playerHealth;
+
 
     // Start is called before the first frame update
     void Start()
@@ -109,6 +111,7 @@ public class PlayerMovement : MonoBehaviour
         facingRight = true;
         rollCooldownFrames = 0;
         gameCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<FollowPlayer>();
+        playerHealth = GetComponent<PlayerHealth>();
 
         //Don't rotate on collisions
         body.freezeRotation = true;
@@ -171,6 +174,7 @@ public class PlayerMovement : MonoBehaviour
                 else
                     velx = -rollSpeed;
             }
+            playerHealth.startIFrames();
         }
         else if(Input.GetKey(KeyCode.D))
         {

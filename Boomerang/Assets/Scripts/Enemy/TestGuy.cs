@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestGuy : MonoBehaviour, IStunnable
+public class TestGuy : Enemy
 {
     // Start is called before the first frame update
     void Start()
@@ -15,7 +15,7 @@ public class TestGuy : MonoBehaviour, IStunnable
         
     }
 
-    public void stun()
+    override public void stun()
     {
         Debug.Log("STUN");
     }

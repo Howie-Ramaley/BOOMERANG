@@ -68,4 +68,9 @@ public class PlayerHealth : MonoBehaviour
     {
         health = h;
     }
+
+    public void startIFrames()
+    {
+        iFrameProgress = 1;
+    }
 }
