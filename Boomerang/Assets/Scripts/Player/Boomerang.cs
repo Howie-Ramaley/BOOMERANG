@@ -244,7 +244,7 @@ public class Boomerang : MonoBehaviour
         //if a collider is in the boomerang
         if(collider != null)
         {   
-            if(collider.gameObject.tag == "Enemy")
+            if(collider.gameObject.tag == "Enemy" || collider.gameObject.tag == "Fruit")
             {
                 IStunnable enemy = collider.gameObject.GetComponent<IStunnable>();
                 if(enemy != null)
