@@ -7,6 +7,7 @@ public class Tallboy : Enemy
     private Vector2 xy1 = new Vector2();
     private Vector2 xy2 = new Vector2();
     private bool approachingPoint2;
+    //private Rigidbody2D body;
 
     // Start is called before the first frame update
     void Start()
@@ -18,11 +19,15 @@ public class Tallboy : Enemy
         xy2.y = transform.parent.Find("Point2").transform.position.y;
         
         approachingPoint2 = true;
+
+        //body = GetComponent<Rigidbody2D>();
     }
 
     override protected void FixedUpdate()
     {
         base.FixedUpdate();
+        //body.velocity = new Vector2(velx, vely);
+        transform.position = new Vector3(transform.position.x + velx, transform.position.y + vely, transform.position.z);
     }
 
     override protected void patrol()

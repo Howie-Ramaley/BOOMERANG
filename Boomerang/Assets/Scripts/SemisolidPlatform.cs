@@ -29,12 +29,17 @@ public class SemisolidPlatform : MonoBehaviour
             float pLeft = player.transform.position.x - playerWidth / 2F;
             float top = transform.position.y + transform.localScale.y / 2F;
             float bottom = transform.position.y - transform.localScale.y / 2F;
-            if(pBottom > bottom && pBottom < top && pRight > transform.position.x - transform.localScale.x / 2 && pLeft < transform.position.x + transform.localScale.x / 2)
-                player.transform.position = new Vector3(player.transform.position.x, top + 0.01F + (playerHeight / 2F), player.transform.position.z);
-            if(pBottom < top)
-                boxCollider.isTrigger = true;
+            if(pRight > transform.position.x - transform.localScale.x / 2 && pLeft < transform.position.x + transform.localScale.x / 2)
+            {
+                if(pBottom > bottom && pBottom < top)
+                    player.transform.position = new Vector3(player.transform.position.x, top + 0.01F + (playerHeight / 2F), player.transform.position.z);
+                if(pBottom >= top)
+                    boxCollider.isTrigger = false;
+                else
+                    boxCollider.isTrigger = true;
+            }
             else
-                boxCollider.isTrigger = false;
+                boxCollider.isTrigger = true;
         }
         else
         {

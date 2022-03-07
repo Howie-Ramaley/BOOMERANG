@@ -87,8 +87,6 @@ public class Enemy : MonoBehaviour, IStunnable
                     bumped = false;
             }
         }
-
-        transform.position = new Vector3(transform.position.x + velx, transform.position.y + vely, transform.position.z);
     }
 
     public virtual void stun()
@@ -128,8 +126,8 @@ public class Enemy : MonoBehaviour, IStunnable
     {
         float px = player.transform.position.x;
         float py = player.transform.position.y;
-        if(!groundEnemy)
-            py += 1.5F;
+        if(!groundEnemy && Mathf.Abs(player.transform.position.x - transform.position.x) > 2F)
+            py += 1F;
         float dist = Mathf.Sqrt(Mathf.Pow(px - transform.position.x, 2) + Mathf.Pow(py - transform.position.y, 2));
         float angle = -Mathf.Atan2(py - transform.position.y, px - transform.position.x) + Mathf.PI / 2;
         velx = ((dist < speed) ? dist : speed) * Mathf.Sin(angle);

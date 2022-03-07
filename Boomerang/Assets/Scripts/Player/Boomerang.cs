@@ -242,7 +242,7 @@ public class Boomerang : MonoBehaviour
         //Debug.Log("Trigger");
 
         //if a collider is in the boomerang
-        if(collider != null)
+        if(collider != null && !(collider.isTrigger && collider.gameObject.tag != "Enemy"))
         {   
             if(collider.gameObject.tag == "Enemy" || collider.gameObject.tag == "Fruit")
             {

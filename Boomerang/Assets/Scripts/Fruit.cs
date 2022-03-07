@@ -23,15 +23,9 @@ public class Fruit : MonoBehaviour, IStunnable
         stunned = true;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public virtual void bump(float angle)
     {
-        
+        stun();
     }
 
     public virtual void stun()
