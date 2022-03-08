@@ -171,6 +171,7 @@ public class PlayerMovement : MonoBehaviour
         //make ground enemies teleport back to their spawn once they fall into a death pit
         //fix/polish boomerang controls
         //add shockwave/groundpound (pushes enemies away and up upon hitting ground with boomerang)
+        //fix camera jitter
 
         animate.idle();
 
