@@ -164,6 +164,8 @@ public class PlayerMovement : MonoBehaviour
         //fix/polish boomerang controls
         //add shockwave/groundpound (pushes enemies away and up upon hitting ground with boomerang)
 
+        animate.idle();
+
         //Horizontal movement
         
         if(rollKeyPressedFrames > 0 && framesNotGrounded < coyoteTime && rollCooldownFrames == 0)
