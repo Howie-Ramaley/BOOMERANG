@@ -9,16 +9,24 @@ public class PlayerHit : MonoBehaviour
     private bool playerCollide;
     private bool hurts;
 
+    private float framesSinceLastCollide;
+
     // Start is called before the first frame update
     void Start()
     {
         playerCollide = false;
         hurts = true;
+        framesSinceLastCollide = 0;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+
+        if(playerCollide && framesSinceLastCollide >= 2)
+            playerCollide = false;
+        framesSinceLastCollide++;
+
         if (playerCollide && hurts)
         {
             GameObject player;
@@ -32,9 +40,15 @@ public class PlayerHit : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
+        OnTriggerStay2D(collider);
+    }
+
+    private void OnTriggerStay2D(Collider2D collider)
+    {
         if(collider.gameObject.tag == "Player")
         {
             playerCollide = true;
+            framesSinceLastCollide = 0;
         }
     }
 
