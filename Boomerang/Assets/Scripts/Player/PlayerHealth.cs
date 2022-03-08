@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     [SerializeField]private int health;
-    [SerializeField]private int iFrames;
+    [SerializeField]private int iFramesOnEnemyHit;
+    private int iFrames;
     private int iFrameProgress;
 
 
@@ -14,6 +15,7 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         iFrameProgress = 0;
+        iFrames = iFramesOnEnemyHit;
     }
 
     // Update is called once per frame
@@ -34,7 +36,7 @@ public class PlayerHealth : MonoBehaviour
         if (iFrameProgress == 0 || ignoreIFrames)
         {
             health -= damage;
-            iFrameProgress = 1;
+            startIFrames(false);
 
             //Debug.Log("HURT");
             
@@ -51,7 +53,10 @@ public class PlayerHealth : MonoBehaviour
             }
             else if (health <= 0)
             {
-                player.SetActive(false);
+                //player.SetActive(false);
+                health = 3;
+                sprite.color = new Color(1, 1, 1);
+                player.GetComponent<PlayerMovement>().respawn();
             }
             else
             {
@@ -68,9 +73,17 @@ public class PlayerHealth : MonoBehaviour
     {
         health = h;
     }
+    public int getIFrameProgress()
+    {
+        return iFrameProgress;
+    }
 
-    public void startIFrames()
+    public void startIFrames(bool roll)
     {
         iFrameProgress = 1;
+        if(!roll)
+            iFrames = iFramesOnEnemyHit;
+        else
+            iFrames = 30;
     }
 }
