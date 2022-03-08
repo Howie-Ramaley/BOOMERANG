@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Tallboy : Enemy
 {
+    [SerializeField] private Animator animator;
     private Vector2 xy1 = new Vector2();
     private Vector2 xy2 = new Vector2();
     private bool approachingPoint2;
@@ -28,6 +29,13 @@ public class Tallboy : Enemy
         base.FixedUpdate();
         //body.velocity = new Vector2(velx, vely);
         transform.position = new Vector3(transform.position.x + velx, transform.position.y + vely, transform.position.z);
+        
+        animator.SetFloat("velx", velx);
+
+        if(velx > 0.01F)
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, 180, transform.eulerAngles.z);
+        else if(velx < -0.01F)
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0, transform.eulerAngles.z);
     }
 
     override protected void patrol()
@@ -58,12 +66,12 @@ public class Tallboy : Enemy
     {
         if(!stunned)
         {
-            transform.localScale = new Vector3(2f, 0.5f, 1f);
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 90F);
             transform.position = new Vector3(transform.position.x, transform.position.y - 1, transform.position.z);
         }
         else
         {
-            transform.localScale = new Vector3(1f, 1f, 1f);
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0F);
             transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
         }
         base.stun();

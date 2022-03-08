@@ -71,4 +71,12 @@ public class FollowPlayer : MonoBehaviour
     {
         followDuration = d;
     }
+    public void setTargetID(string id)
+    {
+        targetID = id;
+    }
+    public string getTargetID()
+    {
+        return targetID;
+    }
 }

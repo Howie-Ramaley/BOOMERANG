@@ -95,6 +95,8 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerHealth playerHealth;
 
+    private Vector2 checkpoint;
+
 
     // Start is called before the first frame update
     void Start()
@@ -113,6 +115,7 @@ public class PlayerMovement : MonoBehaviour
         rollCooldownFrames = 0;
         gameCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<FollowPlayer>();
         playerHealth = GetComponent<PlayerHealth>();
+        checkpoint = new Vector2(transform.position.x, transform.position.y);
 
         //Don't rotate on collisions
         body.freezeRotation = true;
@@ -146,7 +149,9 @@ public class PlayerMovement : MonoBehaviour
             id += "Roll";
         if(animate.getAnimState() == PlayerAnimation.AnimationState.jump)
             id += "Jump";
-        gameCamera.setTarget(transform.position.x + velx / 20, transform.position.y + vely / 40, id);
+        string tid = gameCamera.getTargetID();
+        if(tid == "" || tid.Length >= 6 && tid.Substring(0, 6) == "player")
+            gameCamera.setTarget(transform.position.x + velx / 20, transform.position.y + vely / 40, id);
     }
 
     //Gets player input and makes player move accordingly
@@ -188,7 +193,7 @@ public class PlayerMovement : MonoBehaviour
                 else
                     velx = -rollSpeed;
             }
-            playerHealth.startIFrames();
+            playerHealth.startIFrames(true);
         }
         else if(Input.GetKey(KeyCode.D))
         {
@@ -348,6 +353,24 @@ public class PlayerMovement : MonoBehaviour
     public bool isGrounded()
     {
         return (preciseGroundCheck.getGrounded() && preciseGroundCheck.getOffset() < 0.01F);
+    }
+
+    public void knockback(float knockbackSpeed)
+    {
+        if(facingRight)
+            velx = -knockbackSpeed;
+        else
+            velx = knockbackSpeed;
+    }
+
+    public void setCheckpoint(float cx, float cy)
+    {
+        checkpoint = new Vector2(cx, cy);
+    }
+
+    public void respawn()
+    {
+        transform.position = new Vector3(checkpoint.x, checkpoint.y, transform.position.z);
     }
 
     /*UNUSED

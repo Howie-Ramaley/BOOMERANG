@@ -6,6 +6,7 @@ public class PlayerHit : MonoBehaviour
 {
     [SerializeField]private int damage;
     [SerializeField]private bool ignoresIFrames;
+    [SerializeField]private bool strongKnockback;
     private bool playerCollide;
     private bool hurts;
 
@@ -32,7 +33,14 @@ public class PlayerHit : MonoBehaviour
             GameObject player;
             player = GameObject.FindGameObjectWithTag("Player");
             if(player != null)
-                player.GetComponent<PlayerHealth>().hurt(damage, ignoresIFrames);
+            {
+                PlayerHealth pHealth = player.GetComponent<PlayerHealth>();
+                float speed = 16F;
+                bool isRolling = player.GetComponentInChildren<PlayerAnimation>().getAnimState() == PlayerAnimation.AnimationState.roll;
+                if(strongKnockback && (pHealth.getIFrameProgress() == 0 || (pHealth.getIFrameProgress() > 10 && !isRolling)))
+                    player.GetComponent<PlayerMovement>().knockback(speed);
+                pHealth.hurt(damage, ignoresIFrames);
+            }
             else
                 playerCollide = false;
         }

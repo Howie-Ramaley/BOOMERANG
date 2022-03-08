@@ -85,14 +85,14 @@ public class PlayerAnimation : MonoBehaviour
         int loop = 0;
         while(animWait == 0 && animQueue.Count > 0 && loop < 100)
         {
-            Debug.Log("Pass " + loop + ", queued: " + animQueue[0] + ", playing: " + animState);
+            //Debug.Log("Pass " + loop + ", queued: " + animQueue[0] + ", playing: " + animState);
             setAnimation(animQueue[0]);
             animQueue.RemoveAt(0);
             loop++;
         }
         if(loop >= 100)
         {
-            Debug.Log("INFINITE LOOP...");
+            //Debug.Log("INFINITE LOOP...");
         }
     }
 
