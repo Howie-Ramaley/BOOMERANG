@@ -271,9 +271,9 @@ public class Boomerang : MonoBehaviour
                     }
                 }
             }
-            else if(((1 << collider.gameObject.layer) & groundLayer) != 0)
+            else if(((1 << collider.gameObject.layer) & groundLayer) != 0 && collider.gameObject.tag != "BG Platform")
             {
-                if(superThrow)
+                if(superThrow && collider.gameObject.tag == "Dirt")
                 {
                     superThrow = false;
                     returning = false;

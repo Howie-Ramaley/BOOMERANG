@@ -32,6 +32,8 @@ public class Enemy : MonoBehaviour, IStunnable
     protected float velx;
     protected float vely;
 
+    private float delayTime;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,12 +41,18 @@ public class Enemy : MonoBehaviour, IStunnable
         stunned = false;
         velx = 0;
         vely = 0;
+        delayTime = 0F;
         player = GameObject.FindGameObjectWithTag("Player");
         bumped = false;
     }
 
     protected virtual void FixedUpdate()
     {
+        if (delayTime > 0) 
+        {
+            delayTime -= Time.deltaTime;
+            Debug.Log("Delay time is: " + delayTime);
+        }
         if(player != null)
         {
             float dist = Mathf.Sqrt(Mathf.Pow(player.transform.position.x - transform.position.x, 2) + Mathf.Pow(player.transform.position.y - transform.position.y, 2));
@@ -58,9 +66,9 @@ public class Enemy : MonoBehaviour, IStunnable
 
         if(!bumped)
         {
-            if(!stunned && !aggro)
+            if(!stunned && !aggro && delayTime <= 0)
                 patrol();
-            else if(aggro && !stunned)
+            else if(aggro && !stunned && delayTime <= 0)
                 aggroBehavior();
         }
         else
@@ -84,7 +92,10 @@ public class Enemy : MonoBehaviour, IStunnable
             {
                 vely = 0;
                 if(xDone)
+                {
+                    delayTime = 0.5F;
                     bumped = false;
+                }
             }
         }
     }
