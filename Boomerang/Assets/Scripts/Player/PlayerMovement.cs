@@ -136,7 +136,7 @@ public class PlayerMovement : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.LeftShift))
             rollKeyPressedFrames = 1;
 
-        if(Input.GetKeyDown(KeyCode.W))
+        if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
             jumpKeyPressedFrames = 1;
 
         //Update camera to follow player
