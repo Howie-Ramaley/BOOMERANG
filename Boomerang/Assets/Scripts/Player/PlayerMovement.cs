@@ -292,7 +292,7 @@ public class PlayerMovement : MonoBehaviour
             framesNotGrounded = 0;
 
         //if the jump key wasn't pressed too late and the player is grounded
-        if(jumpKeyPressedFrames > 0 && framesNotGrounded < coyoteTime)
+        if(jumpKeyPressedFrames > 0 && framesNotGrounded < coyoteTime && vely <= 0F)
             Jump();
         //else if , the player is grounded, start halting the player's gravity
         else if(gravityVel >= vely && isNearGround())
