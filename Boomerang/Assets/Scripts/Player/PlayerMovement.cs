@@ -172,6 +172,7 @@ public class PlayerMovement : MonoBehaviour
         //fix/polish boomerang controls
         //add shockwave/groundpound (pushes enemies away and up upon hitting ground with boomerang)
         //fix camera jitter
+        //fix vertical segment of background platform becoming solid while inside of the player
 
         animate.idle();
 

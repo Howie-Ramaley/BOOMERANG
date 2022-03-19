@@ -6,12 +6,14 @@ public class SemisolidPlatform : MonoBehaviour
 {
     private GameObject player;
     private BoxCollider2D boxCollider;
+    private PolygonCollider2D polyCollider;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         boxCollider = GetComponent<BoxCollider2D>();
+        polyCollider = GetComponent<PolygonCollider2D>();
     }
 
     // Update is called once per frame
@@ -33,13 +35,28 @@ public class SemisolidPlatform : MonoBehaviour
             {
                 if(pBottom > bottom && pBottom < top)
                     player.transform.position = new Vector3(player.transform.position.x, top + 0.01F + (playerHeight / 2F), player.transform.position.z);
-                if(pBottom >= top)
-                    boxCollider.isTrigger = false;
+                if(polyCollider == null)
+                {
+                    if(pBottom >= top)
+                        boxCollider.isTrigger = false;
+                    else
+                        boxCollider.isTrigger = true;
+                }
                 else
-                    boxCollider.isTrigger = true;
+                {
+                    if(pBottom >= top)
+                        polyCollider.isTrigger = false;
+                    else
+                        polyCollider.isTrigger = true;
+                }
             }
             else
-                boxCollider.isTrigger = true;
+            {
+                if(polyCollider == null)
+                    boxCollider.isTrigger = true;
+                else
+                    polyCollider.isTrigger = false;
+            }
         }
         else
         {
