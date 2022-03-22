@@ -133,10 +133,10 @@ public class PlayerMovement : MonoBehaviour
             SceneManager.LoadScene("WinScreen", LoadSceneMode.Single);
         }
 
-        if(Input.GetKeyDown(KeyCode.LeftShift))
+        if(Input.GetKeyDown(KeyCode.LeftShift) || Input.GetButtonDown("Roll"))
             rollKeyPressedFrames = 1;
 
-        if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump"))
             jumpKeyPressedFrames = 1;
 
         //Update camera to follow player
@@ -166,18 +166,21 @@ public class PlayerMovement : MonoBehaviour
         //add cooldown time for boomerang throws
         //fix collision glitch with enemies, add rigidbody to enemies
         //improve aggro, add aggro area and dives for flying enemies
-        //player knockback when hurt by enemies/thorns
+        //fix player knockback when hurt by enemies/thorns and add editable boolean for slight directional bias
         //variable jump height based on how long you hold the jump key
         //make ground enemies teleport back to their spawn once they fall into a death pit
         //fix/polish boomerang controls
         //add shockwave/groundpound (pushes enemies away and up upon hitting ground with boomerang)
         //fix camera jitter
         //fix vertical segment of background platform becoming solid while inside of the player
+        //make flying enemy float above and come down for an attack
 
         animate.idle();
 
         //Horizontal movement
         
+        float horStick = Input.GetAxis("Horizontal");
+
         if(rollKeyPressedFrames > 0 && framesNotGrounded < coyoteTime && rollCooldownFrames == 0)
         {
             //Roll
@@ -197,19 +200,74 @@ public class PlayerMovement : MonoBehaviour
             }
             playerHealth.startIFrames(true);
         }
+        else if(horStick >= 0.2F || horStick <= -0.2F)
+        {
+            //Go left and right for controller
+            animate.run();
+            float targetSpeed = horStick * speed;
+            //right
+            if(targetSpeed > 0.01F)
+            {
+                facingRight = true;
+                //regular run
+                if(velx < targetSpeed)
+                {
+                    velx += speedIncrement;
+                    if(velx > targetSpeed)
+                        velx = targetSpeed;
+                }
+                //rolling
+                else if(velx > speed)
+                {
+                    //Here if we want the roll's movement to behave differently on the ground and in the air
+                    if(isGrounded())
+                        velx -= rollStopIncrement;
+                    else
+                        velx -= rollStopIncrement;
+                    if(velx < speed)
+                        velx = speed;
+                }
+            }
+            //left
+            else if(targetSpeed < -0.01F)
+            {
+                facingRight = false;
+                //regular run
+                if(velx > targetSpeed)
+                {
+                    velx -= speedIncrement;
+                    if(velx < targetSpeed)
+                        velx = targetSpeed;
+                }
+                //rolling
+                else if(velx < speed)
+                {
+                    //Here if we want the roll's movement to behave differently on the ground and in the air
+                    if(isGrounded())
+                        velx += rollStopIncrement;
+                    else
+                        velx += rollStopIncrement;
+                    if(velx > speed)
+                        velx = speed;
+                }
+            }
+        }
         else if(Input.GetKey(KeyCode.D))
         {
             //Go right
             animate.run();
             facingRight = true;
+            //regular run
             if(velx < speed)
             {
                 velx += speedIncrement;
                 if(velx > speed)
                 velx = speed;
             }
-            if(velx > speed)
+            //rolling
+            else if(velx > speed)
             {
+                //Here if we want the roll's movement to behave differently on the ground and in the air
                 if(isGrounded())
                     velx -= rollStopIncrement;
                 else
@@ -223,14 +281,17 @@ public class PlayerMovement : MonoBehaviour
             //Go left
             animate.run();
             facingRight = false;
+            //regular run
             if(velx > -speed)
             {
                 velx -= speedIncrement;
                 if(velx < -speed)
                 velx = -speed;
             }
-            if(velx < -speed)
+            //rolling
+            else if(velx < -speed)
             {
+                //Here if we want the roll's movement to behave differently on the ground and in the air
                 if(isGrounded())
                     velx += rollStopIncrement;
                 else
