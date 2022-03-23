@@ -192,10 +192,10 @@ public class PlayerMovement : MonoBehaviour
             animate.roll();
             rollKeyPressedFrames = 0;
             rollCooldownFrames = 1;
-            if(Input.GetKey(KeyCode.D))
-                velx = rollSpeed + speed;
-            else if(Input.GetKey(KeyCode.A))
-                velx = -rollSpeed - speed;
+            if(Input.GetKey(KeyCode.D) || horStick >= 0.01F)
+                velx = rollSpeed;
+            else if(Input.GetKey(KeyCode.A) || horStick <= -0.01F)
+                velx = -rollSpeed;
             else 
             {
                 if(facingRight)
@@ -205,7 +205,7 @@ public class PlayerMovement : MonoBehaviour
             }
             playerHealth.startIFrames(true);
         }
-        else if(horStick >= 0.2F || horStick <= -0.2F)
+        else if(horStick >= 0.01F || horStick <= -0.01F)
         {
             //Go left and right for controller
             animate.run();

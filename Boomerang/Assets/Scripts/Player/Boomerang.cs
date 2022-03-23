@@ -24,6 +24,9 @@ public class Boomerang : MonoBehaviour
     //
     [SerializeField] private int returnSpeed;
 
+    //
+    [SerializeField] private float stickThreshold;
+
     //Reference to player
     private GameObject player;
 
@@ -34,8 +37,11 @@ public class Boomerang : MonoBehaviour
     private int throwKeyHeldFrames;
 
     //
-    private enum Direction{up, left, down, right, upleft, upright, downleft, downright, none}
+    private enum Direction{up, left, down, right, upleft, upright, downleft, downright, custom, none}
     private Direction throwDir;
+
+    //
+    private Vector2 throwAngle;
 
     //
     private bool readyToThrow;
@@ -80,69 +86,89 @@ public class Boomerang : MonoBehaviour
 
     void Update()
     {
+        float horStick = Input.GetAxis("RightHorizontal");
+        float vertStick = Input.GetAxis("RightVertical");
+        Debug.Log("hor: " + horStick + " vert: " + vertStick);
         if(readyToThrow)
         {
-            Direction dir = Direction.none;
-            bool twoKeys = false;
-            if(Input.GetKeyDown(KeyCode.I))
-                dir = Direction.up;
-            else if(Input.GetKeyDown(KeyCode.J))
-                dir = Direction.left;
-            else if(Input.GetKeyDown(KeyCode.K))
-                dir = Direction.down;
-            else if(Input.GetKeyDown(KeyCode.L))
-                dir = Direction.right;
-            if(dir != Direction.none && throwKeyPressedFrames == 0)
+            if(stickIsTilted())
             {
-                twoKeys = true;
-                Direction nextDir = Direction.none;
-                if(Input.GetKeyDown(KeyCode.I) && dir != Direction.up)
-                    nextDir = Direction.up;
-                else if(Input.GetKeyDown(KeyCode.J) && dir != Direction.left)
-                    nextDir = Direction.left;
-                else if(Input.GetKeyDown(KeyCode.K) && dir != Direction.down)
-                    nextDir = Direction.down;
-                else if(Input.GetKeyDown(KeyCode.L) && dir != Direction.right)
-                    nextDir = Direction.right;
-                else
-                    twoKeys = false;
-                if(twoKeys)
-                {
-                    throwKeyPressedFrames = 1;
-                    throwDir = dir;
-                    throwDir = getDiagonal(nextDir);
-                }
-            }
-            if(dir != Direction.none && !twoKeys)
-            {
+                throwDir = Direction.custom;
+                throwAngle = new Vector2(horStick, vertStick);
+                float dist = Mathf.Sqrt(Mathf.Pow(horStick, 2) + Mathf.Pow(vertStick, 2));
+                throwAngle *= 1.0F / dist;
                 if(throwKeyPressedFrames == 0)
-                {
                     throwKeyPressedFrames = 1;
-                    throwDir = dir;
+            }
+            else
+            {
+                Direction dir = Direction.none;
+                bool twoKeys = false;
+                if(Input.GetKeyDown(KeyCode.I))
+                    dir = Direction.up;
+                else if(Input.GetKeyDown(KeyCode.J))
+                    dir = Direction.left;
+                else if(Input.GetKeyDown(KeyCode.K))
+                    dir = Direction.down;
+                else if(Input.GetKeyDown(KeyCode.L))
+                    dir = Direction.right;
+                if(dir != Direction.none && throwKeyPressedFrames == 0)
+                {
+                    twoKeys = true;
+                    Direction nextDir = Direction.none;
+                    if(Input.GetKeyDown(KeyCode.I) && dir != Direction.up)
+                        nextDir = Direction.up;
+                    else if(Input.GetKeyDown(KeyCode.J) && dir != Direction.left)
+                        nextDir = Direction.left;
+                    else if(Input.GetKeyDown(KeyCode.K) && dir != Direction.down)
+                        nextDir = Direction.down;
+                    else if(Input.GetKeyDown(KeyCode.L) && dir != Direction.right)
+                        nextDir = Direction.right;
+                    else
+                        twoKeys = false;
+                    if(twoKeys)
+                    {
+                        throwKeyPressedFrames = 1;
+                        throwDir = dir;
+                        throwDir = getDiagonal(nextDir);
+                    }
                 }
-                else if(throwDir == Direction.up || throwDir == Direction.down || throwDir == Direction.left || throwDir == Direction.right)
-                    throwDir = getDiagonal(dir);
+                if(dir != Direction.none && !twoKeys)
+                {
+                    if(throwKeyPressedFrames == 0)
+                    {
+                        throwKeyPressedFrames = 1;
+                        throwDir = dir;
+                    }
+                    else if(throwDir == Direction.up || throwDir == Direction.down || throwDir == Direction.left || throwDir == Direction.right)
+                        throwDir = getDiagonal(dir);
+                }
             }
         }
         else
         {
             if(stuck)
             {
-                if(Input.GetKeyDown(KeyCode.I))
-                    returnBoomerang(Direction.up);
-                else if(Input.GetKeyDown(KeyCode.J))
-                    returnBoomerang(Direction.left);
-                else if(Input.GetKeyDown(KeyCode.K))
-                    returnBoomerang(Direction.down);
-                else if(Input.GetKeyDown(KeyCode.L))
-                    returnBoomerang(Direction.right);
+                if(stickIsTilted())
+                    returnBoomerang(Direction.custom);
+                else
+                {
+                    if(Input.GetKeyDown(KeyCode.I))
+                        returnBoomerang(Direction.up);
+                    else if(Input.GetKeyDown(KeyCode.J))
+                        returnBoomerang(Direction.left);
+                    else if(Input.GetKeyDown(KeyCode.K))
+                        returnBoomerang(Direction.down);
+                    else if(Input.GetKeyDown(KeyCode.L))
+                        returnBoomerang(Direction.right);
+                }
             }
         }
     }
 
     void FixedUpdate()
     {
-        if(readyToThrow && throwKeyPressedFrames > 0 && (Input.GetKey(KeyCode.I) || Input.GetKey(KeyCode.J) || Input.GetKey(KeyCode.K) || Input.GetKey(KeyCode.L)))
+        if(readyToThrow && throwKeyPressedFrames > 0 && (Input.GetKey(KeyCode.I) || Input.GetKey(KeyCode.J) || Input.GetKey(KeyCode.K) || Input.GetKey(KeyCode.L) || stickIsTilted()))
         {
             throwKeyHeldFrames++;
             if(throwKeyPressedFrames > 0 && throwKeyPressedFrames < throwBufferTime)
@@ -195,6 +221,11 @@ public class Boomerang : MonoBehaviour
             {
                 velx = throwSpeed * Mathf.Sin(135F * Mathf.PI / 180F);
                 vely = throwSpeed * Mathf.Cos(135F * Mathf.PI / 180F);
+            }
+            else if(throwDir == Direction.custom)
+            {
+                velx = throwAngle.x * throwSpeed;
+                vely = throwAngle.y * throwSpeed;
             }
         }
 
@@ -307,8 +338,20 @@ public class Boomerang : MonoBehaviour
         }
     }
 
+    private bool stickIsTilted()
+    {
+        float horStick = Input.GetAxis("RightHorizontal");
+        float vertStick = Input.GetAxis("RightVertical");
+        float dist = Mathf.Sqrt(Mathf.Pow(horStick, 2) + Mathf.Pow(vertStick, 2));
+        if(dist >= stickThreshold)
+            return true;
+        else
+            return false;
+    }
+
     private void returnBoomerang(Direction dir)
     {
+        throwDir = Direction.none;
         returning = true;
         stuck = false;
         GetComponent<BoxCollider2D>().isTrigger = true;
