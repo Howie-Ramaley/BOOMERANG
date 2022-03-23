@@ -101,9 +101,6 @@ MonoBehaviour:
   animator: {fileID: 677334224}
   offsetY: -0.11
   rollInc: 15
-  jumpTime: 15
-  fallingLandTime: 5
-  landTime: 10
 --- !u!95 &677334224
 Animator:
   serializedVersion: 4
@@ -453,7 +450,7 @@ Rigidbody2D:
   m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: c4fd48a5d2f2b09458dc978664caf8c8, type: 2}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
 --- !u!61 &7556954581694184279
@@ -543,4 +540,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 3
-  iFrames: 50
+  iFramesOnEnemyHit: 50

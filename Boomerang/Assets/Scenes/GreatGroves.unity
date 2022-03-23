@@ -1961,21 +1961,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1582164220, guid: c23dd36e749f67d4a904dd114fff7cae, type: 3}
-      propertyPath: iFramesOnEnemyHit
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 7556954581694184272, guid: c23dd36e749f67d4a904dd114fff7cae, type: 3}
-      propertyPath: m_SleepingMode
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7556954581694184275, guid: c23dd36e749f67d4a904dd114fff7cae, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 7556954581694184276, guid: c23dd36e749f67d4a904dd114fff7cae, type: 3}
-      propertyPath: gravityScale
-      value: 2.2
       objectReference: {fileID: 0}
     - target: {fileID: 7556954581694184278, guid: c23dd36e749f67d4a904dd114fff7cae, type: 3}
       propertyPath: m_RootOrder

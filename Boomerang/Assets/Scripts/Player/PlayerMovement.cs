@@ -113,7 +113,9 @@ public class PlayerMovement : MonoBehaviour
         framesNotGrounded = coyoteTime;
         facingRight = true;
         rollCooldownFrames = 0;
-        gameCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<FollowPlayer>();
+        GameObject camObj = GameObject.FindGameObjectWithTag("MainCamera");
+        if(camObj != null)
+        gameCamera = camObj.GetComponent<FollowPlayer>();
         playerHealth = GetComponent<PlayerHealth>();
         checkpoint = new Vector2(transform.position.x, transform.position.y);
 
@@ -140,18 +142,21 @@ public class PlayerMovement : MonoBehaviour
             jumpKeyPressedFrames = 1;
 
         //Update camera to follow player
-        string id = "player";
-        if(velx > 0.01F)
-            id += "Right";
-        else if(velx < -0.01F)
-            id += "Left";
-        if(animate.getAnimState() == PlayerAnimation.AnimationState.roll)
-            id += "Roll";
-        if(animate.getAnimState() == PlayerAnimation.AnimationState.jump)
-            id += "Jump";
-        string tid = gameCamera.getTargetID();
-        if(tid == "" || tid.Length >= 6 && tid.Substring(0, 6) == "player")
-            gameCamera.setTarget(transform.position.x + velx / 20, transform.position.y + vely / 40, id);
+        if(gameCamera != null)
+        {
+            string id = "player";
+            if(velx > 0.01F)
+                id += "Right";
+            else if(velx < -0.01F)
+                id += "Left";
+            if(animate.getAnimState() == PlayerAnimation.AnimationState.roll)
+                id += "Roll";
+            if(animate.getAnimState() == PlayerAnimation.AnimationState.jump)
+                id += "Jump";
+            string tid = gameCamera.getTargetID();
+            if(tid == "" || tid.Length >= 6 && tid.Substring(0, 6) == "player")
+                gameCamera.setTarget(transform.position.x + velx / 20, transform.position.y + vely / 40, id);
+        }
     }
 
     //Gets player input and makes player move accordingly

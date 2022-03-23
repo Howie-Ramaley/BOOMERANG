@@ -31,6 +31,11 @@ public class SemisolidPlatform : MonoBehaviour
             float pLeft = player.transform.position.x - playerWidth / 2F;
             float top = transform.position.y + transform.localScale.y / 2F;
             float bottom = transform.position.y - transform.localScale.y / 2F;
+            if(polyCollider == null)
+            {
+                top = transform.position.y + (boxCollider.offset.y * transform.localScale.y) + transform.localScale.y * boxCollider.size.y / 2F;
+                bottom = transform.position.y + (boxCollider.offset.y * transform.localScale.y) - transform.localScale.y * boxCollider.size.y / 2F;
+            }
             if(!Input.GetKey(KeyCode.S) && (pRight > transform.position.x - transform.localScale.x / 2 && pLeft < transform.position.x + transform.localScale.x / 2))
             {
                 if(pBottom > bottom && pBottom < top)
