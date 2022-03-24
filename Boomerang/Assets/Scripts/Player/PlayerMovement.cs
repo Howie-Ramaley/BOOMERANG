@@ -61,6 +61,8 @@ public class PlayerMovement : MonoBehaviour
     //Incremented every FixedUpdate until surpassing jumpBufferTime, then is set back to 0 
     //If more than 0, allow a jump.
     private int jumpKeyPressedFrames;
+
+    private bool jumpStickTilted;
     
     //Amount of FixedUpdate's since the roll key was pressed
     //Incremented every FixedUpdate until surpassing rollBufferTime, then is set back to 0 
@@ -81,6 +83,10 @@ public class PlayerMovement : MonoBehaviour
     private float velx;
     private float vely;
 
+    private float launchx;
+
+    private float launchy;
+
     //PreciseGroundCheck script attached to FeetCheck that tells when the player's gravity should be stopped.
     private PreciseGroundCheck preciseGroundCheck;
 
@@ -95,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerHealth playerHealth;
 
-    private Vector2 checkpoint;
+    private Vector2 checkpoint;    
 
 
     // Start is called before the first frame update
@@ -103,6 +109,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //All variables with [SerializeFields] are set in Unity editor
         jumpKeyPressedFrames = 0;
+        jumpStickTilted = false;
         body = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
         animate = GetComponentInChildren<PlayerAnimation>();
@@ -138,7 +145,20 @@ public class PlayerMovement : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.LeftShift) || Input.GetButtonDown("Roll"))
             rollKeyPressedFrames = 1;
 
-        if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump"))
+        //Makes sure that the left joystick was just pushed up and was not held there
+        bool stickJump = false;
+        if(Input.GetAxis("Vertical") >= 0.8F)
+        {
+            if(!jumpStickTilted)
+            {
+                stickJump = true;
+                jumpStickTilted = true;
+            }
+        }
+        else
+            jumpStickTilted = false;
+
+        if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump") || stickJump)
             jumpKeyPressedFrames = 1;
 
         //Update camera to follow player
@@ -179,6 +199,7 @@ public class PlayerMovement : MonoBehaviour
         //fix camera jitter
         //fix vertical segment of background platform becoming solid while inside of the player
         //make flying enemy float above and come down for an attack
+        //camera zooming
 
         animate.idle();
 
@@ -369,6 +390,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 animate.land();
                 vely = 0;
+                launchx = 0;
+                launchy = 0;
                 gravityVel = 0;
             }
             //else, FeetCheck is not right under the player, so slow the player's gravity instead
@@ -377,6 +400,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 animate.fallingLand();
                 vely = 0;
+                launchx = 0;
+                launchy = 0;
                 if(gravityVel > 0.1F)
                     gravityVel /= 10;
             }
@@ -398,8 +423,17 @@ public class PlayerMovement : MonoBehaviour
                 jumpKeyPressedFrames = 0;
         }
 
+        /*if(launchx > 0)
+            launchx--;
+        else if(launchx < 0)
+            launchx++;
+        if(launchy > 0)
+            launchy--;
+        else if(launchy < 0)
+            launchy++;*/
+
         //Update player's velocity
-        body.velocity = new Vector2(velx, vely - gravityVel);
+        body.velocity = new Vector2(velx + launchx, vely - gravityVel + launchy);
     }
 
     //it's what you think it is
@@ -408,7 +442,17 @@ public class PlayerMovement : MonoBehaviour
         animate.jump();
         vely = jumpSpeed;
         gravityVel = 0;
+        launchy = 0;
         jumpKeyPressedFrames = 0;
+        framesNotGrounded = coyoteTime;
+    }
+
+    public void launch(float vx, float vy)
+    {
+        launchx = vx;
+        launchy = vy;
+        gravityVel = 0;
+        vely = 0;
         framesNotGrounded = coyoteTime;
     }
 

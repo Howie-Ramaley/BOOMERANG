@@ -149,7 +149,7 @@ public class Boomerang : MonoBehaviour
         {
             if(stuck)
             {
-                if(stickIsTilted())
+                if(stickIsTilted() || Input.GetButton("Callback"))
                     returnBoomerang(Direction.custom);
                 else
                 {

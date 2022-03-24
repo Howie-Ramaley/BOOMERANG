@@ -505,7 +505,7 @@ MonoBehaviour:
   gravityMax: 62
   slip: 0.3
   coyoteTime: 6
-  rollSpeed: 15
+  rollSpeed: 23
   rollCooldownTime: 40
 --- !u!95 &1582164226
 Animator:

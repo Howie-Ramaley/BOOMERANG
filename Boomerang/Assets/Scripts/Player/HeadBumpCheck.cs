@@ -17,7 +17,7 @@ public class HeadBumpCheck : MonoBehaviour
             //if a collider is in the HeadCheck and is in the groundLayer
             if(collider != null && !collider.isTrigger && (((1 << collider.gameObject.layer) & groundLayer) != 0) && collider.gameObject.tag != "Boomerang")
             {
-                Rigidbody2D otherBody = collider.gameObject.GetComponent<Rigidbody2D>();
+                /*Rigidbody2D otherBody = collider.gameObject.GetComponent<Rigidbody2D>();
                 //if the collider's object has a rigidbody, transfer velocity with respect to each of their masses
                 if(otherBody != null)
                 {
@@ -31,10 +31,10 @@ public class HeadBumpCheck : MonoBehaviour
                 }
                 //else just set player's vely and gravityVel to 0
                 else
-                {
+                {*/
                     playerMovement.setVely(0);
                     playerMovement.setGravityVel(0);
-                }
+                //}
             }
         }
     }
