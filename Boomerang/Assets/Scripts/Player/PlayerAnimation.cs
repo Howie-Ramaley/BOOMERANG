@@ -229,7 +229,7 @@ public class PlayerAnimation : MonoBehaviour
 
     public void fall()
     {
-        if(animState == AnimationState.run || animState == AnimationState.jump)
+        if(animState == AnimationState.run || animState == AnimationState.jump || animState == AnimationState.idle)
         {
             if(canPlay())
             {
