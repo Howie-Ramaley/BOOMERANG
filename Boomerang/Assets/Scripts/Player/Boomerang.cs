@@ -88,7 +88,6 @@ public class Boomerang : MonoBehaviour
     {
         float horStick = Input.GetAxis("RightHorizontal");
         float vertStick = Input.GetAxis("RightVertical");
-        Debug.Log("hor: " + horStick + " vert: " + vertStick);
         if(readyToThrow)
         {
             if(stickIsTilted())

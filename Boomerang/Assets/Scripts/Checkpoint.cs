@@ -7,6 +7,8 @@ public class Checkpoint : MonoBehaviour
     private int framesSinceLastCollide;
     private bool playerCollide;
     private PlayerMovement player;
+    private Animator animator;
+    private bool lit;
 
     // Start is called before the first frame update
     void Start()
@@ -14,6 +16,8 @@ public class Checkpoint : MonoBehaviour
         framesSinceLastCollide = 0;
         playerCollide = false;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        animator = GetComponent<Animator>();
+        lit = false;
     }
 
     // Update is called once per frame
@@ -24,7 +28,11 @@ public class Checkpoint : MonoBehaviour
             playerCollide = false;
 
         if(playerCollide)
+        {
             player.setCheckpoint(transform.position.x, transform.position.y);
+            lit = true;
+            animator.SetBool("lit", true);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collider)

@@ -60,7 +60,7 @@ public class SemisolidPlatform : MonoBehaviour
                 if(polyCollider == null)
                     boxCollider.isTrigger = true;
                 else
-                    polyCollider.isTrigger = false;
+                    polyCollider.isTrigger = true;
             }
         }
         else
