@@ -314,6 +314,7 @@ public class Boomerang : MonoBehaviour
                     velx = 0;
                     vely = 0;
                     hitList.RemoveRange(0, hitList.Count);
+                    GetComponent<Animator>().enabled = false;
                 }
                 else
                 {
@@ -350,6 +351,7 @@ public class Boomerang : MonoBehaviour
 
     private void returnBoomerang(Direction dir)
     {
+        GetComponent<Animator>().enabled = true;
         throwDir = Direction.none;
         returning = true;
         stuck = false;

@@ -101,7 +101,9 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerHealth playerHealth;
 
-    private Vector2 checkpoint;    
+    private Vector2 checkpoint;  
+
+    private FreeFallCheck freeFallCheck;  
 
 
     // Start is called before the first frame update
@@ -117,6 +119,7 @@ public class PlayerMovement : MonoBehaviour
         vely = 0;
         gravityVel = 0;
         preciseGroundCheck = GetComponentInChildren<PreciseGroundCheck>();
+        freeFallCheck = GetComponentInChildren<FreeFallCheck>();
         framesNotGrounded = coyoteTime;
         facingRight = true;
         rollCooldownFrames = 0;
@@ -131,6 +134,7 @@ public class PlayerMovement : MonoBehaviour
         //Don't collide with FeetCheck
         Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), transform.Find("FeetCheck").GetComponent<BoxCollider2D>(), true);
         Physics2D.IgnoreCollision(GetComponentInChildren<CapsuleCollider2D>(), transform.Find("FeetCheck").GetComponent<BoxCollider2D>(), true);
+        Physics2D.IgnoreCollision(transform.Find("FreeFallCheck").GetComponent<BoxCollider2D>(), transform.Find("FeetCheck").GetComponent<BoxCollider2D>(), true);
     }
 
     //Detects when the jump key and roll key is pressed
@@ -388,6 +392,7 @@ public class PlayerMovement : MonoBehaviour
             //if FeetCheck is right under the player, set player's gravity to 0
             if(isGrounded())
             {
+                freeFallCheck.reset();
                 animate.land();
                 vely = 0;
                 launchx = 0;
@@ -398,7 +403,6 @@ public class PlayerMovement : MonoBehaviour
             //Necessary so that player reaches all the way to the ground without stopping, but without sliding down slopes
             else
             {
-                animate.fallingLand();
                 vely = 0;
                 launchx = 0;
                 launchy = 0;
@@ -409,7 +413,10 @@ public class PlayerMovement : MonoBehaviour
         //else, the player is in the air, so increment gravity
         else
         {
-            animate.fall();
+            if(freeFallCheck.isApproachingGround())
+                animate.fallingLand();
+            if(!preciseGroundCheck.isSlipping())
+                animate.fall();
             gravityVel += (gravityScale * 0.1962F);
             if(gravityVel > gravityMax)
                 gravityVel = gravityMax;
@@ -439,6 +446,7 @@ public class PlayerMovement : MonoBehaviour
     //it's what you think it is
     private void Jump()
     {
+        freeFallCheck.reset();
         animate.jump();
         vely = jumpSpeed;
         gravityVel = 0;
@@ -459,12 +467,12 @@ public class PlayerMovement : MonoBehaviour
     //More precise ground check for telling when to stop gravity. Observes trigger status of child object with collision box
     private bool isNearGround()
     {
-        return preciseGroundCheck.getGrounded();
+        return preciseGroundCheck.isGrounded();
     }
 
     public bool isGrounded()
     {
-        return (preciseGroundCheck.getGrounded() && preciseGroundCheck.getOffset() < 0.01F);
+        return (preciseGroundCheck.isGrounded() && preciseGroundCheck.getOffset() < 0.01F);
     }
 
     public void knockback(float knockbackSpeed)
@@ -478,11 +486,17 @@ public class PlayerMovement : MonoBehaviour
     public void setCheckpoint(float cx, float cy)
     {
         checkpoint = new Vector2(cx, cy);
+        playerHealth.setHealth(3);
     }
 
     public void respawn()
     {
         transform.position = new Vector3(checkpoint.x, checkpoint.y, transform.position.z);
+        velx = 0;
+        vely = 0;
+        launchx = 0;
+        launchy = 0;
+        gravityVel = 0;
     }
 
     /*UNUSED

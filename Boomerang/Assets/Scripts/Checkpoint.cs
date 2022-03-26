@@ -31,7 +31,7 @@ public class Checkpoint : MonoBehaviour
         {
             player.setCheckpoint(transform.position.x, transform.position.y);
             lit = true;
-            animator.SetBool("lit", true);
+            animator.SetBool("lit", lit);
         }
     }
 
@@ -55,5 +55,10 @@ public class Checkpoint : MonoBehaviour
         {
             playerCollide = false;
         }
+    }
+
+    public bool getLit()
+    {
+        return lit;
     }
 }

@@ -109,7 +109,7 @@ MonoBehaviour:
   throwSpeed: 28
   autoReturnTime: 35
   returnSpeed: 28
-  stickThreshold: 0.8
+  stickThreshold: 0.95
 --- !u!61 &5461417816602675518
 BoxCollider2D:
   m_ObjectHideFlags: 0

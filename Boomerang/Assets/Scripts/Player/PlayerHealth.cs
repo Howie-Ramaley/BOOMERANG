@@ -39,29 +39,32 @@ public class PlayerHealth : MonoBehaviour
             startIFrames(false);
 
             //Debug.Log("HURT");
-            
-            GameObject player = gameObject;
-            SpriteRenderer sprite = player.GetComponentInChildren<PlayerAnimation>().gameObject.GetComponent<SpriteRenderer>();
-            
-            if(health == 2)
-            {
-                sprite.color = new Color(1, 0.75f, 0.75f);
-            }
-            else if(health == 1)
-            {
-                sprite.color = new Color(1, 0.2f, 0.2f);
-            }
-            else if (health <= 0)
-            {
-                //player.SetActive(false);
-                health = 3;
-                sprite.color = new Color(1, 1, 1);
-                player.GetComponent<PlayerMovement>().respawn();
-            }
-            else
-            {
-                sprite.color = new Color(1, 1, 1);
-            }
+            healthDisplayUpdate();
+        }
+    }
+
+    private void healthDisplayUpdate()
+    {
+        GameObject player = gameObject;
+        SpriteRenderer sprite = player.GetComponentInChildren<PlayerAnimation>().gameObject.GetComponent<SpriteRenderer>();
+        if(health == 2)
+        {
+            sprite.color = new Color(1, 0.75f, 0.75f);
+        }
+        else if(health == 1)
+        {
+            sprite.color = new Color(1, 0.2f, 0.2f);
+        }
+        else if (health <= 0)
+        {
+            //player.SetActive(false);
+            health = 3;
+            sprite.color = new Color(1, 1, 1);
+            player.GetComponent<PlayerMovement>().respawn();
+        }
+        else
+        {
+            sprite.color = new Color(1, 1, 1);
         }
     }
 
@@ -72,6 +75,7 @@ public class PlayerHealth : MonoBehaviour
     public void setHealth(int h)
     {
         health = h;
+        healthDisplayUpdate();
     }
     public int getIFrameProgress()
     {

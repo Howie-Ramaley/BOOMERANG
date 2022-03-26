@@ -9,6 +9,9 @@ public class PreciseGroundCheck : MonoBehaviour
 
     //Tells if the player grounded or not
     private bool grounded;
+
+    //
+    private bool slipping;
     
     //Amount that FeetCheck's position is offset from the player
     private float offset;
@@ -25,6 +28,7 @@ public class PreciseGroundCheck : MonoBehaviour
     void Start()
     {
         grounded = false;
+        slipping = false;
         offset = 0;
         playerMovement = GetComponentInParent<PlayerMovement>();
         starty = transform.position.y - playerMovement.gameObject.transform.position.y;
@@ -33,6 +37,7 @@ public class PreciseGroundCheck : MonoBehaviour
         //Don't collide with player
         Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), GetComponentInParent<BoxCollider2D>(), true);
         Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), transform.parent.GetComponentInChildren<CapsuleCollider2D>(), true);
+        Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), transform.parent.Find("FreeFallCheck").GetComponent<BoxCollider2D>(), true);
     }
 
     void LateUpdate()
@@ -70,8 +75,11 @@ public class PreciseGroundCheck : MonoBehaviour
                     if(normaly < -playerMovement.getSlip() || normaly > playerMovement.getSlip())
                     {
                         grounded = true;
+                        slipping= false;
                         framesSinceLastCollide = 0;
                     }
+                    else
+                        slipping = true;
                     //Debug.Log("normaly: " + normaly);
                 }
             }
@@ -79,6 +87,7 @@ public class PreciseGroundCheck : MonoBehaviour
         else
         {
             grounded = false;
+            slipping = false;
         }
     }
 
@@ -89,13 +98,13 @@ public class PreciseGroundCheck : MonoBehaviour
     }
 
     //Getters and setters
-    public bool getGrounded()
+    public bool isSlipping()
+    {
+        return slipping;
+    }
+    public bool isGrounded()
     {
         return grounded;
-    }
-    public void setGrounded(bool g)
-    {
-        grounded = g;
     }
     public float getOffset()
     {
