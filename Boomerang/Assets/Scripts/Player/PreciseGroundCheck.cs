@@ -66,7 +66,7 @@ public class PreciseGroundCheck : MonoBehaviour
         if(collision != null)
         {
             //if a collider is in FeetCheck and is in the groundLayer
-            if(collision != null && (((1 << collision.gameObject.layer) & groundLayer) != 0))
+            if((((1 << collision.gameObject.layer) & groundLayer) != 0))
             {
                 for(int i = 0; i < collision.contactCount; i++)
                 {
@@ -95,6 +95,7 @@ public class PreciseGroundCheck : MonoBehaviour
     private void OnCollisionExit2D(Collision2D collision)
     {
         grounded = false;
+        slipping = false;
     }
 
     //Getters and setters

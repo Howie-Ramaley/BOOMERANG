@@ -251,8 +251,8 @@ public class PlayerAnimation : MonoBehaviour
             if(canPlay())
             {
                 transform.position = new Vector3(transform.position.x, transform.parent.position.y + (0.3F + offsetY) * yScale, transform.position.z);
-                animWait = 1;
-                animMinLength = 5;
+                animWait = 0;
+                animMinLength = -1;
                 animState = AnimationState.fallingLand;
                 animator.SetInteger("animState", (int)animState);
             }

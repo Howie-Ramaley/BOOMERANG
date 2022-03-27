@@ -403,6 +403,7 @@ public class PlayerMovement : MonoBehaviour
             //Necessary so that player reaches all the way to the ground without stopping, but without sliding down slopes
             else
             {
+                animate.land();
                 vely = 0;
                 launchx = 0;
                 launchy = 0;
