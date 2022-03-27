@@ -195,13 +195,13 @@ public class PlayerAnimation : MonoBehaviour
 
     public void run()
     {
-        if(animState != AnimationState.run && (animState == AnimationState.idle || animState == AnimationState.fallingLand || animState == AnimationState.land))
+        if(animState != AnimationState.run && (animState == AnimationState.idle || animState == AnimationState.land))
         {
             if(canPlay(new List<AnimationState>{AnimationState.land}))
             {
                 transform.position = new Vector3(transform.position.x, transform.parent.position.y + (0.16F + offsetY) * yScale, transform.position.z);
-                animWait = 0;
-                animMinLength = -1;
+                animWait = 1;
+                animMinLength = 10;
                 animState = AnimationState.run;
                 animator.SetInteger("animState", (int)animState);
             }
@@ -214,7 +214,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         if(animState != AnimationState.jump && animState != AnimationState.roll)
         {
-            if(canPlay(new List<AnimationState>{AnimationState.fallingLand, AnimationState.land}))
+            if(canPlay(new List<AnimationState>{AnimationState.fallingLand, AnimationState.land, AnimationState.run}))
             {
                 transform.position = new Vector3(transform.position.x, transform.parent.position.y + (offsetY) * yScale, transform.position.z);
                 animWait = 1;
@@ -246,7 +246,7 @@ public class PlayerAnimation : MonoBehaviour
 
     public void fallingLand()
     {
-        if(animState != AnimationState.fallingLand && animState != AnimationState.land && animState != AnimationState.roll)
+        if(animState != AnimationState.fallingLand && animState != AnimationState.land && animState != AnimationState.roll && animState != AnimationState.run)
         {
             if(canPlay())
             {

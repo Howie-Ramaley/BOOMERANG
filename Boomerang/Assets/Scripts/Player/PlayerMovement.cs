@@ -207,10 +207,12 @@ public class PlayerMovement : MonoBehaviour
 
         animate.idle();
 
+        if(isNearGround())
+            animate.land();
+
         //Horizontal movement
         
         float horStick = Input.GetAxis("Horizontal");
-
         if(rollKeyPressedFrames > 0 && framesNotGrounded < coyoteTime && rollCooldownFrames == 0)
         {
             //Roll
@@ -393,7 +395,6 @@ public class PlayerMovement : MonoBehaviour
             if(isGrounded())
             {
                 freeFallCheck.reset();
-                animate.land();
                 vely = 0;
                 launchx = 0;
                 launchy = 0;
@@ -403,7 +404,6 @@ public class PlayerMovement : MonoBehaviour
             //Necessary so that player reaches all the way to the ground without stopping, but without sliding down slopes
             else
             {
-                animate.land();
                 vely = 0;
                 launchx = 0;
                 launchy = 0;
@@ -414,10 +414,13 @@ public class PlayerMovement : MonoBehaviour
         //else, the player is in the air, so increment gravity
         else
         {
-            if(freeFallCheck.isApproachingGround())
-                animate.fallingLand();
             if(!preciseGroundCheck.isSlipping())
+            {
                 animate.fall();
+                Debug.Log("Fall");
+            }
+            if(freeFallCheck.isApproachingGround() && !isNearGround())
+                animate.fallingLand();
             gravityVel += (gravityScale * 0.1962F);
             if(gravityVel > gravityMax)
                 gravityVel = gravityMax;

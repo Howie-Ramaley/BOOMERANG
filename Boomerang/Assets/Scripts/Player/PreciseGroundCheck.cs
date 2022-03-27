@@ -50,7 +50,10 @@ public class PreciseGroundCheck : MonoBehaviour
     void FixedUpdate()
     {
         if(grounded && framesSinceLastCollide >= 2)
+        {
             grounded = false;
+            slipping = false;
+        }
         framesSinceLastCollide++;
     }
 
@@ -83,11 +86,6 @@ public class PreciseGroundCheck : MonoBehaviour
                     //Debug.Log("normaly: " + normaly);
                 }
             }
-        }
-        else
-        {
-            grounded = false;
-            slipping = false;
         }
     }
 
