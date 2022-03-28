@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour, IStunnable
     //
     [SerializeField] protected float bumpSpeed;
 
+    [SerializeField] protected bool tempStun;
     //
     protected bool bumped;
 
@@ -33,6 +34,7 @@ public class Enemy : MonoBehaviour, IStunnable
     protected float vely;
 
     private float delayTime;
+    private float stunTime;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +44,7 @@ public class Enemy : MonoBehaviour, IStunnable
         velx = 0;
         vely = 0;
         delayTime = 0F;
+        stunTime = 0F;
         player = GameObject.FindGameObjectWithTag("Player");
         bumped = false;
     }
@@ -51,8 +54,22 @@ public class Enemy : MonoBehaviour, IStunnable
         if (delayTime > 0) 
         {
             delayTime -= Time.deltaTime;
-            Debug.Log("Delay time is: " + delayTime);
+            //Debug.Log("Delay time is: " + delayTime);
         }
+
+        if (stunTime > 0) 
+        {
+            stunTime -= Time.deltaTime;
+            Debug.Log("Stun time is: " + stunTime);
+        }
+        if(stunTime <= 0 && tempStun == true)
+        {
+            stunned = false;
+            GetComponent<BoxCollider2D>().isTrigger = true;
+            GetComponent<PlayerHit>().setHurts(true);
+            GetComponent<SpriteRenderer>().color = Color.red;
+        }
+
         if(player != null)
         {
             float dist = Mathf.Sqrt(Mathf.Pow(player.transform.position.x - transform.position.x, 2) + Mathf.Pow(player.transform.position.y - transform.position.y, 2));
@@ -107,11 +124,12 @@ public class Enemy : MonoBehaviour, IStunnable
             velx = 0;
             vely = 0;
             stunned = true;
+            stunTime = 1.0F;
             GetComponent<BoxCollider2D>().isTrigger = false;
             GetComponent<PlayerHit>().setHurts(false);
             GetComponent<SpriteRenderer>().color = new Color(0.8f, 0.8f, 0.8f);
         }
-        else
+        else if(tempStun == false)
         {
             stunned = false;
             GetComponent<BoxCollider2D>().isTrigger = true;
@@ -145,4 +163,6 @@ public class Enemy : MonoBehaviour, IStunnable
         if(!groundEnemy)
             vely = ((dist < speed) ? dist : speed) * Mathf.Cos(angle);
     }
+
+    
 }

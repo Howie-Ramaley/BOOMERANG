@@ -9,6 +9,7 @@ TagManager:
   - Fruit
   - Dirt
   - BG Platform
+  - Wall
   layers:
   - Default
   - TransparentFX

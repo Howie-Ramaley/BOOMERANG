@@ -417,7 +417,7 @@ public class PlayerMovement : MonoBehaviour
             if(!preciseGroundCheck.isSlipping())
             {
                 animate.fall();
-                Debug.Log("Fall");
+                //Debug.Log("Fall");
             }
             if(freeFallCheck.isApproachingGround() && !isNearGround())
                 animate.fallingLand();
