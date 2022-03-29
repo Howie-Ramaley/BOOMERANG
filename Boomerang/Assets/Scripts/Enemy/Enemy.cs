@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour, IStunnable
     //
     [SerializeField] protected bool tempStun;
     [SerializeField] protected float tempStunLength;
+    private float stunTime;
 
     //
     protected bool bumped;
@@ -36,8 +37,10 @@ public class Enemy : MonoBehaviour, IStunnable
     protected float velx;
     protected float vely;
 
+    //
+    [SerializeField] private float delayTimeLength;
     private float delayTime;
-    private float stunTime;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -65,12 +68,13 @@ public class Enemy : MonoBehaviour, IStunnable
             stunTime -= Time.deltaTime;
             Debug.Log("Stun time is: " + stunTime);
         }
-        if(stunTime <= 0 && tempStun == true)
+        if(stunTime <= 0 && tempStun == true && stunned)
         {
-            stunned = false;
+            stun();
+            /*stunned = false;
             GetComponent<BoxCollider2D>().isTrigger = true;
             GetComponent<PlayerHit>().setHurts(true);
-            GetComponent<SpriteRenderer>().color = Color.red;
+            GetComponent<SpriteRenderer>().color = Color.red;*/
         }
 
         if(player != null)
@@ -113,7 +117,7 @@ public class Enemy : MonoBehaviour, IStunnable
                 vely = 0;
                 if(xDone)
                 {
-                    delayTime = 0.5F;
+                    delayTime = delayTimeLength;
                     bumped = false;
                 }
             }
@@ -138,6 +142,7 @@ public class Enemy : MonoBehaviour, IStunnable
             GetComponent<BoxCollider2D>().isTrigger = true;
             GetComponent<PlayerHit>().setHurts(true);
             GetComponent<SpriteRenderer>().color = Color.red;
+            delayTime = delayTimeLength;
         }
     }
 
