@@ -11105,7 +11105,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3663721338887291452, guid: b3ae15732584d944ab31051474f782c3, type: 3}
       propertyPath: tempStun
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3663721338996416604, guid: b3ae15732584d944ab31051474f782c3, type: 3}
       propertyPath: m_RootOrder
@@ -12311,7 +12311,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3663721338887291452, guid: b3ae15732584d944ab31051474f782c3, type: 3}
       propertyPath: tempStun
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3663721338996416604, guid: b3ae15732584d944ab31051474f782c3, type: 3}
       propertyPath: m_RootOrder
