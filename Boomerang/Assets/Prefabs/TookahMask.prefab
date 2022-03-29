@@ -159,6 +159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   ignoresIFrames: 0
+  strongKnockback: 0
 --- !u!114 &8756657851558343674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,6 +176,8 @@ MonoBehaviour:
   aggroRange: 10
   groundEnemy: 0
   bumpSpeed: 1
+  tempStun: 0
+  tempStunLength: 2
 --- !u!50 &1018009068
 Rigidbody2D:
   serializedVersion: 4

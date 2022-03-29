@@ -217,6 +217,8 @@ MonoBehaviour:
   aggroRange: 5
   groundEnemy: 1
   bumpSpeed: 0.75
+  tempStun: 0
+  tempStunLength: 2
   animator: {fileID: 8644370458186882969}
 --- !u!50 &2134597107
 Rigidbody2D:

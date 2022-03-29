@@ -15,8 +15,11 @@ public class Enemy : MonoBehaviour, IStunnable
 
     //
     [SerializeField] protected float bumpSpeed;
-
+    
+    //
     [SerializeField] protected bool tempStun;
+    [SerializeField] protected float tempStunLength;
+
     //
     protected bool bumped;
 
@@ -124,12 +127,12 @@ public class Enemy : MonoBehaviour, IStunnable
             velx = 0;
             vely = 0;
             stunned = true;
-            stunTime = 1.0F;
+            stunTime = tempStunLength;
             GetComponent<BoxCollider2D>().isTrigger = false;
             GetComponent<PlayerHit>().setHurts(false);
             GetComponent<SpriteRenderer>().color = new Color(0.8f, 0.8f, 0.8f);
         }
-        else if(tempStun == false)
+        else if(tempStun == false || tempStunLength > 0)
         {
             stunned = false;
             GetComponent<BoxCollider2D>().isTrigger = true;
@@ -163,6 +166,4 @@ public class Enemy : MonoBehaviour, IStunnable
         if(!groundEnemy)
             vely = ((dist < speed) ? dist : speed) * Mathf.Cos(angle);
     }
-
-    
 }

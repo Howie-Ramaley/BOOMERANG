@@ -37,5 +37,4 @@ public class Fruit : MonoBehaviour, IStunnable
             stunned = false;
         }
     }
-     
 }
