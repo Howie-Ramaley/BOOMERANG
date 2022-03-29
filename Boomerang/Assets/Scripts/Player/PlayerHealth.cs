@@ -43,7 +43,7 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    private void healthDisplayUpdate()
+    public void healthDisplayUpdate()
     {
         GameObject player = gameObject;
         SpriteRenderer sprite = player.GetComponentInChildren<PlayerAnimation>().gameObject.GetComponent<SpriteRenderer>();

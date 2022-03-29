@@ -464,7 +464,10 @@ public class PlayerMovement : MonoBehaviour
         launchx = vx;
         launchy = vy;
         gravityVel = 0;
-        vely = 0;
+        if(vy > 0.01F || vy < -0.01F)
+            vely = 0;
+        if(vx > 0.01F || vx < -0.01F)
+            velx = 0;
         framesNotGrounded = coyoteTime;
     }
 

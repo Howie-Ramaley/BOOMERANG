@@ -37,10 +37,6 @@ public class Boomerang : MonoBehaviour
     private int throwKeyHeldFrames;
 
     //
-    private enum Direction{up, left, down, right, upleft, upright, downleft, downright, custom, none}
-    private Direction throwDir;
-
-    //
     private Vector2 throwAngle;
 
     //
@@ -92,55 +88,39 @@ public class Boomerang : MonoBehaviour
         {
             if(stickIsTilted())
             {
-                throwDir = Direction.custom;
                 throwAngle = new Vector2(horStick, vertStick);
-                float dist = Mathf.Sqrt(Mathf.Pow(horStick, 2) + Mathf.Pow(vertStick, 2));
-                throwAngle *= 1.0F / dist;
                 if(throwKeyPressedFrames == 0)
                     throwKeyPressedFrames = 1;
             }
             else
             {
-                Direction dir = Direction.none;
-                bool twoKeys = false;
+                Vector2 inAngle = Vector2.zero;
                 if(Input.GetKeyDown(KeyCode.I))
-                    dir = Direction.up;
-                else if(Input.GetKeyDown(KeyCode.J))
-                    dir = Direction.left;
-                else if(Input.GetKeyDown(KeyCode.K))
-                    dir = Direction.down;
-                else if(Input.GetKeyDown(KeyCode.L))
-                    dir = Direction.right;
-                if(dir != Direction.none && throwKeyPressedFrames == 0)
+                    inAngle.y += 1F;
+                if(Input.GetKeyDown(KeyCode.J))
+                    inAngle.x -= 1F;
+                if(Input.GetKeyDown(KeyCode.K))
+                    inAngle.y -= 1F;
+                if(Input.GetKeyDown(KeyCode.L))
+                    inAngle.x += 1F;
+                if(inAngle.x > 0.01F || inAngle.x < -0.01F || inAngle.y > 0.01F || inAngle.y < -0.01F)
                 {
-                    twoKeys = true;
-                    Direction nextDir = Direction.none;
-                    if(Input.GetKeyDown(KeyCode.I) && dir != Direction.up)
-                        nextDir = Direction.up;
-                    else if(Input.GetKeyDown(KeyCode.J) && dir != Direction.left)
-                        nextDir = Direction.left;
-                    else if(Input.GetKeyDown(KeyCode.K) && dir != Direction.down)
-                        nextDir = Direction.down;
-                    else if(Input.GetKeyDown(KeyCode.L) && dir != Direction.right)
-                        nextDir = Direction.right;
+                    if(throwKeyPressedFrames <= diagonalInputBufferTime)
+                    {
+                        if(throwKeyPressedFrames == 0)
+                            throwKeyPressedFrames = 1;
+                        if(throwAngle.x < 0.01F && throwAngle.x > -0.01F)
+                            throwAngle.x = inAngle.x;
+                        if(throwAngle.y < 0.01F && throwAngle.y > -0.01F)
+                            throwAngle.y = inAngle.y;
+                    }
                     else
-                        twoKeys = false;
-                    if(twoKeys)
                     {
-                        throwKeyPressedFrames = 1;
-                        throwDir = dir;
-                        throwDir = getDiagonal(nextDir);
+                        if(inAngle.x > 0.01F || inAngle.x < -0.01F)
+                            throwAngle.x = inAngle.x;
+                        if(inAngle.y > 0.01F || inAngle.y < -0.01F)
+                            throwAngle.y = inAngle.y;
                     }
-                }
-                if(dir != Direction.none && !twoKeys)
-                {
-                    if(throwKeyPressedFrames == 0)
-                    {
-                        throwKeyPressedFrames = 1;
-                        throwDir = dir;
-                    }
-                    else if(throwDir == Direction.up || throwDir == Direction.down || throwDir == Direction.left || throwDir == Direction.right)
-                        throwDir = getDiagonal(dir);
                 }
             }
         }
@@ -149,17 +129,17 @@ public class Boomerang : MonoBehaviour
             if(stuck)
             {
                 if(stickIsTilted() || Input.GetButton("Callback"))
-                    returnBoomerang(Direction.custom);
+                    returnBoomerang();
                 else
                 {
                     if(Input.GetKeyDown(KeyCode.I))
-                        returnBoomerang(Direction.up);
+                        returnBoomerang();
                     else if(Input.GetKeyDown(KeyCode.J))
-                        returnBoomerang(Direction.left);
+                        returnBoomerang();
                     else if(Input.GetKeyDown(KeyCode.K))
-                        returnBoomerang(Direction.down);
+                        returnBoomerang();
                     else if(Input.GetKeyDown(KeyCode.L))
-                        returnBoomerang(Direction.right);
+                        returnBoomerang();
                 }
             }
         }
@@ -170,21 +150,14 @@ public class Boomerang : MonoBehaviour
         if(readyToThrow && throwKeyPressedFrames > 0 && (Input.GetKey(KeyCode.I) || Input.GetKey(KeyCode.J) || Input.GetKey(KeyCode.K) || Input.GetKey(KeyCode.L) || stickIsTilted()))
         {
             throwKeyHeldFrames++;
-            if(throwKeyPressedFrames > 0 && throwKeyPressedFrames < throwBufferTime)
-                throwKeyPressedFrames = diagonalInputBufferTime - 1;
             if(throwKeyHeldFrames > superThrowHoldTime)
                 GameObject.FindGameObjectWithTag("Player").transform.Find("PlayerSprite").gameObject.GetComponent<SpriteRenderer>().color = Color.green;
         }
-        else if(throwKeyPressedFrames > diagonalInputBufferTime && readyToThrow)
+        else if(readyToThrow && throwKeyPressedFrames > diagonalInputBufferTime)
         {
+            Debug.Log("THROW");
             //Throw boomerang
-            Color color = Color.white;
-            int health = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>().getHealth();
-            if(health == 2)
-                color = new Color(1, 0.75f, 0.75f);
-            else if(health == 1)
-                color = new Color(1, 0.2f, 0.2f);
-            GameObject.FindGameObjectWithTag("Player").transform.Find("PlayerSprite").gameObject.GetComponent<SpriteRenderer>().color = color;
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>().healthDisplayUpdate();
             if(throwKeyHeldFrames > superThrowHoldTime)
                 superThrow = true;
             throwKeyHeldFrames = 0;
@@ -193,6 +166,7 @@ public class Boomerang : MonoBehaviour
             readyToThrow = false;
             GetComponent<SpriteRenderer>().enabled = true;
             GetComponent<BoxCollider2D>().enabled = true;
+            /*
             if(throwDir == Direction.right)
                 velx = throwSpeed;
             else if(throwDir == Direction.left)
@@ -226,12 +200,17 @@ public class Boomerang : MonoBehaviour
                 velx = throwAngle.x * throwSpeed;
                 vely = throwAngle.y * throwSpeed;
             }
+            */
+            float dist = Mathf.Sqrt(Mathf.Pow(throwAngle.x, 2) + Mathf.Pow(throwAngle.y, 2));
+            throwAngle *= 1.0F / dist;
+            velx = throwAngle.x * throwSpeed;
+            vely = throwAngle.y * throwSpeed;
         }
 
         if(returning)
         {
             float dist = Mathf.Sqrt(Mathf.Pow(player.transform.position.x - transform.position.x, 2) + Mathf.Pow(player.transform.position.y - transform.position.y, 2));
-            dist *= 50;
+            dist *= 50; //velx and vely are in units per 1/50 of a second and dist is in units, so we must multiply dist by 50 to make them comparable
             if(Mathf.Abs(dist) > returnSpeed)
                 dist = returnSpeed;
             float angle = -Mathf.Atan2(player.transform.position.y - transform.position.y, player.transform.position.x - transform.position.x) + Mathf.PI / 2;
@@ -244,7 +223,7 @@ public class Boomerang : MonoBehaviour
         if(throwKeyPressedFrames > 0)
         {
             throwKeyPressedFrames++;
-            if(throwKeyPressedFrames > diagonalInputBufferTime + throwBufferTime)
+            if(throwKeyPressedFrames > diagonalInputBufferTime + throwBufferTime + 1 && !(Input.GetKey(KeyCode.I) || Input.GetKey(KeyCode.J) || Input.GetKey(KeyCode.K) || Input.GetKey(KeyCode.L) || stickIsTilted()))
                 throwKeyPressedFrames = 0;
         }
 
@@ -255,7 +234,7 @@ public class Boomerang : MonoBehaviour
             {
                 //auto return
                 framesSinceThrown = 0;
-                returnBoomerang(oppositeDirection(throwDir));
+                returnBoomerang();
             }
         }
 
@@ -296,14 +275,14 @@ public class Boomerang : MonoBehaviour
                                 angle -= Mathf.PI;
                             enemy.bump(angle);
                         }
-                        returnBoomerang(oppositeDirection(throwDir));
+                        returnBoomerang();
                         hitList.Add(collider.gameObject);
                     }
                 }
             }
             else if(((1 << collider.gameObject.layer) & groundLayer) != 0 && collider.gameObject.tag != "BG Platform")
             {
-                if(superThrow && collider.gameObject.tag == "Dirt")
+                if(superThrow && collider.gameObject.tag == "Dirt" && !returning)
                 {
                     superThrow = false;
                     returning = false;
@@ -318,7 +297,7 @@ public class Boomerang : MonoBehaviour
                 }
                 else
                 {
-                    returnBoomerang(oppositeDirection(throwDir));
+                    returnBoomerang();
                     hitList.Add(collider.gameObject);
                 }
             }
@@ -349,15 +328,16 @@ public class Boomerang : MonoBehaviour
             return false;
     }
 
-    private void returnBoomerang(Direction dir)
+    private void returnBoomerang()
     {
+        throwAngle = Vector2.zero;
         GetComponent<Animator>().enabled = true;
-        throwDir = Direction.none;
         returning = true;
         stuck = false;
         GetComponent<BoxCollider2D>().isTrigger = true;
     }
 
+    /*UNUSED
     private Direction oppositeDirection(Direction dir)
     {
         if(dir == Direction.up)
@@ -366,13 +346,37 @@ public class Boomerang : MonoBehaviour
             return Direction.right;
         else if(dir == Direction.down)
             return Direction.up;
-        else
+        else if(dir == Direction.right)
             return Direction.left;
+        else if(dir == Direction.upleft)
+            return Direction.downright;
+        else if(dir == Direction.upright)
+            return Direction.downleft;
+        else if(dir == Direction.downleft)
+            return Direction.upright;
+        else if(dir == Direction.downright)
+            return Direction.upleft;
+        else
+            return Direction.custom;
     }
-
     private Direction getDiagonal(Direction dir)
     {
-        if(dir == throwDir)
+        if(throwDir == Direction.custom || dir == Direction.custom || throwDir == Direction.none || dir == Direction.none)
+        {
+            Debug.Log("getDiagonal() error, throwDir or dir is custom or none");
+            return throwDir;
+        }
+        else if(throwDir == Direction.upleft || throwDir == Direction.upright || throwDir == Direction.downleft || throwDir == Direction.downright)
+        {
+            Debug.Log("getDiagonal() error, throwDir is already a diagonal");
+            return throwDir;
+        }
+        else if(dir == Direction.upleft || dir == Direction.upright || dir == Direction.downleft || dir == Direction.downright)
+        {
+            Debug.Log("getDiagonal() invalid parameter, received diagonal but only accepts nondiagonals");
+            return throwDir;
+        }
+        else if(dir == throwDir)
             return dir;
         else if(dir == oppositeDirection(throwDir))
             return dir;
@@ -405,4 +409,59 @@ public class Boomerang : MonoBehaviour
                 return Direction.downright;
         }
     }
+    private Direction removeDiagonal(Direction dir)
+    {
+        if(throwDir == Direction.custom || dir == Direction.custom || throwDir == Direction.none || dir == Direction.none)
+        {
+            Debug.Log("removeDiagonal() error, throwDir or dir is custom or none");
+            return throwDir;
+        }
+        else if(throwDir != Direction.upleft && throwDir != Direction.upright && throwDir != Direction.downleft && throwDir != Direction.downright)
+        {
+            Debug.Log("removeDiagonal() error, throwDir is not a diagonal");
+            return throwDir;
+        }
+        else if(dir == Direction.upleft || dir == Direction.upright || dir == Direction.downleft || dir == Direction.downright)
+        {
+            Debug.Log("removeDiagonal() invalid parameter, received diagonal but only accepts nondiagonals");
+            return throwDir;
+        }
+        else if(dir == Direction.up)
+        {
+            if(throwDir == Direction.upright)
+                return Direction.right;
+            else if(throwDir == Direction.upleft)
+                return Direction.left;
+            else
+                return throwDir;
+        }
+        else if(dir == Direction.left)
+        {
+            if(throwDir == Direction.upleft)
+                return Direction.up;
+            else if(throwDir == Direction.downleft)
+                return Direction.down;
+            else
+                return throwDir;
+        }
+        else if(dir == Direction.down)
+        {
+            if(throwDir == Direction.downright)
+                return Direction.right;
+            else if(throwDir == Direction.downleft)
+                return Direction.left;
+            else
+                return throwDir;
+        }
+        else
+        {
+            if(throwDir == Direction.upright)
+                return Direction.up;
+            else if(throwDir == Direction.downright)
+                return Direction.down;
+            else
+                return throwDir;
+        }
+    }
+    */
 }
