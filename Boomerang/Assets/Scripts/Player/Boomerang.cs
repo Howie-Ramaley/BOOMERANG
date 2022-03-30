@@ -155,7 +155,7 @@ public class Boomerang : MonoBehaviour
         }
         else if(readyToThrow && throwKeyPressedFrames > diagonalInputBufferTime)
         {
-            Debug.Log("THROW");
+            //Debug.Log("THROW");
             //Throw boomerang
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>().healthDisplayUpdate();
             if(throwKeyHeldFrames > superThrowHoldTime)

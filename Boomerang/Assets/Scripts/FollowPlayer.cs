@@ -34,7 +34,7 @@ public class FollowPlayer : MonoBehaviour
 
     //Set the camera's position to follow the player's position
     //LateUpdate is called once per frame after all update functions have been called
-    void LateUpdate()
+    void FixedUpdate()
     {
         //todo:
         //give camera set target points based on player's position and actions that it will follow
@@ -43,6 +43,7 @@ public class FollowPlayer : MonoBehaviour
         {
             float t = (Time.time - followStartTime) / followDuration;
             Vector2 lerp = clamp(Vector2.Lerp(startPosition, target, t));
+            //Vector2 lerp = clamp(GameObject.FindGameObjectWithTag("Player").transform.position);
             transform.position = new Vector3(lerp.x, lerp.y, -10);
         }
     }
