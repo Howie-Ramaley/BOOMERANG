@@ -66,7 +66,7 @@ public class Enemy : MonoBehaviour, IStunnable
         if (stunTime > 0) 
         {
             stunTime -= Time.deltaTime;
-            //Debug.Log("Stun time is: " + stunTime);
+            Debug.Log("Stun time is: " + stunTime);
         }
         if(stunTime <= 0 && tempStun == true && stunned)
         {
