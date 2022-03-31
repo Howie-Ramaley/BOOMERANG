@@ -64,7 +64,7 @@ public class Enemy : MonoBehaviour, IStunnable
         aggroArea = transform.parent.GetComponentInChildren<AggroArea>();
     }
 
-    protected virtual async void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (delayTime > 0) 
         {

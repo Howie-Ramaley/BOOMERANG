@@ -18,6 +18,8 @@ public class FollowPlayer : MonoBehaviour
 
     private Vector2 bottomRight;
 
+    private bool followingPlayer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,13 +34,16 @@ public class FollowPlayer : MonoBehaviour
         bottomRight = new Vector2(br.x - (width / 2), br.y + (height / 2));
     }
 
-    //Set the camera's position to follow the player's position
+    //Set the camera's position to follow target
     //LateUpdate is called once per frame after all update functions have been called
     void FixedUpdate()
     {
-        //todo:
-        //give camera set target points based on player's position and actions that it will follow
-
+        if(!followingPlayer)
+            manualCameraUpdate();
+    }
+    //Manually called by player to update camera at the proper time and prevent jitter
+    public void manualCameraUpdate()
+    {
         if(target != null)
         {
             float t = (Time.time - followStartTime) / followDuration;
@@ -65,6 +70,10 @@ public class FollowPlayer : MonoBehaviour
             startPosition = transform.position;
             followStartTime = Time.time;
             targetID = id;
+            if(id.Length >= 6 && id.Substring(0, 6) == "player")
+                followingPlayer = true;
+            else
+                followingPlayer = false;
         }
     }
 

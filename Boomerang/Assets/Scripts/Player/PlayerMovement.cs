@@ -158,23 +158,6 @@ public class PlayerMovement : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump") || stickJump)
             jumpKeyPressedFrames = 1;
-
-        //Update camera to follow player
-        if(gameCamera != null)
-        {
-            string id = "player";
-            if(velx > 0.01F)
-                id += "Right";
-            else if(velx < -0.01F)
-                id += "Left";
-            if(animate.getAnimState() == PlayerAnimation.AnimationState.roll)
-                id += "Roll";
-            if(animate.getAnimState() == PlayerAnimation.AnimationState.jump)
-                id += "Jump";
-            string tid = gameCamera.getTargetID();
-            if(tid == "" || tid.Length >= 6 && tid.Substring(0, 6) == "player")
-                gameCamera.setTarget(transform.position.x + velx / 20, transform.position.y + vely / 40, id);
-        }
     }
 
     //Gets player input and makes player move accordingly
@@ -439,6 +422,26 @@ public class PlayerMovement : MonoBehaviour
 
         //Update player's velocity
         body.velocity = new Vector2(velx + launchx, vely - gravityVel + launchy);
+
+        //Update camera to follow player
+        if(gameCamera != null)
+        {
+            string id = "player";
+            if(velx > 0.01F)
+                id += "Right";
+            else if(velx < -0.01F)
+                id += "Left";
+            if(animate.getAnimState() == PlayerAnimation.AnimationState.roll)
+                id += "Roll";
+            if(animate.getAnimState() == PlayerAnimation.AnimationState.jump)
+                id += "Jump";
+            string tid = gameCamera.getTargetID();
+            if(tid == "" || tid.Length >= 6 && tid.Substring(0, 6) == "player")
+            {
+                gameCamera.setTarget(transform.position.x + velx / 20, transform.position.y + vely / 40, id);
+                gameCamera.manualCameraUpdate();
+            }
+        }
     }
 
     //it's what you think it is
