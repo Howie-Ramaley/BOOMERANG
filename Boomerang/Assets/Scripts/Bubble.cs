@@ -39,7 +39,7 @@ public class Bubble : MonoBehaviour
         {
             respawnFrames++;
             float t = (float)respawnFrames / (float)respawnTime;
-            Debug.Log(spawnPoint.x + ", " + spawnPoint.y);
+            //Debug.Log(spawnPoint.x + ", " + spawnPoint.y);
             respawnOffset = Vector2.Lerp(spawnPoint, Vector2.zero, t);
             respawnScale = Mathf.Lerp(0, 1, t);
             if(respawnFrames > respawnTime)
