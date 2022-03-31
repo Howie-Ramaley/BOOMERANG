@@ -27,6 +27,10 @@ public class Boomerang : MonoBehaviour
     //
     [SerializeField] private float stickThreshold;
 
+    //
+    [SerializeField] private float throwCooldownLength;
+    private float throwCooldown;
+
     //Reference to player
     private GameObject player;
 
@@ -147,13 +151,18 @@ public class Boomerang : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(readyToThrow && throwKeyPressedFrames > 0 && (Input.GetKey(KeyCode.I) || Input.GetKey(KeyCode.J) || Input.GetKey(KeyCode.K) || Input.GetKey(KeyCode.L) || stickIsTilted()))
+        if (throwCooldown > 0) 
+        {
+            throwCooldown -= Time.deltaTime;
+            //Debug.Log("Throw cooldown is: " + throwCooldown);
+        }
+        if(readyToThrow && throwKeyPressedFrames > 0 && (Input.GetKey(KeyCode.I) || Input.GetKey(KeyCode.J) || Input.GetKey(KeyCode.K) || Input.GetKey(KeyCode.L) || stickIsTilted())  && throwCooldown <= 0)
         {
             throwKeyHeldFrames++;
             if(throwKeyHeldFrames > superThrowHoldTime)
                 GameObject.FindGameObjectWithTag("Player").transform.Find("PlayerSprite").gameObject.GetComponent<SpriteRenderer>().color = Color.green;
         }
-        else if(readyToThrow && throwKeyPressedFrames > diagonalInputBufferTime)
+        else if(readyToThrow && throwKeyPressedFrames > diagonalInputBufferTime  && throwCooldown <= 0)
         {
             //Debug.Log("THROW");
             //Throw boomerang
@@ -313,6 +322,7 @@ public class Boomerang : MonoBehaviour
                 velx = 0;
                 vely = 0;
                 hitList.RemoveRange(0, hitList.Count);
+                throwCooldown = throwCooldownLength;
             }
         }
     }

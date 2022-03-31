@@ -1263,6 +1263,10 @@ PrefabInstance:
       propertyPath: superThrowHoldTime
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 5461417816602675519, guid: 9c7cb6a14a9c164429cc44c340990a54, type: 3}
+      propertyPath: throwCooldownLength
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c7cb6a14a9c164429cc44c340990a54, type: 3}
 --- !u!1 &190913197
