@@ -29,7 +29,7 @@ public class Checkpoint : MonoBehaviour
 
         if(playerCollide)
         {
-            player.setCheckpoint(transform.position.x, transform.position.y);
+            player.setCheckpoint(transform.position.x, transform.position.y, !lit);
             lit = true;
             animator.SetBool("lit", lit);
         }

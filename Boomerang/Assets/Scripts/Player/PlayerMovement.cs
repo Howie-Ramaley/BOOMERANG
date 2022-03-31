@@ -190,7 +190,8 @@ public class PlayerMovement : MonoBehaviour
         //Horizontal movement
         
         float horStick = Input.GetAxis("Horizontal");
-        if(rollKeyPressedFrames > 0 && framesNotGrounded < coyoteTime && rollCooldownFrames == 0)
+        //                          && framesNotGrounded < coyoteTime
+        if(rollKeyPressedFrames > 0    && rollCooldownFrames == 0)
         {
             //Roll
             animate.roll();
@@ -487,10 +488,11 @@ public class PlayerMovement : MonoBehaviour
             velx = knockbackSpeed;
     }
 
-    public void setCheckpoint(float cx, float cy)
+    public void setCheckpoint(float cx, float cy, bool heal)
     {
         checkpoint = new Vector2(cx, cy);
-        playerHealth.setHealth(3);
+        if(heal)
+            playerHealth.setHealth(3);
     }
 
     public void respawn()
