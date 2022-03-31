@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 1778411865}
   - component: {fileID: 1778411866}
   - component: {fileID: 1778411867}
+  - component: {fileID: 7976357413427777559}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
@@ -254,6 +255,7 @@ MonoBehaviour:
   tempStunLength: 4
   astar: {fileID: 1778411866}
   delayTimeLength: 0.1
+  animator: {fileID: 7976357413427777559}
 --- !u!50 &1018009068
 Rigidbody2D:
   serializedVersion: 4
@@ -359,6 +361,26 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
+--- !u!95 &7976357413427777559
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8756657851558343556}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 748c38c2b3e0b684ebc69dd81af8f872, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8756657851995819647
 GameObject:
   m_ObjectHideFlags: 0

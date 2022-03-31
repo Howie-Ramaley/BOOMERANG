@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TookahMask : Enemy
 {
+    [SerializeField] private Animator animator;
     private Vector2 xy1 = new Vector2();
     private Vector2 xy2 = new Vector2();
     private bool approachingPoint2;
@@ -28,6 +29,7 @@ public class TookahMask : Enemy
         base.FixedUpdate();
         //body.velocity = new Vector2(velx, vely);
         transform.position = new Vector3(transform.position.x + velx, transform.position.y + vely, transform.position.z);
+        animator.SetBool("stun", stunned);
     }
 
     override protected void patrol()
