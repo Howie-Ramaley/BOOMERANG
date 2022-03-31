@@ -36,6 +36,11 @@ public class Tallboy : Enemy
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, 180, transform.eulerAngles.z);
         else if(velx < -0.01F)
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0, transform.eulerAngles.z);
+
+        if(aggro)
+            speed = 0.1F;
+        else
+            speed = 0.07F;
     }
 
     override protected void patrol()

@@ -251,7 +251,7 @@ MonoBehaviour:
   groundEnemy: 0
   bumpSpeed: 1
   tempStun: 1
-  tempStunLength: 2.5
+  tempStunLength: 4
   astar: {fileID: 1778411866}
   delayTimeLength: 0.1
 --- !u!50 &1018009068

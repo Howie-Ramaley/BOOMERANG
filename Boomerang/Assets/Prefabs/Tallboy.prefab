@@ -149,7 +149,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: fd7fe93caefae4f40abf5186363ea122, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ff32149c278cff14e8fabbbc1c88b54f, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -214,11 +214,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.07
-  aggroRange: 7
+  aggroRange: 5
   groundEnemy: 1
   bumpSpeed: 0.75
-  tempStun: 0
-  tempStunLength: 2
+  tempStun: 1
+  tempStunLength: 4
   astar: {fileID: 0}
   delayTimeLength: 0.2
   animator: {fileID: 8644370458186882969}

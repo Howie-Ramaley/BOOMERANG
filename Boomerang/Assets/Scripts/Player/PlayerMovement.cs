@@ -167,17 +167,11 @@ public class PlayerMovement : MonoBehaviour
         //TO-DO:
         //fix getting stuck on small stuff rarely
         //fix falling while running off downward angles
-        //fix heart pickup
         //have boomerang automatically recall when it gets far enough when stuck
-        //add cooldown time for boomerang throws
-        //fix collision glitch with enemies, add rigidbody to enemies
-        //improve aggro, add aggro area and dives for flying enemies
         //fix player knockback when hurt by enemies/thorns and add editable boolean for slight directional bias
         //variable jump height based on how long you hold the jump key
-        //make ground enemies teleport back to their spawn once they fall into a death pit
         //fix/polish boomerang controls
-        //add shockwave/groundpound (pushes enemies away and up upon hitting ground with boomerang)
-        //fix camera jitter
+        //add shockwave/groundpound (pushes enemies away and up upon hitting ground with boomerang)?
         //fix vertical segment of background platform becoming solid while inside of the player
         //make flying enemy float above and come down for an attack
         //camera zooming
