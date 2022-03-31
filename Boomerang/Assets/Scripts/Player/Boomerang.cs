@@ -156,7 +156,7 @@ public class Boomerang : MonoBehaviour
             throwCooldown -= Time.deltaTime;
             //Debug.Log("Throw cooldown is: " + throwCooldown);
         }
-        if(readyToThrow && throwKeyPressedFrames > 0 && (Input.GetKey(KeyCode.I) || Input.GetKey(KeyCode.J) || Input.GetKey(KeyCode.K) || Input.GetKey(KeyCode.L) || stickIsTilted())  && throwCooldown <= 0)
+        if(readyToThrow && throwKeyPressedFrames > 0 && (Input.GetKey(KeyCode.I) || Input.GetKey(KeyCode.J) || Input.GetKey(KeyCode.K) || Input.GetKey(KeyCode.L) || stickIsTilted()))
         {
             throwKeyHeldFrames++;
             if(throwKeyHeldFrames > superThrowHoldTime)
@@ -232,7 +232,7 @@ public class Boomerang : MonoBehaviour
         if(throwKeyPressedFrames > 0)
         {
             throwKeyPressedFrames++;
-            if(throwKeyPressedFrames > diagonalInputBufferTime + throwBufferTime + 1 && !(Input.GetKey(KeyCode.I) || Input.GetKey(KeyCode.J) || Input.GetKey(KeyCode.K) || Input.GetKey(KeyCode.L) || stickIsTilted()))
+            if(throwKeyPressedFrames > diagonalInputBufferTime + throwBufferTime && throwKeyHeldFrames == 0 && !(Input.GetKey(KeyCode.I) || Input.GetKey(KeyCode.J) || Input.GetKey(KeyCode.K) || Input.GetKey(KeyCode.L) || stickIsTilted()))
                 throwKeyPressedFrames = 0;
         }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
 
 public class Enemy : MonoBehaviour, IStunnable
 {
@@ -19,6 +20,11 @@ public class Enemy : MonoBehaviour, IStunnable
     //
     [SerializeField] protected bool tempStun;
     [SerializeField] protected float tempStunLength;
+    
+    //
+    [SerializeField]protected AIPath astar;
+
+    //
     private float stunTime;
 
     //
@@ -37,10 +43,11 @@ public class Enemy : MonoBehaviour, IStunnable
     protected float velx;
     protected float vely;
 
+    protected AggroArea aggroArea;
+
     //
     [SerializeField] private float delayTimeLength;
     private float delayTime;
-    
 
     // Start is called before the first frame update
     void Start()
@@ -53,9 +60,11 @@ public class Enemy : MonoBehaviour, IStunnable
         stunTime = 0F;
         player = GameObject.FindGameObjectWithTag("Player");
         bumped = false;
+        astar = GetComponent<AIPath>();
+        aggroArea = transform.parent.GetComponentInChildren<AggroArea>();
     }
 
-    protected virtual void FixedUpdate()
+    protected virtual async void FixedUpdate()
     {
         if (delayTime > 0) 
         {
@@ -80,9 +89,19 @@ public class Enemy : MonoBehaviour, IStunnable
         if(player != null)
         {
             float dist = Mathf.Sqrt(Mathf.Pow(player.transform.position.x - transform.position.x, 2) + Mathf.Pow(player.transform.position.y - transform.position.y, 2));
+            bool areaCheck = false;
+            if(aggroArea != null && aggroArea.getPlayerCollide())
+                areaCheck = true;
+            else if(aggroArea == null)
+                aggroArea = transform.parent.GetComponentInChildren<AggroArea>();
+            
             if(dist < aggroRange)
-                aggro = true;
-            else
+            {
+                if(areaCheck)
+                    aggro = true;
+            }
+
+            if(!areaCheck)
                 aggro = false;
         }
         else
@@ -91,9 +110,20 @@ public class Enemy : MonoBehaviour, IStunnable
         if(!bumped)
         {
             if(!stunned && !aggro && delayTime <= 0)
+            {
                 patrol();
+            }
             else if(aggro && !stunned && delayTime <= 0)
-                aggroBehavior();
+            {
+                if(astar != null)
+                {
+                    velx = 0;
+                    vely = 0;
+                    astar.enabled = true;
+                }
+                else
+                    aggroBehavior();
+            }
         }
         else
         {
@@ -122,6 +152,9 @@ public class Enemy : MonoBehaviour, IStunnable
                 }
             }
         }
+
+        if(astar != null && (bumped || !aggro || delayTime > 0 || stunned))
+            astar.enabled = false;
     }
 
     public virtual void stun()
@@ -161,6 +194,8 @@ public class Enemy : MonoBehaviour, IStunnable
 
     protected virtual void aggroBehavior()
     {
+        if(astar != null)
+            Debug.Log("FUUUUUUUUCK THIS SHOULDN'T HAPPEN TELL ELIJAH");
         float px = player.transform.position.x;
         float py = player.transform.position.y;
         if(!groundEnemy && Mathf.Abs(player.transform.position.x - transform.position.x) > 2F)
