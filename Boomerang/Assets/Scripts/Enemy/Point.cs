@@ -18,7 +18,7 @@ public class Point : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if(collider.gameObject == transform.parent)
+        if(collider.gameObject == transform.parent.Find("Enemy").gameObject)
         {
             IStunnable enemy = collider.gameObject.GetComponent<IStunnable>();
             
