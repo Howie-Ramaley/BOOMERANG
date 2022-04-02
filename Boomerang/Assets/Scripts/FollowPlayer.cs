@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FollowPlayer : MonoBehaviour
 {
+    [SerializeField] private Camera gameCamera;
+
     [SerializeField] private float followDuration;
 
     private float followStartTime;
@@ -17,6 +19,14 @@ public class FollowPlayer : MonoBehaviour
     private Vector2 topLeft;
 
     private Vector2 bottomRight;
+
+    private float cameraZoom;
+    
+    private float cameraDefaultSize;
+
+    private float startZoom;
+
+    private float targetZoom;
 
     private bool followingPlayer;
 
@@ -32,6 +42,8 @@ public class FollowPlayer : MonoBehaviour
         topLeft = new Vector2(tl.x + (width / 2), tl.y - (height / 2));
         Vector2 br = transform.parent.Find("Bottom Right Camera Boundary").position;
         bottomRight = new Vector2(br.x - (width / 2), br.y + (height / 2));
+        cameraDefaultSize = gameCamera.orthographicSize;
+        cameraZoom = 1.0F;
     }
 
     //Set the camera's position to follow target
@@ -50,6 +62,9 @@ public class FollowPlayer : MonoBehaviour
             Vector2 lerp = clamp(Vector2.Lerp(startPosition, target, t));
             //Vector2 lerp = clamp(GameObject.FindGameObjectWithTag("Player").transform.position);
             transform.position = new Vector3(lerp.x, lerp.y, -10);
+            cameraZoom = Mathf.Lerp(startZoom, targetZoom, t);
+            //Debug.Log(startPosition.z + ", " + target.z + ", " + cameraZoom);
+            gameCamera.orthographicSize = cameraDefaultSize * cameraZoom;
         }
     }
 
@@ -62,12 +77,29 @@ public class FollowPlayer : MonoBehaviour
         return new Vector2(Mathf.Clamp(v.x, xmin, xmax), Mathf.Clamp(v.y, ymin, ymax));
     }
 
-    public void setTarget(float x, float y, string id)
+    public void setTarget(float x, float y, float zoom, string id)
     {
         target = new Vector2(x, y);
+        targetZoom = zoom;
         if(targetID != id)
         {
             startPosition = transform.position;
+            startZoom = cameraZoom;
+            followStartTime = Time.time;
+            targetID = id;
+            if(id.Length >= 6 && id.Substring(0, 6) == "player")
+                followingPlayer = true;
+            else
+                followingPlayer = false;
+        }
+    }
+
+    public void setTarget(float zoom, string id)
+    {
+        targetZoom = zoom;
+        if(targetID != id)
+        {
+            startZoom = cameraZoom;
             followStartTime = Time.time;
             targetID = id;
             if(id.Length >= 6 && id.Substring(0, 6) == "player")
@@ -88,5 +120,13 @@ public class FollowPlayer : MonoBehaviour
     public string getTargetID()
     {
         return targetID;
+    }
+    public float getCameraZoom()
+    {
+        return cameraZoom;
+    }
+    public float getTargetCameraZoom()
+    {
+        return targetZoom;
     }
 }

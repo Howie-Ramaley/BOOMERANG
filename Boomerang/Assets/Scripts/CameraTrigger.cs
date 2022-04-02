@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraTrigger : MonoBehaviour
 {
+    [SerializeField]private float cameraZoom;
     string targetID;
     private FollowPlayer gameCamera;
     private int framesSinceLastCollide;
@@ -27,10 +28,15 @@ public class CameraTrigger : MonoBehaviour
         if(framesSinceLastCollide >= 2)
             playerCollide = false;
 
-        if(playerCollide)
-            gameCamera.setTarget(point.position.x, point.position.y, targetID);
-        else
-            if(gameCamera.getTargetID() == targetID)
+        if(playerCollide && gameCamera.getTargetID() != targetID && gameCamera.getTargetID() != "zoom" + targetID)
+        {
+            if(point != null)
+                gameCamera.setTarget(point.position.x, point.position.y, cameraZoom, targetID);
+            else
+                gameCamera.setTarget(cameraZoom, "zoom" + targetID);
+        }
+        else if(!playerCollide)
+            if(gameCamera.getTargetID() == targetID || gameCamera.getTargetID() == "zoom" + targetID)
                 gameCamera.setTargetID("");
     }
 

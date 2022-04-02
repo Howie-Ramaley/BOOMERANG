@@ -604,6 +604,7 @@ MonoBehaviour:
   coyoteTime: 6
   rollSpeed: 23
   rollCooldownTime: 40
+  cameraZoom: 1
 --- !u!95 &1582164226
 Animator:
   serializedVersion: 4

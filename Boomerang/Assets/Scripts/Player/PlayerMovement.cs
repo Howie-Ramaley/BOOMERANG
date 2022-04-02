@@ -48,6 +48,8 @@ public class PlayerMovement : MonoBehaviour
     //How many FixedUpdates until the next roll can be done.
     [SerializeField] private int rollCooldownTime;
 
+    [SerializeField] private float cameraZoom;
+
     //Amount of FixedUpdate's since leaving the ground (not including leaving the ground from jumps)
     //If this is less than coyoteTime, then allow a jump
     private int framesNotGrounded;
@@ -431,9 +433,13 @@ public class PlayerMovement : MonoBehaviour
             if(animate.getAnimState() == PlayerAnimation.AnimationState.jump)
                 id += "Jump";
             string tid = gameCamera.getTargetID();
-            if(tid == "" || tid.Length >= 6 && tid.Substring(0, 6) == "player")
+            bool zoom = (tid.Length >= 4 && tid.Substring(0, 4) == "zoom");
+            if(tid == "" || (tid.Length >= 6 && tid.Substring(0, 6) == "player") || zoom)
             {
-                gameCamera.setTarget(transform.position.x + velx / 20, transform.position.y + vely / 40, id);
+                if(zoom)
+                    gameCamera.setTarget(transform.position.x + velx / 20, transform.position.y + vely / 40, gameCamera.getTargetCameraZoom(), gameCamera.getTargetID());
+                else
+                    gameCamera.setTarget(transform.position.x + velx / 20, transform.position.y + vely / 40, cameraZoom, id);
                 gameCamera.manualCameraUpdate();
             }
         }
