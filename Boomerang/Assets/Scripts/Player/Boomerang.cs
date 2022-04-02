@@ -151,6 +151,8 @@ public class Boomerang : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (Mathf.Abs(transform.position.x - GameObject.FindGameObjectWithTag("Player").transform.position.x) >= 30)
+            returnBoomerang();
         if (throwCooldown > 0) 
         {
             throwCooldown -= Time.deltaTime;
