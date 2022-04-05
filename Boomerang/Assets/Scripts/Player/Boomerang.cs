@@ -79,6 +79,8 @@ public class Boomerang : MonoBehaviour
         hitList = new List<GameObject>();
         superThrow = false;
 
+        transform.position = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
+
         //Start out invisible and doesn't trigger stun states
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<BoxCollider2D>().enabled = false;
@@ -325,6 +327,7 @@ public class Boomerang : MonoBehaviour
                 vely = 0;
                 hitList.RemoveRange(0, hitList.Count);
                 throwCooldown = throwCooldownLength;
+                transform.position = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
             }
         }
     }

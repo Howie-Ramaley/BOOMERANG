@@ -172,11 +172,20 @@ PrefabInstance:
       value: 0.2784314
       objectReference: {fileID: 0}
     - target: {fileID: 7306842756131764691, guid: 1d4564270859c8f4bbc6e7fdea192d93, type: 3}
+      propertyPath: gameCamera
+      value: 
+      objectReference: {fileID: 8085045688619917126}
+    - target: {fileID: 7306842756131764691, guid: 1d4564270859c8f4bbc6e7fdea192d93, type: 3}
       propertyPath: followDuration
-      value: 0.7
+      value: 35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d4564270859c8f4bbc6e7fdea192d93, type: 3}
+--- !u!20 &8085045688619917126 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 7306842756131764690, guid: 1d4564270859c8f4bbc6e7fdea192d93, type: 3}
+  m_PrefabInstance: {fileID: 1537069918013417108}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8085045688619917241 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7306842756131764525, guid: 1d4564270859c8f4bbc6e7fdea192d93, type: 3}

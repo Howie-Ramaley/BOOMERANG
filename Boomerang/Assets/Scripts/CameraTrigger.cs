@@ -33,7 +33,7 @@ public class CameraTrigger : MonoBehaviour
             if(point != null)
                 gameCamera.setTarget(point.position.x, point.position.y, cameraZoom, targetID);
             else
-                gameCamera.setTarget(cameraZoom, "zoom" + targetID);
+                gameCamera.setZoom(cameraZoom, "zoom" + targetID);
         }
         else if(!playerCollide)
             if(gameCamera.getTargetID() == targetID || gameCamera.getTargetID() == "zoom" + targetID)

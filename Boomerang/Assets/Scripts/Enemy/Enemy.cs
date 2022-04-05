@@ -111,7 +111,7 @@ public class Enemy : MonoBehaviour, IStunnable
             else if(!territorial)
                 aggro = false;
 
-            if(territorial && !areaCheck)
+            if(!areaCheck)
                 aggro = false;
         }
         else

@@ -6,9 +6,9 @@ public class FollowPlayer : MonoBehaviour
 {
     [SerializeField] private Camera gameCamera;
 
-    [SerializeField] private float followDuration;
+    [SerializeField] private int followDuration;
 
-    private float followStartTime;
+    private int followTime;
 
     private Vector2 startPosition;
 
@@ -30,11 +30,19 @@ public class FollowPlayer : MonoBehaviour
 
     private bool followingPlayer;
 
+    private Vector2 shakeOffset;
+
+    private float shakeIntensity;
+
+    private int shakeDuration;
+
+    private int shakeTime;
+
     // Start is called before the first frame update
     void Start()
     {
         startPosition = transform.position;
-        followStartTime = 0;
+        followTime = 0;
         targetID = "";
         float width = 19.2F;
         float height = 10.8F;
@@ -43,7 +51,10 @@ public class FollowPlayer : MonoBehaviour
         Vector2 br = transform.parent.Find("Bottom Right Camera Boundary").position;
         bottomRight = new Vector2(br.x - (width / 2), br.y + (height / 2));
         cameraDefaultSize = gameCamera.orthographicSize;
+        startZoom = 1.0F;
+        targetZoom = 1.0F;
         cameraZoom = 1.0F;
+        shakeOffset = Vector2.zero;
     }
 
     //Set the camera's position to follow target
@@ -58,7 +69,8 @@ public class FollowPlayer : MonoBehaviour
     {
         if(target != null)
         {
-            float t = (Time.time - followStartTime) / followDuration;
+            followTime++;
+            float t = ((float)followTime / (float)followDuration);
             Vector2 lerp = clamp(Vector2.Lerp(startPosition, target, t));
             //Vector2 lerp = clamp(GameObject.FindGameObjectWithTag("Player").transform.position);
             transform.position = new Vector3(lerp.x, lerp.y, -10);
@@ -85,7 +97,7 @@ public class FollowPlayer : MonoBehaviour
         {
             startPosition = transform.position;
             startZoom = cameraZoom;
-            followStartTime = Time.time;
+            followTime = 0;
             targetID = id;
             if(id.Length >= 6 && id.Substring(0, 6) == "player")
                 followingPlayer = true;
@@ -94,13 +106,13 @@ public class FollowPlayer : MonoBehaviour
         }
     }
 
-    public void setTarget(float zoom, string id)
+    public void setZoom(float zoom, string id)
     {
         targetZoom = zoom;
         if(targetID != id)
         {
             startZoom = cameraZoom;
-            followStartTime = Time.time;
+            followTime = 0;
             targetID = id;
             if(id.Length >= 6 && id.Substring(0, 6) == "player")
                 followingPlayer = true;
@@ -109,7 +121,12 @@ public class FollowPlayer : MonoBehaviour
         }
     }
 
-    public void setDuration(float d)
+    public void setShake(float intensity, float time)
+    {
+
+    }
+
+    public void setDuration(int d)
     {
         followDuration = d;
     }
