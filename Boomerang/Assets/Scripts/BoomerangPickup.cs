@@ -13,7 +13,7 @@ public class BoomerangPickup : MonoBehaviour
             if(boomerang != null)
             {
                 GetComponent<SpriteRenderer>().enabled = false;
-                this.enabled = false;
+                GetComponent<BoxCollider2D>().enabled = false;
                 boomerang.GetComponent<Boomerang>().enabled = true;
                 boomerang.GetComponent<Animator>().enabled = true;
             }
