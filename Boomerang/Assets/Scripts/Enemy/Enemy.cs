@@ -12,6 +12,9 @@ public class Enemy : MonoBehaviour, IStunnable
     [SerializeField] protected float aggroRange;
 
     //
+    [SerializeField] protected bool territorial;
+
+    //
     [SerializeField] protected bool groundEnemy;
 
     //
@@ -62,6 +65,8 @@ public class Enemy : MonoBehaviour, IStunnable
         bumped = false;
         astar = GetComponent<AIPath>();
         aggroArea = transform.parent.GetComponentInChildren<AggroArea>();
+        AIDestinationSetter aids = GetComponent<AIDestinationSetter>();
+        aids.target = player.transform;
     }
 
     protected virtual void FixedUpdate()
@@ -93,15 +98,20 @@ public class Enemy : MonoBehaviour, IStunnable
             if(aggroArea != null && aggroArea.getPlayerCollide())
                 areaCheck = true;
             else if(aggroArea == null)
+            {
                 aggroArea = transform.parent.GetComponentInChildren<AggroArea>();
+                areaCheck = true;
+            }
             
             if(dist < aggroRange)
             {
                 if(areaCheck)
                     aggro = true;
             }
+            else if(!territorial)
+                aggro = false;
 
-            if(!areaCheck)
+            if(territorial && !areaCheck)
                 aggro = false;
         }
         else
