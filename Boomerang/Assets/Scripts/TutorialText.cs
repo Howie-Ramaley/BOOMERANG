@@ -7,7 +7,7 @@ public class TutorialText : MonoBehaviour
 
     private GameObject player;
 
-    [SerializeField] private int fadeRange;
+    [SerializeField] private float fadeSpeed;
 
     // Start is called before the first frame update
     void Start()
@@ -18,18 +18,21 @@ public class TutorialText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Mathf.Abs(transform.position.x - GameObject.FindGameObjectWithTag("Player").transform.position.x) <= fadeRange && GetComponent<TextMesh>().color.a <= 0.01f)
+        
+        if (GetComponentInChildren<BasicTrigger>().getPlayerEnter())
         {
-            StartCoroutine(FadeTextToFullAlpha(1f, GetComponent<TextMesh>()));
-        }/*else if (Mathf.Abs(transform.position.x - GameObject.FindGameObjectWithTag("Player").transform.position.x) > fadeRange && GetComponent<TextMesh>().color.a >= 0.99f)
+            StartCoroutine(FadeTextToFullAlpha(fadeSpeed, GetComponent<TextMesh>()));
+        }
+        
+        if (GetComponentInChildren<BasicTrigger>().getPlayerExit())
         {
-            StartCoroutine(FadeTextToZeroAlpha(1f, GetComponent<TextMesh>()));
-        }*/
+            StartCoroutine(FadeTextToZeroAlpha(fadeSpeed, GetComponent<TextMesh>()));
+        }
     }
 
     public IEnumerator FadeTextToFullAlpha(float t, TextMesh i)
     {
-        i.color = new Color(i.color.r, i.color.g, i.color.b, 0);
+        //i.color = new Color(i.color.r, i.color.g, i.color.b, 0);
         while (i.color.a < 1.0f)
         {
             i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a + (Time.deltaTime / t));
@@ -39,7 +42,7 @@ public class TutorialText : MonoBehaviour
  
     public IEnumerator FadeTextToZeroAlpha(float t, TextMesh i)
     {
-        i.color = new Color(i.color.r, i.color.g, i.color.b, 1);
+        //i.color = new Color(i.color.r, i.color.g, i.color.b, 1);
         while (i.color.a > 0.0f)
         {
             i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a - (Time.deltaTime / t));
