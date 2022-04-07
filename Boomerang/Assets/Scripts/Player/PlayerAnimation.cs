@@ -16,7 +16,7 @@ public class PlayerAnimation : MonoBehaviour
     private int rollProgress;
 
 
-    public enum AnimationState{idle, roll, run, jump, fall, fallingLand, land, LENGTH};
+    public enum AnimationState{idle, roll, run, jump, fall, fallingLand, land, rollJump, LENGTH};
     private AnimationState animState;
     private List<AnimationState> animQueue;
     private int animMinLength;
@@ -58,7 +58,7 @@ public class PlayerAnimation : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(animState == AnimationState.roll)
+        if(animState == AnimationState.roll || animState == AnimationState.rollJump)
         {
             if(playerMovement.getVelx() > playerMovement.getSpeed() || playerMovement.getVelx() < -playerMovement.getSpeed() || rollProgress != 0)
             {
@@ -69,19 +69,29 @@ public class PlayerAnimation : MonoBehaviour
                     rollProgress = 360 - rollInc;
                 transform.eulerAngles = new Vector3(0, 0, rollProgress);
                 
-                animWait--;
+                if(animState == AnimationState.roll)
+                    animWait--;
             }
             else
             {
                 transform.eulerAngles = new Vector3(0, 0, 0);
-                idle();
+                animWait = animMinLength + 1;
             }
+        }
+        else if(rollProgress != 0)
+        {
+            Debug.LogError("RollProgress was not 0 when it should've been.");
+            transform.eulerAngles = new Vector3(0, 0, 0);
         }
 
         if(animWait > 0)
             animWait++;
         if(animWait > animMinLength)
+        {
             animWait = 0;
+            if(animState == AnimationState.rollJump)
+                roll();
+        }
         int loop = 0;
         while(animWait == 0 && animQueue.Count > 0 && loop < 100)
         {
@@ -141,7 +151,7 @@ public class PlayerAnimation : MonoBehaviour
 
     public void idle()
     {
-        if(animState == AnimationState.run || animState == AnimationState.land || (animState == AnimationState.roll && rollProgress == 0))
+        if(animState == AnimationState.run || animState == AnimationState.land || ((animState == AnimationState.roll || animState == AnimationState.rollJump) && rollProgress == 0))
         {
             if(canPlay())
             {
@@ -170,7 +180,13 @@ public class PlayerAnimation : MonoBehaviour
     {
         if(animState != AnimationState.roll)
         {
-            if(canPlay(true))
+            List<AnimationState> states = new List<AnimationState>();
+            for(int i = 0; i < (int)AnimationState.LENGTH; i++)
+            {
+                if(i != (int)AnimationState.rollJump)
+                    states.Add((AnimationState)i);
+            }
+            if(canPlay(states))
             {
                 //Adjust player's colliders, checks, and sprite to be ball-sized
                 headTransform.position = new Vector3(headTransform.position.x, transform.parent.position.y + 0.255F * yScale, headTransform.position.z);
@@ -212,7 +228,7 @@ public class PlayerAnimation : MonoBehaviour
 
     public void jump()
     {
-        if(animState != AnimationState.jump && animState != AnimationState.roll)
+        if(animState != AnimationState.jump && animState != AnimationState.roll && animState != AnimationState.rollJump)
         {
             if(canPlay(new List<AnimationState>{AnimationState.fallingLand, AnimationState.land, AnimationState.run}))
             {
@@ -246,7 +262,7 @@ public class PlayerAnimation : MonoBehaviour
 
     public void fallingLand()
     {
-        if(animState != AnimationState.fallingLand && animState != AnimationState.land && animState != AnimationState.roll && animState != AnimationState.run)
+        if(animState != AnimationState.fallingLand && animState != AnimationState.land && animState != AnimationState.roll && animState != AnimationState.rollJump && animState != AnimationState.run)
         {
             if(canPlay())
             {
@@ -260,7 +276,25 @@ public class PlayerAnimation : MonoBehaviour
                 animQueue.Add(AnimationState.fallingLand);
         }
     }
-
+    public void rollJump()
+    {
+        if(animState != AnimationState.rollJump)
+        {
+            if(canPlay(true))
+            {
+                transform.position = new Vector3(transform.position.x, transform.parent.position.y + (0.3F + offsetY) * yScale, transform.position.z);
+                animWait = 1;
+                animMinLength = 5;
+                animState = AnimationState.rollJump;
+                animator.SetInteger("animState", (int)animState);
+            }
+            else if(!animQueue.Contains(AnimationState.rollJump))
+            {
+                animQueue.Add(AnimationState.rollJump);
+                Debug.LogError("This shouldn't happen either lawl");
+            }
+        }
+    }
     public void land()
     {
         if(animState == AnimationState.fall || animState == AnimationState.fallingLand)
@@ -282,5 +316,10 @@ public class PlayerAnimation : MonoBehaviour
     public AnimationState getAnimState()
     {
         return animState;
+    }
+
+    public bool isRolling()
+    {
+        return (rollProgress != 0);
     }
 }

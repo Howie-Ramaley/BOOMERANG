@@ -205,7 +205,7 @@ public class Enemy : MonoBehaviour, IStunnable
     protected virtual void aggroBehavior()
     {
         if(astar != null)
-            Debug.Log("FUUUUUUUUCK THIS SHOULDN'T HAPPEN TELL ELIJAH");
+            Debug.LogError("FUUUUUUUUCK THIS SHOULDN'T HAPPEN TELL ELIJAH");
         float px = player.transform.position.x;
         float py = player.transform.position.y;
         if(!groundEnemy && Mathf.Abs(player.transform.position.x - transform.position.x) > 2F)

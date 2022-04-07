@@ -104,7 +104,9 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 checkpoint;  
 
-    private FreeFallCheck freeFallCheck;  
+    private FreeFallCheck freeFallCheck;
+
+    private bool canRoll;
 
 
     // Start is called before the first frame update
@@ -129,6 +131,7 @@ public class PlayerMovement : MonoBehaviour
         gameCamera = camObj.GetComponent<FollowPlayer>();
         playerHealth = GetComponent<PlayerHealth>();
         checkpoint = new Vector2(transform.position.x, transform.position.y);
+        canRoll = true;
 
         //Don't rotate on collisions
         body.freezeRotation = true;
@@ -186,30 +189,37 @@ public class PlayerMovement : MonoBehaviour
         //Horizontal movement
         
         float horStick = Input.GetAxis("Horizontal");
-        //                          && framesNotGrounded < coyoteTime
-        if(rollKeyPressedFrames > 0    && rollCooldownFrames == 0)
+        
+        if(framesNotGrounded < coyoteTime && !animate.isRolling())
+            canRoll = true;
+        if(canRoll && rollKeyPressedFrames > 0 && rollCooldownFrames == 0)
         {
             //Roll
+            //if(vely < gravityVel)
+            //    animate.rollJump();
+            //else
             animate.roll();
+            canRoll = false;
             rollKeyPressedFrames = 0;
             rollCooldownFrames = 1;
             if(Input.GetKey(KeyCode.D) || horStick >= 0.01F)
                 velx = rollSpeed;
             else if(Input.GetKey(KeyCode.A) || horStick <= -0.01F)
                 velx = -rollSpeed;
-            else 
+            else
             {
                 if(facingRight)
-                    velx = rollSpeed;
+                    velx = rollSpeed - 6.0F;
                 else
-                    velx = -rollSpeed;
+                    velx = -rollSpeed + 6.0F;
             }
             playerHealth.startIFrames(true);
         }
         else if(horStick >= 0.01F || horStick <= -0.01F)
         {
             //Go left and right for controller
-            animate.run();
+            if(isNearGround())
+                animate.run();
             float targetSpeed = horStick * speed;
             //right
             if(targetSpeed > 0.01F)
@@ -261,7 +271,8 @@ public class PlayerMovement : MonoBehaviour
         else if(Input.GetKey(KeyCode.D))
         {
             //Go right
-            animate.run();
+            if(isNearGround())
+                animate.run();
             facingRight = true;
             //regular run
             if(velx < speed)
@@ -285,7 +296,8 @@ public class PlayerMovement : MonoBehaviour
         else if (Input.GetKey(KeyCode.A))
         {
             //Go left
-            animate.run();
+            if(isNearGround())
+                animate.run();
             facingRight = false;
             //regular run
             if(velx > -speed)
@@ -338,19 +350,6 @@ public class PlayerMovement : MonoBehaviour
 
         //flip if not facing right
         animate.transform.eulerAngles = new Vector3(animate.transform.eulerAngles.x, facingRight ? 0 : 180, animate.transform.eulerAngles.z);
-
-        if(rollKeyPressedFrames > 0)
-        {
-            rollKeyPressedFrames++;
-            if(rollKeyPressedFrames > rollBufferTime)
-                rollKeyPressedFrames = 0;
-        }
-        if(rollCooldownFrames > 0)
-        {
-            rollCooldownFrames++;
-            if(rollCooldownFrames > rollCooldownTime)
-                rollCooldownFrames = 0;
-        }
 
         //Vertical movement
 
@@ -408,6 +407,19 @@ public class PlayerMovement : MonoBehaviour
                 jumpKeyPressedFrames = 0;
         }
 
+        if(rollKeyPressedFrames > 0)
+        {
+            rollKeyPressedFrames++;
+            if(rollKeyPressedFrames > rollBufferTime)
+                rollKeyPressedFrames = 0;
+        }
+        if(rollCooldownFrames > 0)
+        {
+            rollCooldownFrames++;
+            if(rollCooldownFrames > rollCooldownTime)
+                rollCooldownFrames = 0;
+        }
+
         /*if(launchx > 0)
             launchx--;
         else if(launchx < 0)
@@ -428,7 +440,7 @@ public class PlayerMovement : MonoBehaviour
                 id += "Right";
             else if(velx < -0.01F)
                 id += "Left";
-            if(animate.getAnimState() == PlayerAnimation.AnimationState.roll)
+            if(animate.isRolling())
                 id += "Roll";
             if(animate.getAnimState() == PlayerAnimation.AnimationState.jump)
                 id += "Jump";
@@ -449,6 +461,9 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         freeFallCheck.reset();
+        //if(animate.isRolling() || rollCooldownFrames == 1)
+        //    animate.rollJump();
+        //else
         animate.jump();
         vely = jumpSpeed;
         gravityVel = 0;
@@ -467,6 +482,7 @@ public class PlayerMovement : MonoBehaviour
         if(vx > 0.01F || vx < -0.01F)
             velx = 0;
         framesNotGrounded = coyoteTime;
+        canRoll = true;
     }
 
     //More precise ground check for telling when to stop gravity. Observes trigger status of child object with collision box
