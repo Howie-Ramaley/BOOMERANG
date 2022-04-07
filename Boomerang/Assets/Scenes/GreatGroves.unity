@@ -1053,6 +1053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b63db2c689495f4fb2bec3581dfe61b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeRange: 5
 --- !u!102 &153493829
 TextMesh:
   serializedVersion: 3
@@ -1651,6 +1652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b63db2c689495f4fb2bec3581dfe61b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeRange: 5
 --- !u!102 &206614385
 TextMesh:
   serializedVersion: 3
@@ -1889,6 +1891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b63db2c689495f4fb2bec3581dfe61b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeRange: 5
 --- !u!102 &282051134
 TextMesh:
   serializedVersion: 3
@@ -2238,6 +2241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b63db2c689495f4fb2bec3581dfe61b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeRange: 5
 --- !u!102 &304821291
 TextMesh:
   serializedVersion: 3
@@ -2554,6 +2558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b63db2c689495f4fb2bec3581dfe61b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeRange: 5
 --- !u!102 &329142178
 TextMesh:
   serializedVersion: 3
@@ -5699,6 +5704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b63db2c689495f4fb2bec3581dfe61b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeRange: 5
 --- !u!102 &751531966
 TextMesh:
   serializedVersion: 3
@@ -7664,6 +7670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b63db2c689495f4fb2bec3581dfe61b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeRange: 5
 --- !u!102 &951539893
 TextMesh:
   serializedVersion: 3
@@ -9113,6 +9120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b63db2c689495f4fb2bec3581dfe61b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeRange: 5
 --- !u!102 &1132651184
 TextMesh:
   serializedVersion: 3
@@ -12736,6 +12744,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b63db2c689495f4fb2bec3581dfe61b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeRange: 5
 --- !u!102 &1643455749
 TextMesh:
   serializedVersion: 3
@@ -15392,6 +15401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b63db2c689495f4fb2bec3581dfe61b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeRange: 5
 --- !u!102 &1898969374
 TextMesh:
   serializedVersion: 3
@@ -15824,6 +15834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b63db2c689495f4fb2bec3581dfe61b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeRange: 5
 --- !u!102 &1928019922
 TextMesh:
   serializedVersion: 3

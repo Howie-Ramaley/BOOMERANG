@@ -7,6 +7,8 @@ public class TutorialText : MonoBehaviour
 
     private GameObject player;
 
+    [SerializeField] private int fadeRange;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,13 +18,13 @@ public class TutorialText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Mathf.Abs(transform.position.x - GameObject.FindGameObjectWithTag("Player").transform.position.x) <= 5 && GetComponent<TextMesh>().color.a <= 0.01f)
+        if (Mathf.Abs(transform.position.x - GameObject.FindGameObjectWithTag("Player").transform.position.x) <= fadeRange && GetComponent<TextMesh>().color.a <= 0.01f)
         {
             StartCoroutine(FadeTextToFullAlpha(1f, GetComponent<TextMesh>()));
-        }else if (Mathf.Abs(transform.position.x - GameObject.FindGameObjectWithTag("Player").transform.position.x) > 5 && GetComponent<TextMesh>().color.a >= 0.99f)
+        }/*else if (Mathf.Abs(transform.position.x - GameObject.FindGameObjectWithTag("Player").transform.position.x) > fadeRange && GetComponent<TextMesh>().color.a >= 0.99f)
         {
             StartCoroutine(FadeTextToZeroAlpha(1f, GetComponent<TextMesh>()));
-        }
+        }*/
     }
 
     public IEnumerator FadeTextToFullAlpha(float t, TextMesh i)
