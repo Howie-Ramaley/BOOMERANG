@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AggroArea : MonoBehaviour
+public class BasicTrigger : MonoBehaviour
 {
     private int framesSinceLastCollide;
     private bool playerCollide;

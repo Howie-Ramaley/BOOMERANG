@@ -46,7 +46,7 @@ public class Enemy : MonoBehaviour, IStunnable
     protected float velx;
     protected float vely;
 
-    protected AggroArea aggroArea;
+    protected BasicTrigger aggroArea;
 
     //
     [SerializeField] private float delayTimeLength;
@@ -64,7 +64,7 @@ public class Enemy : MonoBehaviour, IStunnable
         player = GameObject.FindGameObjectWithTag("Player");
         bumped = false;
         astar = GetComponent<AIPath>();
-        aggroArea = transform.parent.GetComponentInChildren<AggroArea>();
+        aggroArea = transform.parent.GetComponentInChildren<BasicTrigger>();
         AIDestinationSetter aids = GetComponent<AIDestinationSetter>();
         aids.target = player.transform;
     }
@@ -99,7 +99,7 @@ public class Enemy : MonoBehaviour, IStunnable
                 areaCheck = true;
             else if(aggroArea == null)
             {
-                aggroArea = transform.parent.GetComponentInChildren<AggroArea>();
+                aggroArea = transform.parent.GetComponentInChildren<BasicTrigger>();
                 areaCheck = true;
             }
             
