@@ -23,8 +23,8 @@ public class Point : MonoBehaviour
             IStunnable enemy = collider.gameObject.GetComponent<IStunnable>();
             
             if (name == "LeftWall") {
-                enemy.bump(45);
-            } else enemy.bump(-45);
+                enemy.bump(45, 0.5F);
+            } else enemy.bump(-45, 0.5F);
             
         }
     }
