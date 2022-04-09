@@ -189,13 +189,13 @@ public class Enemy : MonoBehaviour, IStunnable
         }
     }
 
-    public virtual void bump(float angle)
+    public virtual void bump(float angle, float bumpStrength)
     {
         if(!stunned)
         {
-            velx = bumpSpeed * Mathf.Sin(angle);
+            velx = bumpSpeed * bumpStrength * Mathf.Sin(angle);
             if(!groundEnemy)
-                vely = bumpSpeed * Mathf.Cos(angle);
+                vely = bumpSpeed * bumpStrength * Mathf.Cos(angle);
             bumped = true;
         }
     }

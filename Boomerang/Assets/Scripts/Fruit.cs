@@ -23,7 +23,7 @@ public class Fruit : MonoBehaviour, IStunnable
         stunned = true;
     }
 
-    public virtual void bump(float angle)
+    public virtual void bump(float angle, float bumpStrength)
     {
         stun();
     }

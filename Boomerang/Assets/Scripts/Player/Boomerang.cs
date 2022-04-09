@@ -166,7 +166,7 @@ public class Boomerang : MonoBehaviour
             if(throwKeyHeldFrames > superThrowHoldTime)
                 GameObject.FindGameObjectWithTag("Player").transform.Find("PlayerSprite").gameObject.GetComponent<SpriteRenderer>().color = Color.green;
         }
-        else if(readyToThrow && throwKeyPressedFrames > diagonalInputBufferTime  && throwCooldown <= 0)
+        else if(readyToThrow && throwKeyPressedFrames > diagonalInputBufferTime  && (throwCooldown <= 0 || throwKeyHeldFrames > superThrowHoldTime))
         {
             //Debug.Log("THROW");
             //Throw boomerang
@@ -286,7 +286,7 @@ public class Boomerang : MonoBehaviour
                             float angle = -Mathf.Atan2(player.transform.position.y - transform.position.y, player.transform.position.x - transform.position.x) + Mathf.PI / 2;
                             if(!returning)
                                 angle -= Mathf.PI;
-                            enemy.bump(angle);
+                            enemy.bump(angle, 1F);
                         }
                         returnBoomerang();
                         hitList.Add(collider.gameObject);
