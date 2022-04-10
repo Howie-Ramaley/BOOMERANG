@@ -10,9 +10,13 @@ public class FollowPlayer : MonoBehaviour
 
     private int followTime;
 
+    private Vector2 previousStartPosition;
+
     private Vector2 startPosition;
 
     private Vector2 target;
+
+    private Vector2 previousTarget;
 
     private string targetID;
 
@@ -41,6 +45,7 @@ public class FollowPlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        previousStartPosition = transform.position;
         startPosition = transform.position;
         followTime = 0;
         targetID = "";
@@ -55,6 +60,9 @@ public class FollowPlayer : MonoBehaviour
         targetZoom = 1.0F;
         cameraZoom = 1.0F;
         shakeOffset = Vector2.zero;
+        shakeIntensity = 0;
+        shakeDuration = 0;
+        shakeTime = 0;
     }
 
     //Set the camera's position to follow target
@@ -69,14 +77,47 @@ public class FollowPlayer : MonoBehaviour
     {
         if(target != null)
         {
+            if(shakeTime > 0)
+            {
+                shakeTime++;
+                if(shakeTime > shakeDuration)
+                {
+                    shakeTime = 0;
+                    shakeDuration = 0;
+                    shakeIntensity = 0;
+                    shakeOffset = Vector2.zero;
+                }
+                else
+                {
+                    float st = ((float)shakeDuration / (float)shakeTime);
+                    shakeOffset = new Vector2(Random.Range(-shakeIntensity * st, shakeIntensity * st), Random.Range(-shakeIntensity * st, shakeIntensity * st));
+                }
+            }
+
+            //Debug.Log("followTime: " + followTime + ", followDuration: " + followDuration);
+
             followTime++;
+            if(followTime > followDuration)
+                followTime = followDuration;
             float t = ((float)followTime / (float)followDuration);
-            Vector2 lerp = clamp(Vector2.Lerp(startPosition, target, t));
+            
+            Vector2 targ = target;
+            if(previousTarget != null)
+                targ = Vector2.Lerp(previousTarget, target, t);
+            Vector2 start = startPosition;
+            //if(previousStartPosition != null)
+            //    start = Vector2.Lerp(previousStartPosition, startPosition, t);
+            
+            Vector2 lerp = clamp(Vector2.Lerp(startPosition, targ, t));
             //Vector2 lerp = clamp(GameObject.FindGameObjectWithTag("Player").transform.position);
-            transform.position = new Vector3(lerp.x, lerp.y, -10);
+            
+            transform.position = new Vector3(lerp.x + shakeOffset.x, lerp.y + shakeOffset.y, -10);
+            
             cameraZoom = Mathf.Lerp(startZoom, targetZoom, t);
-            //Debug.Log(startPosition.z + ", " + target.z + ", " + cameraZoom);
             gameCamera.orthographicSize = cameraDefaultSize * cameraZoom;
+
+            //Debug.Log(startPosition.z + ", " + target.z + ", " + cameraZoom);
+            //Debug.Log(t);
         }
     }
 
@@ -91,10 +132,12 @@ public class FollowPlayer : MonoBehaviour
 
     public void setTarget(float x, float y, float zoom, string id)
     {
+        previousTarget = target;
         target = new Vector2(x, y);
         targetZoom = zoom;
         if(targetID != id)
         {
+            previousStartPosition = startPosition;
             startPosition = transform.position;
             startZoom = cameraZoom;
             followTime = 0;
@@ -121,9 +164,11 @@ public class FollowPlayer : MonoBehaviour
         }
     }
 
-    public void setShake(float intensity, float time)
+    public void setShake(float intensity, int time)
     {
-
+        shakeTime = 1;
+        shakeDuration = time;
+        shakeIntensity = intensity;
     }
 
     public void setDuration(int d)

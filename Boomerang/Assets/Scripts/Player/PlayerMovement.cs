@@ -108,6 +108,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool canRoll;
 
+    private bool inAir;
+
 
     // Start is called before the first frame update
     void Start()
@@ -132,6 +134,7 @@ public class PlayerMovement : MonoBehaviour
         playerHealth = GetComponent<PlayerHealth>();
         checkpoint = new Vector2(transform.position.x, transform.position.y);
         canRoll = true;
+        inAir = true;
 
         //Don't rotate on collisions
         body.freezeRotation = true;
@@ -354,7 +357,10 @@ public class PlayerMovement : MonoBehaviour
         //Vertical movement
 
         if(!isNearGround())
+        {
             framesNotGrounded++;
+            inAir = true;
+        }
         else
             framesNotGrounded = 0;
 
@@ -367,11 +373,19 @@ public class PlayerMovement : MonoBehaviour
             //if FeetCheck is right under the player, set player's gravity to 0
             if(isGrounded())
             {
-                freeFallCheck.reset();
                 vely = 0;
                 launchx = 0;
                 launchy = 0;
                 gravityVel = 0;
+                if(inAir)
+                {
+                    inAir = false;
+                    if(freeFallCheck.isApproachingGround())
+                    {
+                        //play land sound effect here
+                    }
+                }
+                freeFallCheck.reset();
             }
             //else, FeetCheck is not right under the player, so slow the player's gravity instead
             //Necessary so that player reaches all the way to the ground without stopping, but without sliding down slopes
@@ -444,6 +458,7 @@ public class PlayerMovement : MonoBehaviour
                 id += "Roll";
             if(animate.getAnimState() == PlayerAnimation.AnimationState.jump)
                 id += "Jump";
+
             string tid = gameCamera.getTargetID();
             bool zoom = (tid.Length >= 4 && tid.Substring(0, 4) == "zoom");
             if(tid == "" || (tid.Length >= 6 && tid.Substring(0, 6) == "player") || zoom)
@@ -451,7 +466,7 @@ public class PlayerMovement : MonoBehaviour
                 if(zoom)
                     gameCamera.setTarget(transform.position.x + velx / 20, transform.position.y + vely / 40, gameCamera.getTargetCameraZoom(), gameCamera.getTargetID());
                 else
-                    gameCamera.setTarget(transform.position.x + velx / 20, transform.position.y + vely / 40, cameraZoom, id);
+                    gameCamera.setTarget(transform.position.x + (velx + launchx) / 20, transform.position.y + (vely - gravityVel + launchy) / 40, cameraZoom, id);
                 gameCamera.manualCameraUpdate();
             }
         }
@@ -460,6 +475,7 @@ public class PlayerMovement : MonoBehaviour
     //it's what you think it is
     private void Jump()
     {
+        inAir = true;
         freeFallCheck.reset();
         //if(animate.isRolling() || rollCooldownFrames == 1)
         //    animate.rollJump();
