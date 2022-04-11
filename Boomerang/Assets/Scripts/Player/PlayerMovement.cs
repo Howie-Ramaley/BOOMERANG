@@ -454,7 +454,7 @@ public class PlayerMovement : MonoBehaviour
                 id += "Right";
             else if(velx < -0.01F)
                 id += "Left";
-            if(animate.isRolling())
+            if(rollCooldownFrames > 0)
                 id += "Roll";
             if(animate.getAnimState() == PlayerAnimation.AnimationState.jump)
                 id += "Jump";
