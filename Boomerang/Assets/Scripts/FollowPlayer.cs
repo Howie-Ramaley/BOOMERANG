@@ -5,56 +5,48 @@ using UnityEngine;
 public class FollowPlayer : MonoBehaviour
 {
     [SerializeField] private Camera gameCamera;
-
     [SerializeField] private int followDuration;
 
+    //Camera following
     private int followTime;
-
-    private Vector2 previousStartPosition;
-
     private Vector2 startPosition;
-
     private Vector2 target;
-
     private Vector2 previousTarget;
-
     private string targetID;
 
-    private Vector2 topLeft;
+    //Camera boundaries
+    private Vector2 tlPoint;
+    private Vector2 topLeftBoundary;
+    private Vector2 brPoint;
+    private Vector2 bottomRightBoundary;
 
-    private Vector2 bottomRight;
-
+    //Camera zoom
     private float cameraZoom;
-    
     private float cameraDefaultSize;
-
     private float startZoom;
-
     private float targetZoom;
 
+    //See if we're following the player, if we are let them update the camera, else we update the camera
     private bool followingPlayer;
 
+    //Camera shake
     private Vector2 shakeOffset;
-
     private float shakeIntensity;
-
     private int shakeDuration;
-
     private int shakeTime;
 
     // Start is called before the first frame update
     void Start()
     {
-        previousStartPosition = transform.position;
         startPosition = transform.position;
         followTime = 0;
         targetID = "";
-        float width = 19.2F;
-        float height = 10.8F;
-        Vector2 tl = transform.parent.Find("Top Left Camera Boundary").position;
-        topLeft = new Vector2(tl.x + (width / 2), tl.y - (height / 2));
-        Vector2 br = transform.parent.Find("Bottom Right Camera Boundary").position;
-        bottomRight = new Vector2(br.x - (width / 2), br.y + (height / 2));
+        float width = 19.2F * cameraZoom;
+        float height = 10.8F * cameraZoom;
+        tlPoint = transform.parent.Find("Top Left Camera Boundary").position;
+        topLeftBoundary = new Vector2(tlPoint.x + (width / 2), tlPoint.y - (height / 2));
+        brPoint = transform.parent.Find("Bottom Right Camera Boundary").position;
+        bottomRightBoundary = new Vector2(brPoint.x - (width / 2), brPoint.y + (height / 2));
         cameraDefaultSize = gameCamera.orthographicSize;
         startZoom = 1.0F;
         targetZoom = 1.0F;
@@ -77,6 +69,7 @@ public class FollowPlayer : MonoBehaviour
     {
         if(target != null)
         {
+            //randomly decide camera shake offset, reset values if camera shake is over
             if(shakeTime > 0)
             {
                 shakeTime++;
@@ -94,39 +87,41 @@ public class FollowPlayer : MonoBehaviour
                 }
             }
 
-            //Debug.Log("followTime: " + followTime + ", followDuration: " + followDuration);
-
+            //keeping track of time
             followTime++;
             if(followTime > followDuration)
                 followTime = followDuration;
             float t = ((float)followTime / (float)followDuration);
             
+            //extra lerping to make camera following smoother
             Vector2 targ = target;
             if(previousTarget != null)
                 targ = Vector2.Lerp(previousTarget, target, t);
-            Vector2 start = startPosition;
-            //if(previousStartPosition != null)
-            //    start = Vector2.Lerp(previousStartPosition, startPosition, t);
             
-            Vector2 lerp = clamp(Vector2.Lerp(startPosition, targ, t));
-            //Vector2 lerp = clamp(GameObject.FindGameObjectWithTag("Player").transform.position);
-            
-            transform.position = new Vector3(lerp.x + shakeOffset.x, lerp.y + shakeOffset.y, -10);
-            
+            //lerp from startZoom to targetZoom and update camera's zoom
             cameraZoom = Mathf.Lerp(startZoom, targetZoom, t);
             gameCamera.orthographicSize = cameraDefaultSize * cameraZoom;
 
-            //Debug.Log(startPosition.z + ", " + target.z + ", " + cameraZoom);
-            //Debug.Log(t);
+            //update camera's boundaries to reflect new cameraZoom
+            float width = 19.2F * cameraZoom;
+            float height = 10.8F * cameraZoom;
+            topLeftBoundary = new Vector2(tlPoint.x + (width / 2), tlPoint.y - (height / 2));
+            bottomRightBoundary = new Vector2(brPoint.x - (width / 2), brPoint.y + (height / 2));
+
+            //lerp from startPosition to target and make sure camera does not escape level boundaries
+            Vector2 lerp = clamp(Vector2.Lerp(startPosition, targ, t));
+            
+            //update camera position with camera shake offset
+            transform.position = new Vector3(lerp.x + shakeOffset.x, lerp.y + shakeOffset.y, -10);
         }
     }
 
     private Vector2 clamp(Vector2 v)
     {
-        float xmin = topLeft.x;
-        float xmax = bottomRight.x;
-        float ymin = bottomRight.y;
-        float ymax = topLeft.y;
+        float xmin = topLeftBoundary.x;
+        float xmax = bottomRightBoundary.x;
+        float ymin = bottomRightBoundary.y;
+        float ymax = topLeftBoundary.y;
         return new Vector2(Mathf.Clamp(v.x, xmin, xmax), Mathf.Clamp(v.y, ymin, ymax));
     }
 
@@ -137,7 +132,6 @@ public class FollowPlayer : MonoBehaviour
         targetZoom = zoom;
         if(targetID != id)
         {
-            previousStartPosition = startPosition;
             startPosition = transform.position;
             startZoom = cameraZoom;
             followTime = 0;
