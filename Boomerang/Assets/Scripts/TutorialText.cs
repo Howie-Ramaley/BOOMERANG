@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class TutorialText : MonoBehaviour
 {
-
+    bool fadingIn;
+    bool fadingOut;
     private GameObject player;
 
     [SerializeField] private float fadeSpeed;
@@ -13,21 +14,29 @@ public class TutorialText : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        fadingIn = false;
+        fadingOut = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        if (GetComponentInChildren<BasicTrigger>().getPlayerEnter())
+        TextMesh text = GetComponent<TextMesh>();
+        if (text.color.a < 1.0f && (GetComponentInChildren<BasicTrigger>().getPlayerEnter() || fadingIn))
         {
-            StartCoroutine(FadeTextToFullAlpha(fadeSpeed, GetComponent<TextMesh>()));
+            StartCoroutine(FadeTextToFullAlpha(fadeSpeed, text));
+            fadingIn = true;
         }
+        else
+            fadingIn = false;
         
-        if (GetComponentInChildren<BasicTrigger>().getPlayerExit())
+        if (GetComponent<TextMesh>().color.a > 0.0f && (GetComponentInChildren<BasicTrigger>().getPlayerExit() || fadingOut))
         {
-            StartCoroutine(FadeTextToZeroAlpha(fadeSpeed, GetComponent<TextMesh>()));
+            StartCoroutine(FadeTextToZeroAlpha(fadeSpeed, text));
+            fadingOut = true;
         }
+        else
+            fadingOut = false;
     }
 
     public IEnumerator FadeTextToFullAlpha(float t, TextMesh i)
