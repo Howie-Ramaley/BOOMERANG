@@ -4090,7 +4090,7 @@ GameObject:
   - component: {fileID: 386693957}
   m_Layer: 0
   m_Name: Projectile4
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10348,7 +10348,7 @@ GameObject:
   - component: {fileID: 1134867905}
   m_Layer: 0
   m_Name: Projectile3
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11246,7 +11246,7 @@ GameObject:
   - component: {fileID: 1186263260}
   m_Layer: 0
   m_Name: Projectile1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17498,7 +17498,7 @@ GameObject:
   - component: {fileID: 1907018619}
   m_Layer: 0
   m_Name: Projectile5
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18466,7 +18466,7 @@ GameObject:
   - component: {fileID: 1976842554}
   m_Layer: 0
   m_Name: Projectile2
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
