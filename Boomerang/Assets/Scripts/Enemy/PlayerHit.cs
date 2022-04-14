@@ -9,6 +9,7 @@ public class PlayerHit : MonoBehaviour
     [SerializeField]private bool strongKnockback;
     private bool playerCollide;
     private bool hurts;
+    private PlayerHealth pHealth;
 
     private float framesSinceLastCollide;
 
@@ -18,6 +19,7 @@ public class PlayerHit : MonoBehaviour
         playerCollide = false;
         hurts = true;
         framesSinceLastCollide = 0;
+        pHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
     }
 
     // Update is called once per frame
@@ -30,19 +32,19 @@ public class PlayerHit : MonoBehaviour
 
         if (playerCollide && hurts)
         {
-            GameObject player;
-            player = GameObject.FindGameObjectWithTag("Player");
-            if(player != null)
+            if(pHealth != null)
             {
-                PlayerHealth pHealth = player.GetComponent<PlayerHealth>();
                 float speed = 16F;
-                bool isRolling = player.GetComponentInChildren<PlayerAnimation>().getAnimState() == PlayerAnimation.AnimationState.roll;
+                bool isRolling = pHealth.gameObject.GetComponentInChildren<PlayerAnimation>().getAnimState() == PlayerAnimation.AnimationState.roll;
                 if(strongKnockback && (pHealth.getIFrameProgress() == 0 || (pHealth.getIFrameProgress() > 10 && !isRolling)))
-                    player.GetComponent<PlayerMovement>().knockback(speed);
+                    pHealth.gameObject.GetComponent<PlayerMovement>().knockback(speed);
                 pHealth.hurt(damage, ignoresIFrames);
             }
             else
+            {
                 playerCollide = false;
+                pHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+            }
         }
     }
 

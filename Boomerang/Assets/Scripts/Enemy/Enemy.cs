@@ -167,7 +167,7 @@ public class Enemy : MonoBehaviour, IStunnable
             astar.enabled = false;
     }
 
-    public virtual void stun()
+    public virtual bool stun()
     {
         if(!stunned)
         {
@@ -187,9 +187,10 @@ public class Enemy : MonoBehaviour, IStunnable
             GetComponent<SpriteRenderer>().color = Color.red;
             delayTime = delayTimeLength;
         }
+        return true;
     }
 
-    public virtual void bump(float angle, float bumpStrength)
+    public virtual bool bump(float angle, float bumpStrength)
     {
         if(!stunned)
         {
@@ -198,6 +199,7 @@ public class Enemy : MonoBehaviour, IStunnable
                 vely = bumpSpeed * bumpStrength * Mathf.Cos(angle);
             bumped = true;
         }
+        return true;
     }
 
     protected virtual void patrol(){}

@@ -67,7 +67,7 @@ public class Tallboy : Enemy
         }
     }
 
-    override public void stun()
+    override public bool stun()
     {
         if(!stunned)
         {
@@ -79,6 +79,6 @@ public class Tallboy : Enemy
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0F);
             transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
         }
-        base.stun();
+        return base.stun();
     }
 }

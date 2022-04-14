@@ -15,6 +15,8 @@ public class LobGoblin : Enemy
     private List<Vector2> points;
     private int atPointIndex;
 
+    private bool frozen;
+
     private List<LobGob> lobGobs;
     
 
@@ -43,24 +45,28 @@ public class LobGoblin : Enemy
         Transform lgTransform = transform.parent.Find("Projectile" + n);
         while(lgTransform != null)
         {
-            lobGobs.Add(lgTransform.gameObject.GetComponent<LobGob>());
+            LobGob lobGob = lgTransform.gameObject.GetComponent<LobGob>();
+            lobGobs.Add(lobGob);
+            lobGob.lobGoblin = this;
             n++;
             lgTransform = transform.parent.Find("Projectile" + n);
         }
+
+        frozen = false;
     }
 
     override protected void FixedUpdate()
     {
         base.FixedUpdate();
         
-        transform.position = new Vector3(transform.position.x + velx, transform.position.y + vely, transform.position.z);
+        //transform.position = new Vector3(transform.position.x + velx, transform.position.y + vely, transform.position.z);
 
         if(player.transform.position.x >= transform.position.x)
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, 180, transform.eulerAngles.z);
         else
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0, transform.eulerAngles.z);
 
-        if(teleportingFrames > 0)
+        if(teleportingFrames > 0 && !frozen)
         {
             teleportingFrames++;
             if(teleportingFrames > teleportingTime)
@@ -72,12 +78,6 @@ public class LobGoblin : Enemy
                 transform.position = points[atPointIndex];
                 GetComponent<SpriteRenderer>().color = Color.red;
             }
-        }
-
-        for(int i = 0; i < lobGobs.Count; i++)
-        {
-            if(!lobGobs[i].getShot())
-                lobGobs[i].transform.position = transform.position;
         }
     }
 
@@ -105,11 +105,12 @@ public class LobGoblin : Enemy
     public void wooYeahGetThatGoblinFucker()
     {
         base.stun();
+        frozen = false;
     }
 
     override protected void patrol()
     {
-        if(startTeleportFrames > 0)
+        if(startTeleportFrames > 0 && !frozen)
         {
             startTeleportFrames++;
             if(startTeleportFrames > startTeleportTime * 2)
@@ -122,7 +123,7 @@ public class LobGoblin : Enemy
 
     override protected void aggroBehavior()
     {
-        if(startTeleportFrames > 0)
+        if(startTeleportFrames > 0 && !frozen)
         {
             startTeleportFrames++;
             if(startTeleportFrames > startTeleportTime)
@@ -133,7 +134,7 @@ public class LobGoblin : Enemy
             }
         }
 
-        if(attackFrames > 0)
+        if(attackFrames > 0 && !frozen)
         {
             attackFrames++;
             if(attackFrames > attackTime)
@@ -145,17 +146,30 @@ public class LobGoblin : Enemy
         }
     }
 
-    override public void stun()
+    override public bool stun()
     {
-        teleport();
+        if(stunned)
+        {
+            base.stun();
+            startTeleportFrames = 1;
+        }
+        return false;
     }
-    override public void bump(float angle, float bumpStrength)
+    override public bool bump(float angle, float bumpStrength)
     {
-        teleport();
+        return false;
     }
 
     public float getProjectileSpeed()
     {
         return projectileSpeed;
+    }
+
+    public void freeze()
+    {
+        frozen = true;
+        attackFrames = 0;
+        teleportingFrames = 0;
+        startTeleportFrames = 0;
     }
 }

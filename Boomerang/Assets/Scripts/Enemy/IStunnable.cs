@@ -1,5 +1,5 @@
 public interface IStunnable
 {
-    void stun();
-    void bump(float angle, float bumpStrength);
+    bool stun();
+    bool bump(float angle, float bumpStrength);
 }

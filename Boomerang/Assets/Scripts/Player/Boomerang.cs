@@ -153,7 +153,7 @@ public class Boomerang : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Mathf.Abs(transform.position.x - GameObject.FindGameObjectWithTag("Player").transform.position.x) >= 30)
+        if (Mathf.Sqrt(Mathf.Pow(player.transform.position.x - transform.position.x, 2) + Mathf.Pow(player.transform.position.y - transform.position.y, 2)) >= 30)
             returnBoomerang();
         if (throwCooldown > 0) 
         {
@@ -279,16 +279,18 @@ public class Boomerang : MonoBehaviour
                     }
                     if(!found)
                     {
+                        bool reflect = false;
                         if(superThrow)
-                            enemy.stun();
+                            reflect = enemy.stun();
                         else
                         {
                             float angle = -Mathf.Atan2(player.transform.position.y - transform.position.y, player.transform.position.x - transform.position.x) + Mathf.PI / 2;
                             if(!returning)
                                 angle -= Mathf.PI;
-                            enemy.bump(angle, 1F);
+                            reflect = enemy.bump(angle, 1F);
                         }
-                        returnBoomerang();
+                        if(reflect)
+                            returnBoomerang();
                         hitList.Add(collider.gameObject);
                     }
                 }

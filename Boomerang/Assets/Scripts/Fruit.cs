@@ -23,12 +23,12 @@ public class Fruit : MonoBehaviour, IStunnable
         stunned = true;
     }
 
-    public virtual void bump(float angle, float bumpStrength)
+    public virtual bool bump(float angle, float bumpStrength)
     {
-        stun();
+        return stun();
     }
 
-    public virtual void stun()
+    public virtual bool stun()
     {
         if(stunned)
         {
@@ -36,5 +36,6 @@ public class Fruit : MonoBehaviour, IStunnable
             _rigidbody.freezeRotation = true;
             stunned = false;
         }
+        return true;
     }
 }

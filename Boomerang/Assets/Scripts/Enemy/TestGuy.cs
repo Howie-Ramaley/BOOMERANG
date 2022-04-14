@@ -15,8 +15,9 @@ public class TestGuy : Enemy
         
     }
 
-    override public void stun()
+    override public bool stun()
     {
         Debug.Log("STUN");
+        return true;
     }
 }
