@@ -22,7 +22,7 @@ public class TutorialText : MonoBehaviour
     void Update()
     {
         TextMesh text = GetComponent<TextMesh>();
-        if (text.color.a < 1.0f && (GetComponentInChildren<BasicTrigger>().getPlayerEnter() || fadingIn))
+        if (text.color.a < 1.0f && GetComponentInChildren<BasicTrigger>().getPlayerEnter() && !fadingIn)
         {
             StartCoroutine(FadeTextToFullAlpha(fadeSpeed, text));
             fadingIn = true;
@@ -30,7 +30,7 @@ public class TutorialText : MonoBehaviour
         else
             fadingIn = false;
         
-        if (GetComponent<TextMesh>().color.a > 0.0f && (GetComponentInChildren<BasicTrigger>().getPlayerExit() || fadingOut))
+        if (GetComponent<TextMesh>().color.a > 0.0f && GetComponentInChildren<BasicTrigger>().getPlayerExit() && !fadingOut)
         {
             StartCoroutine(FadeTextToZeroAlpha(fadeSpeed, text));
             fadingOut = true;
@@ -47,6 +47,8 @@ public class TutorialText : MonoBehaviour
             i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a + (Time.deltaTime / t));
             yield return null;
         }
+        if(i.color.a > 0.99f)
+            fadingIn = false;
     }
  
     public IEnumerator FadeTextToZeroAlpha(float t, TextMesh i)
@@ -57,5 +59,7 @@ public class TutorialText : MonoBehaviour
             i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a - (Time.deltaTime / t));
             yield return null;
         }
+        if(i.color.a < 0.01f)
+            fadingOut = false;
     }
 }

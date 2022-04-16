@@ -1471,7 +1471,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5461417816602675517, guid: 9c7cb6a14a9c164429cc44c340990a54, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5461417816602675518, guid: 9c7cb6a14a9c164429cc44c340990a54, type: 3}
       propertyPath: m_Size.x
@@ -1487,7 +1487,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5461417816602675519, guid: 9c7cb6a14a9c164429cc44c340990a54, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5461417816602675519, guid: 9c7cb6a14a9c164429cc44c340990a54, type: 3}
       propertyPath: stickThreshold
