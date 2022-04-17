@@ -10,6 +10,7 @@ public class PlayerHit : MonoBehaviour
     private bool playerCollide;
     private bool hurts;
     private PlayerHealth pHealth;
+    private int hitFrames;
 
     private float framesSinceLastCollide;
 
@@ -20,12 +21,12 @@ public class PlayerHit : MonoBehaviour
         hurts = true;
         framesSinceLastCollide = 0;
         pHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+        hitFrames = 0;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-
         if(playerCollide && framesSinceLastCollide >= 2)
             playerCollide = false;
         framesSinceLastCollide++;
@@ -38,13 +39,22 @@ public class PlayerHit : MonoBehaviour
                 bool isRolling = pHealth.gameObject.GetComponentInChildren<PlayerAnimation>().getAnimState() == PlayerAnimation.AnimationState.roll;
                 if(strongKnockback && (pHealth.getIFrameProgress() == 0 || (pHealth.getIFrameProgress() > 10 && !isRolling)))
                     pHealth.gameObject.GetComponent<PlayerMovement>().knockback(speed);
-                pHealth.hurt(damage, ignoresIFrames);
+                bool hit = pHealth.hurt(damage, ignoresIFrames);
+                if(hit)
+                    hitFrames = 1;
             }
             else
             {
                 playerCollide = false;
                 pHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
             }
+        }
+
+        if(hitFrames > 0)
+        {
+            hitFrames++;
+            if(hitFrames > 2)
+                hitFrames = 0;
         }
     }
 
@@ -72,4 +82,13 @@ public class PlayerHit : MonoBehaviour
 
     public void setHurts(bool h) {hurts = h;}
     public bool gethurts() {return hurts;}
+
+    public bool getHit()
+    {
+        return hitFrames > 0;
+    }
+    public void resetHit()
+    {
+        hitFrames = 0;
+    }
 }

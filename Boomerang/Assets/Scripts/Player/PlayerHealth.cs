@@ -8,14 +8,14 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField]private int iFramesOnEnemyHit;
     private int iFrames;
     private int iFrameProgress;
-
-
+    private int diedFrames;
 
     // Start is called before the first frame update
     void Start()
     {
         iFrameProgress = 0;
         iFrames = iFramesOnEnemyHit;
+        diedFrames = 0;
     }
 
     // Update is called once per frame
@@ -29,9 +29,16 @@ public class PlayerHealth : MonoBehaviour
                 iFrameProgress = 0;
             }
         }
+
+        if(diedFrames > 0)
+        {
+            diedFrames++;
+            if(diedFrames > 2)
+                diedFrames = 0;
+        }
     }
 
-    public void hurt(int damage, bool ignoreIFrames)
+    public bool hurt(int damage, bool ignoreIFrames)
     {
         if (iFrameProgress == 0 || ignoreIFrames)
         {
@@ -40,7 +47,10 @@ public class PlayerHealth : MonoBehaviour
 
             //Debug.Log("HURT");
             healthDisplayUpdate();
+            return true;
         }
+        else
+            return false;
     }
 
     public void healthDisplayUpdate()
@@ -61,11 +71,17 @@ public class PlayerHealth : MonoBehaviour
             health = 3;
             sprite.color = new Color(1, 1, 1);
             player.GetComponent<PlayerMovement>().respawn();
+            diedFrames = 1;
         }
         else
         {
             sprite.color = new Color(1, 1, 1);
         }
+    }
+
+    public bool getDied()
+    {
+        return diedFrames > 0;
     }
 
     public int getHealth()
