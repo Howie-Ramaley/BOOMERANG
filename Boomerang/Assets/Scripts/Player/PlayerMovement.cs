@@ -481,6 +481,7 @@ public class PlayerMovement : MonoBehaviour
         //    animate.rollJump();
         //else
         animate.jump();
+        SoundManager.PlaySound("jump");
         vely = jumpSpeed;
         gravityVel = 0;
         launchy = 0;

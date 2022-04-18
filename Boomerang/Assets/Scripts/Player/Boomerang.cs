@@ -168,6 +168,7 @@ public class Boomerang : MonoBehaviour
         }
         else if(readyToThrow && throwKeyPressedFrames > diagonalInputBufferTime  && (throwCooldown <= 0 || throwKeyHeldFrames > superThrowHoldTime))
         {
+            SoundManager.PlaySound("throw");
             //Debug.Log("THROW");
             //Throw boomerang
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>().healthDisplayUpdate();
