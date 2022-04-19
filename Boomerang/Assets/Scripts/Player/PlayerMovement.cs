@@ -382,7 +382,7 @@ public class PlayerMovement : MonoBehaviour
                     inAir = false;
                     if(freeFallCheck.isApproachingGround())
                     {
-                        //play land sound effect here
+                        SoundManager.PlaySound("land");
                     }
                 }
                 freeFallCheck.reset();

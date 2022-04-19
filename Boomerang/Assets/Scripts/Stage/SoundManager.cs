@@ -24,9 +24,9 @@ public class SoundManager : MonoBehaviour
         playerJump = Resources.Load<AudioClip>("playerJump");
         boomerangThrow = Resources.Load<AudioClip>("boomerangThrow");
 
-        /*
+        
         playerLand = Resources.Load<AudioClip>("playerLand");
-        playerHit = Resources.Load<AudioClip>("playerHit");
+        /*playerHit = Resources.Load<AudioClip>("playerHit");
         playerRoll = Resources.Load<AudioClip>("playerRoll");
         
         boomerangDirtStuck = Resources.Load<AudioClip>("boomerangDirtStuck");
@@ -46,6 +46,7 @@ public class SoundManager : MonoBehaviour
 
     public static void PlaySound(string clip)
     {
+        audioSrc.volume = 1.0f;
         switch(clip)
         {
             case "jump":
@@ -54,9 +55,45 @@ public class SoundManager : MonoBehaviour
             case "throw":
                 audioSrc.PlayOneShot(boomerangThrow);
                 break;
-            /*
             case "land":
+                audioSrc.volume = 0.5f;
                 audioSrc.PlayOneShot(playerLand);
+                break;
+            /*case "p_hit":
+                audioSrc.PlayOneShot(playerHit);
+                break;
+            case "roll":
+                audioSrc.PlayOneShot(playerRoll);
+                break;
+            case "d_stuck":
+                audioSrc.PlayOneShot(boomerangeDirtStuck);
+                break;
+            case "s_stuck":
+                audioSrc.PlayOneShot(boomerangeSpongeStuck);
+                break;
+            case "catch":
+                audioSrc.PlayOneShot(boomerangCatch);
+                break;
+            case "e_hit":
+                audioSrc.PlayOneShot(playerLand);
+                break;
+            case "roar":
+                audioSrc.PlayOneShot(enemyRoar);
+                break;
+            case "wake":
+                audioSrc.PlayOneShot(enemyWake);
+                break;
+            case "teleport":
+                audioSrc.PlayOneShot(enemyTeleport);
+                break;
+            case "lob":
+                audioSrc.PlayOneShot(enemyLob);
+                break;
+            case "projectile":
+                audioSrc.PlayOneShot(enemyProjectile);
+                break;
+            case "pop":
+                audioSrc.PlayOneShot(bubblePop);
                 break;
             */
         }
