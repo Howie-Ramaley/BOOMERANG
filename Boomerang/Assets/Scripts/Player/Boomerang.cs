@@ -34,42 +34,54 @@ public class Boomerang : MonoBehaviour
     //Reference to player
     private GameObject player;
 
-    //
+    //How long ago the boomerang's throw key was pressed
     private int throwKeyPressedFrames;
 
-    //
+    private int IReleasedFrames;
+    private int JReleasedFrames;
+    private int KReleasedFrames;
+    private int LReleasedFrames;
+
+    //How long the boomerang's throw key has been held
     private int throwKeyHeldFrames;
 
-    //
+    //Angle vector the boomerang is to be thrown at
     private Vector2 throwAngle;
 
-    //
+    //Boomerang is ready to be thrown
     private bool readyToThrow;
 
-    //
+    //Boomerang is returning to player
     private bool returning;
 
-    //
+    //Velocity
     private float velx;
     private float vely;
 
-    //
+    //Frames since the boomerang was thrown
     private int framesSinceThrown;
 
-    //
+    //List of things that have been hit on this throw, make sure not to register a hit on them again
     private List<GameObject> hitList;
 
-    //
+    //Throw was held long enough to be a super throw
     private bool superThrow;
 
-    //
+    //Boomerang has been stuck into soft dirt
     private bool stuck;
+
+    //Reference to child object GuideArrow's SpriteRenderer
+    private SpriteRenderer guideArrow;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         throwKeyPressedFrames = 0;
+        IReleasedFrames = 0;
+        JReleasedFrames = 0;
+        KReleasedFrames = 0;
+        LReleasedFrames = 0;
         throwKeyHeldFrames = 0;
         readyToThrow = true;
         velx = 0;
@@ -78,6 +90,7 @@ public class Boomerang : MonoBehaviour
         returning = false;
         hitList = new List<GameObject>();
         superThrow = false;
+        guideArrow = transform.Find("GuideArrow").GetComponent<SpriteRenderer>();
 
         transform.position = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
 
@@ -88,12 +101,14 @@ public class Boomerang : MonoBehaviour
 
     void Update()
     {
+        bool showGuideArrow = false;
         float horStick = Input.GetAxis("RightHorizontal");
         float vertStick = Input.GetAxis("RightVertical");
         if(readyToThrow)
         {
             if(stickIsTilted())
             {
+                showGuideArrow = true;
                 throwAngle = new Vector2(horStick, vertStick);
                 if(throwKeyPressedFrames == 0)
                     throwKeyPressedFrames = 1;
@@ -109,8 +124,26 @@ public class Boomerang : MonoBehaviour
                     inAngle.y -= 1F;
                 if(Input.GetKeyDown(KeyCode.L))
                     inAngle.x += 1F;
+                
+                if(aThrowKeyIsPressed())
+                {
+                    showGuideArrow = true;
+                    if(Input.GetKeyUp(KeyCode.I))
+                        IReleasedFrames = 1;
+                    if(Input.GetKeyUp(KeyCode.J))
+                        JReleasedFrames = 1;
+                    if(Input.GetKeyUp(KeyCode.K))
+                        KReleasedFrames = 1;
+                    if(Input.GetKeyUp(KeyCode.L))
+                        LReleasedFrames = 1;
+                }
+                
                 if(inAngle.x > 0.01F || inAngle.x < -0.01F || inAngle.y > 0.01F || inAngle.y < -0.01F)
                 {
+                    if(inAngle.x > 1.99f || inAngle.x < -199f)
+                        inAngle.x /= 2;
+                    if(inAngle.y > 1.99f || inAngle.y < -1.99f)
+                        inAngle.y /= 2;
                     if(throwKeyPressedFrames <= diagonalInputBufferTime)
                     {
                         if(throwKeyPressedFrames == 0)
@@ -122,10 +155,10 @@ public class Boomerang : MonoBehaviour
                     }
                     else
                     {
-                        if(inAngle.x > 0.01F || inAngle.x < -0.01F)
-                            throwAngle.x = inAngle.x;
-                        if(inAngle.y > 0.01F || inAngle.y < -0.01F)
-                            throwAngle.y = inAngle.y;
+                        if(inAngle.x != throwAngle.x)
+                            throwAngle.x += inAngle.x;
+                        if(inAngle.y != throwAngle.y)
+                            throwAngle.y += inAngle.y;
                     }
                 }
             }
@@ -149,6 +182,19 @@ public class Boomerang : MonoBehaviour
                 }
             }
         }
+
+        if(showGuideArrow && throwKeyHeldFrames > 5)
+        {
+            guideArrow.enabled = true;
+            Transform guideTransform = guideArrow.gameObject.transform;
+            float deg = Mathf.Atan2(throwAngle.y, throwAngle.x) * 180f / Mathf.PI;
+            //if(throwAngle.x < 0)
+            //    deg += 180;
+            Debug.Log(deg);
+            guideTransform.eulerAngles = new Vector3(guideTransform.eulerAngles.x, guideTransform.eulerAngles.y, deg);
+        }
+        else
+            guideArrow.enabled = false;
     }
 
     void FixedUpdate()
@@ -160,11 +206,47 @@ public class Boomerang : MonoBehaviour
             throwCooldown -= Time.deltaTime;
             //Debug.Log("Throw cooldown is: " + throwCooldown);
         }
-        if(readyToThrow && throwKeyPressedFrames > 0 && (Input.GetKey(KeyCode.I) || Input.GetKey(KeyCode.J) || Input.GetKey(KeyCode.K) || Input.GetKey(KeyCode.L) || stickIsTilted()))
+        if(readyToThrow && throwKeyPressedFrames > 0 && (aThrowKeyIsPressed() || stickIsTilted()))
         {
             throwKeyHeldFrames++;
             if(throwKeyHeldFrames > superThrowHoldTime)
                 GameObject.FindGameObjectWithTag("Player").transform.Find("PlayerSprite").gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+            if(IReleasedFrames > 0)
+            {
+                IReleasedFrames++;
+                if(IReleasedFrames > diagonalInputBufferTime)
+                {
+                    IReleasedFrames = 0;
+                    throwAngle.y -= 1f;
+                }
+            }
+            if(JReleasedFrames > 0)
+            {
+                JReleasedFrames++;
+                if(JReleasedFrames > diagonalInputBufferTime)
+                {
+                    JReleasedFrames = 0;
+                    throwAngle.x += 1f;
+                }
+            }
+            if(KReleasedFrames > 0)
+            {
+                KReleasedFrames++;
+                if(KReleasedFrames > diagonalInputBufferTime)
+                {
+                    KReleasedFrames = 0;
+                    throwAngle.y += 1f;
+                }
+            }
+            if(LReleasedFrames > 0)
+            {
+                LReleasedFrames++;
+                if(LReleasedFrames > diagonalInputBufferTime)
+                {
+                    LReleasedFrames = 0;
+                    throwAngle.x -= 1f;
+                }
+            }
         }
         else if(readyToThrow && throwKeyPressedFrames > diagonalInputBufferTime  && (throwCooldown <= 0 || throwKeyHeldFrames > superThrowHoldTime))
         {
@@ -176,6 +258,10 @@ public class Boomerang : MonoBehaviour
                 superThrow = true;
             throwKeyHeldFrames = 0;
             throwKeyPressedFrames = 0;
+            IReleasedFrames = 0;
+            JReleasedFrames = 0;
+            KReleasedFrames = 0;
+            LReleasedFrames = 0;
             framesSinceThrown = 1;
             readyToThrow = false;
             GetComponent<SpriteRenderer>().enabled = true;
@@ -237,7 +323,7 @@ public class Boomerang : MonoBehaviour
         if(throwKeyPressedFrames > 0)
         {
             throwKeyPressedFrames++;
-            if(throwKeyPressedFrames > diagonalInputBufferTime + throwBufferTime && throwKeyHeldFrames == 0 && !(Input.GetKey(KeyCode.I) || Input.GetKey(KeyCode.J) || Input.GetKey(KeyCode.K) || Input.GetKey(KeyCode.L) || stickIsTilted()))
+            if(throwKeyPressedFrames > diagonalInputBufferTime + throwBufferTime && throwKeyHeldFrames == 0 && !(aThrowKeyIsPressed() || stickIsTilted()))
                 throwKeyPressedFrames = 0;
         }
 
@@ -341,6 +427,13 @@ public class Boomerang : MonoBehaviour
         float vertStick = Input.GetAxis("RightVertical");
         float dist = Mathf.Sqrt(Mathf.Pow(horStick, 2) + Mathf.Pow(vertStick, 2));
         if(dist >= stickThreshold)
+            return true;
+        else
+            return false;
+    }
+    private bool aThrowKeyIsPressed()
+    {
+        if(Input.GetKey(KeyCode.I) || Input.GetKey(KeyCode.J) || Input.GetKey(KeyCode.K) || Input.GetKey(KeyCode.L))
             return true;
         else
             return false;
