@@ -190,7 +190,7 @@ public class Boomerang : MonoBehaviour
             float deg = Mathf.Atan2(throwAngle.y, throwAngle.x) * 180f / Mathf.PI;
             //if(throwAngle.x < 0)
             //    deg += 180;
-            Debug.Log(deg);
+            //Debug.Log(deg);
             guideTransform.eulerAngles = new Vector3(guideTransform.eulerAngles.x, guideTransform.eulerAngles.y, deg);
         }
         else
