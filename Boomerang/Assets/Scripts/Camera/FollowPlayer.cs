@@ -121,7 +121,7 @@ public class FollowPlayer : MonoBehaviour
         float xmin = topLeftBoundary.x;
         float xmax = bottomRightBoundary.x;
         float ymin = bottomRightBoundary.y;
-        float ymax = topLeftBoundary.y;
+        float ymax = topLeftBoundary.y - 0.75f;
         return new Vector2(Mathf.Clamp(v.x, xmin, xmax), Mathf.Clamp(v.y, ymin, ymax));
     }
 
@@ -141,6 +141,7 @@ public class FollowPlayer : MonoBehaviour
             else
                 followingPlayer = false;
         }
+        //Debug.Log("targetZoom: " + targetZoom + " startZoom: " + startZoom);
     }
 
     public void setZoom(float zoom, string id)

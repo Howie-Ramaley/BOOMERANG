@@ -23,6 +23,8 @@ public class PlayerAnimation : MonoBehaviour
     private int animWait;
 
     //
+    private float xScale;
+    //
     private float yScale;
     //BoxCollider2D of player
     private BoxCollider2D boxCollider;
@@ -43,6 +45,7 @@ public class PlayerAnimation : MonoBehaviour
         animQueue = new List<AnimationState>();
         animState = AnimationState.idle;
         rollProgress = 0;
+        xScale = transform.parent.localScale.x;
         yScale = transform.parent.localScale.y;
         boxCollider = transform.parent.GetComponent<BoxCollider2D>();
         headTransform = transform.parent.Find("HeadCheck").transform;
@@ -53,6 +56,7 @@ public class PlayerAnimation : MonoBehaviour
 
     void Update()
     {
+        xScale = transform.parent.localScale.x;
         yScale = transform.parent.localScale.y;
     }
 
@@ -102,7 +106,7 @@ public class PlayerAnimation : MonoBehaviour
         }
         if(loop >= 100)
         {
-            //Debug.Log("INFINITE LOOP...");
+            Debug.LogError("INFINITE LOOP...");
         }
     }
 
@@ -157,7 +161,7 @@ public class PlayerAnimation : MonoBehaviour
             {
                 //Reset player's colliders, checks, and sprite back to normal from roll
                 headTransform.position = new Vector3(headTransform.position.x, transform.parent.position.y + 0.755F * yScale, headTransform.position.z);
-                transform.position = new Vector3(transform.position.x, transform.parent.position.y + (0.14F + offsetY) * yScale, transform.position.z);
+                transform.position = new Vector3(transform.parent.position.x + (0.12f) * xScale, transform.parent.position.y + (0.14F + offsetY) * yScale, transform.position.z);
                 
                 boxCollider.size = new Vector2(1, 1.125F);
                 boxCollider.offset = new Vector2(0, -0.1875F);

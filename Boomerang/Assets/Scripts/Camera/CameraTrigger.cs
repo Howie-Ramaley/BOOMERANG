@@ -15,6 +15,7 @@ public class CameraTrigger : MonoBehaviour
     void Start()
     {
         targetID = transform.gameObject.name;
+        //Debug.Log(targetID);
         framesSinceLastCollide = 0;
         playerCollide = false;
         gameCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<FollowPlayer>();

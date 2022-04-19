@@ -197,6 +197,12 @@ public class Boomerang : MonoBehaviour
             guideArrow.enabled = false;
     }
 
+    void LateUpdate()
+    {
+        if(player != null)
+            guideArrow.gameObject.transform.position = player.transform.position;
+    }
+
     void FixedUpdate()
     {
         if (Mathf.Sqrt(Mathf.Pow(player.transform.position.x - transform.position.x, 2) + Mathf.Pow(player.transform.position.y - transform.position.y, 2)) >= 30)
