@@ -29,7 +29,14 @@ public class TookahMask : Enemy
         base.FixedUpdate();
         //body.velocity = new Vector2(velx, vely);
         transform.position = new Vector3(transform.position.x + velx, transform.position.y + vely, transform.position.z);
+        
         animator.SetBool("stun", stunned);
+        
+        float dist = Mathf.Sqrt(Mathf.Pow(player.transform.position.x - transform.position.x, 2) + Mathf.Pow(player.transform.position.y - transform.position.y, 2));
+        bool attacking = false;
+        if(dist < 2.5f)
+            attacking = true;
+        animator.SetBool("attacking", attacking);
     }
 
     override protected void patrol()

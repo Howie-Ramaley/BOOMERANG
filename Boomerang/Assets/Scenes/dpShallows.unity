@@ -2397,11 +2397,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7556954581694184278, guid: c23dd36e749f67d4a904dd114fff7cae, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 302
+      value: 233.5
       objectReference: {fileID: 0}
     - target: {fileID: 7556954581694184278, guid: c23dd36e749f67d4a904dd114fff7cae, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 30.1
+      value: 24.4
       objectReference: {fileID: 0}
     - target: {fileID: 7556954581694184278, guid: c23dd36e749f67d4a904dd114fff7cae, type: 3}
       propertyPath: m_LocalPosition.z
@@ -14190,7 +14190,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5101009672062326880, guid: 28a03d8e945343243acc00c84f8aa31b, type: 3}
       propertyPath: m_Volume
-      value: 0.04
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: 8085045688019352668, guid: 28a03d8e945343243acc00c84f8aa31b, type: 3}
       propertyPath: m_Name
@@ -16601,7 +16601,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1070333222764386282, guid: 0943a18096ecb814a891be2e33f68dc2, type: 3}
       propertyPath: m_Size.x
-      value: 9.999313
+      value: 7.8818665
       objectReference: {fileID: 0}
     - target: {fileID: 1070333222764386282, guid: 0943a18096ecb814a891be2e33f68dc2, type: 3}
       propertyPath: m_Size.y
@@ -16609,7 +16609,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1070333222764386282, guid: 0943a18096ecb814a891be2e33f68dc2, type: 3}
       propertyPath: m_Offset.x
-      value: 8.087517
+      value: 9.14624
       objectReference: {fileID: 0}
     - target: {fileID: 1070333222764386282, guid: 0943a18096ecb814a891be2e33f68dc2, type: 3}
       propertyPath: m_Offset.y
@@ -18403,7 +18403,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1445798677144489370, guid: 5727b152222d6d641b328ec015573c98, type: 3}
       propertyPath: m_Size.x
-      value: 19.675247
+      value: 19.651627
       objectReference: {fileID: 0}
     - target: {fileID: 1445798677144489370, guid: 5727b152222d6d641b328ec015573c98, type: 3}
       propertyPath: m_Size.y
@@ -18411,7 +18411,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1445798677144489370, guid: 5727b152222d6d641b328ec015573c98, type: 3}
       propertyPath: m_Offset.x
-      value: 11.29052
+      value: 11.278709
       objectReference: {fileID: 0}
     - target: {fileID: 1445798677144489370, guid: 5727b152222d6d641b328ec015573c98, type: 3}
       propertyPath: m_Offset.y
@@ -20614,6 +20614,14 @@ PrefabInstance:
     - target: {fileID: 6426904996768357425, guid: bfe9fe8898546054cb8c5a7d7e3f22da, type: 3}
       propertyPath: m_Name
       value: LobGoblin
+      objectReference: {fileID: 0}
+    - target: {fileID: 6426904996768357425, guid: bfe9fe8898546054cb8c5a7d7e3f22da, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6426904997859646205, guid: bfe9fe8898546054cb8c5a7d7e3f22da, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bfe9fe8898546054cb8c5a7d7e3f22da, type: 3}

@@ -93,11 +93,6 @@ public class FollowPlayer : MonoBehaviour
                 followTime = followDuration;
             float t = ((float)followTime / (float)followDuration);
             
-            //extra lerping to make camera following smoother
-            Vector2 targ = target;
-            if(previousTarget != null)
-                targ = Vector2.Lerp(previousTarget, target, t);
-            
             //lerp from startZoom to targetZoom and update camera's zoom
             cameraZoom = Mathf.Lerp(startZoom, targetZoom, t);
             gameCamera.orthographicSize = cameraDefaultSize * cameraZoom;
@@ -108,6 +103,10 @@ public class FollowPlayer : MonoBehaviour
             topLeftBoundary = new Vector2(tlPoint.x + (width / 2), tlPoint.y - (height / 2));
             bottomRightBoundary = new Vector2(brPoint.x - (width / 2), brPoint.y + (height / 2));
 
+            //extra lerping to make camera following smoother
+            Vector2 targ = target;
+            if(previousTarget != null)
+                targ = Vector2.Lerp(previousTarget, target, t);
             //lerp from startPosition to target and make sure camera does not escape level boundaries
             Vector2 lerp = clamp(Vector2.Lerp(startPosition, targ, t));
             
@@ -146,9 +145,11 @@ public class FollowPlayer : MonoBehaviour
 
     public void setZoom(float zoom, string id)
     {
+        previousTarget = target;
         targetZoom = zoom;
         if(targetID != id)
         {
+            startPosition = transform.position;
             startZoom = cameraZoom;
             followTime = 0;
             targetID = id;
