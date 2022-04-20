@@ -128,6 +128,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fruit
       objectReference: {fileID: 0}
+    - target: {fileID: 1394234242946486800, guid: 1a274200170ac9945b08d8d1d71b3aaa, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 1394234242946486803, guid: 1a274200170ac9945b08d8d1d71b3aaa, type: 3}
       propertyPath: m_RootOrder
       value: 1

@@ -48,7 +48,15 @@ public class PlayerMovement : MonoBehaviour
     //How many FixedUpdates until the next roll can be done.
     [SerializeField] private int rollCooldownTime;
 
+    //CameraZoom that the player sets the camera to
     [SerializeField] private float cameraZoom;
+
+    //Variables used when letting the player step over small obstacles
+    [SerializeField] private float stepHeight;
+    [SerializeField] private float stepSmooth;
+
+    private Transform stepRayUpper;
+    private Transform stepRayLower;
 
     //Amount of FixedUpdate's since leaving the ground (not including leaving the ground from jumps)
     //If this is less than coyoteTime, then allow a jump
@@ -115,26 +123,40 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         //All variables with [SerializeFields] are set in Unity editor
+        stepRayUpper = transform.Find("StepRayUpper");
+        stepRayLower = transform.Find("StepRayLower");
+        //stepRayLower.position = new Vector3(transform.position.x + (transform.localScale.x / 2), stepRayLower.position.y, stepRayLower.position.z);
+        stepRayLower.position = new Vector3(stepRayLower.position.x, stepRayLower.position.y, stepRayLower.position.z);
+        stepRayUpper.position = new Vector3(stepRayLower.position.x, stepRayLower.position.y + stepHeight, stepRayUpper.position.z);
+        
         jumpKeyPressedFrames = 0;
         jumpStickTilted = false;
+        
         body = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
+        
         animate = GetComponentInChildren<PlayerAnimation>();
+        
         velx = 0;
         vely = 0;
+        facingRight = true;
+
         gravityVel = 0;
         preciseGroundCheck = GetComponentInChildren<PreciseGroundCheck>();
         freeFallCheck = GetComponentInChildren<FreeFallCheck>();
         framesNotGrounded = coyoteTime;
-        facingRight = true;
+        inAir = true;
+        
         rollCooldownFrames = 0;
+        canRoll = true;
+        
         GameObject camObj = GameObject.FindGameObjectWithTag("MainCamera");
         if(camObj != null)
-        gameCamera = camObj.GetComponent<FollowPlayer>();
+            gameCamera = camObj.GetComponent<FollowPlayer>();
+        
         playerHealth = GetComponent<PlayerHealth>();
+        
         checkpoint = new Vector2(transform.position.x, transform.position.y);
-        canRoll = true;
-        inAir = true;
 
         //Don't rotate on collisions
         body.freezeRotation = true;
@@ -175,14 +197,11 @@ public class PlayerMovement : MonoBehaviour
         //TO-DO:
         //fix getting stuck on small stuff rarely
         //fix falling while running off downward angles
-        //have boomerang automatically recall when it gets far enough when stuck
         //fix player knockback when hurt by enemies/thorns and add editable boolean for slight directional bias
         //variable jump height based on how long you hold the jump key
         //fix/polish boomerang controls
         //add shockwave/groundpound (pushes enemies away and up upon hitting ground with boomerang)?
         //fix vertical segment of background platform becoming solid while inside of the player
-        //make flying enemy float above and come down for an attack
-        //camera zooming
 
         animate.idle();
 
@@ -443,6 +462,20 @@ public class PlayerMovement : MonoBehaviour
             launchy--;
         else if(launchy < 0)
             launchy++;*/
+
+        //Step over small unintentional obstacles
+        if(body.velocity.x < 0.01f && body.velocity.x > -0.01f && animate.getAnimState() == PlayerAnimation.AnimationState.run)
+        {
+            RaycastHit2D hitLower = Physics2D.Raycast(stepRayLower.position, (facingRight ? Vector2.right : Vector2.left), 0.6f, groundLayer);
+            if(hitLower)
+            {
+                RaycastHit2D hitUpper = Physics2D.Raycast(stepRayUpper.position, (facingRight ? Vector2.right : Vector2.left), 0.6f + slip, groundLayer);
+                if(!hitUpper)
+                {
+                    body.position -= new Vector2(0f, -stepSmooth);
+                }
+            }
+        }
 
         //Update player's velocity
         body.velocity = new Vector2(velx + launchx, vely - gravityVel + launchy);
