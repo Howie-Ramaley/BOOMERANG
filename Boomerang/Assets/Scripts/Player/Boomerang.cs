@@ -383,7 +383,10 @@ public class Boomerang : MonoBehaviour
                             reflect = enemy.bump(angle, 1F);
                         }
                         if(reflect)
+                        {
                             returnBoomerang();
+                            SoundManager.PlaySound("e_hit");
+                        }
                         hitList.Add(collider.gameObject);
                     }
                 }

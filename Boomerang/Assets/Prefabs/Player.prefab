@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 301482105}
   - component: {fileID: 301482104}
   - component: {fileID: 301482106}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FreeFallCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -449,7 +449,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 192
 --- !u!50 &7556954581308062533
 Rigidbody2D:
   serializedVersion: 4
@@ -654,7 +654,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 192
   speed: 8
   jumpSpeed: 10
   speedIncrement: 2

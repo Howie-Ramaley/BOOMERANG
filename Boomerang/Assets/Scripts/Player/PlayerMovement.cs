@@ -390,6 +390,14 @@ public class PlayerMovement : MonoBehaviour
         //else if , the player is grounded, start halting the player's gravity
         else if(gravityVel >= vely && isNearGround())
         {
+            if(inAir)
+            {
+                inAir = false;
+                if(freeFallCheck.isApproachingGround())
+                {
+                    SoundManager.PlaySound("land");
+                }
+            }
             //if FeetCheck is right under the player, set player's gravity to 0
             if(isGrounded())
             {
@@ -397,14 +405,6 @@ public class PlayerMovement : MonoBehaviour
                 launchx = 0;
                 launchy = 0;
                 gravityVel = 0;
-                if(inAir)
-                {
-                    inAir = false;
-                    if(freeFallCheck.isApproachingGround())
-                    {
-                        SoundManager.PlaySound("land");
-                    }
-                }
                 freeFallCheck.reset();
             }
             //else, FeetCheck is not right under the player, so slow the player's gravity instead
