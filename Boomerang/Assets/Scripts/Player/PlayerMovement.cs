@@ -201,6 +201,7 @@ public class PlayerMovement : MonoBehaviour
             //if(vely < gravityVel)
             //    animate.rollJump();
             //else
+            SoundManager.PlaySound("roll");
             animate.roll();
             canRoll = false;
             rollKeyPressedFrames = 0;

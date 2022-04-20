@@ -402,6 +402,7 @@ public class Boomerang : MonoBehaviour
                     vely = 0;
                     hitList.RemoveRange(0, hitList.Count);
                     GetComponent<Animator>().enabled = false;
+                    SoundManager.PlaySound("d_stuck");
                 }
                 else
                 {

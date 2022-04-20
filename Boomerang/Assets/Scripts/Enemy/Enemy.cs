@@ -178,6 +178,7 @@ public class Enemy : MonoBehaviour, IStunnable
             GetComponent<BoxCollider2D>().isTrigger = false;
             GetComponent<PlayerHit>().setHurts(false);
             GetComponent<SpriteRenderer>().color = new Color(0.8f, 0.8f, 0.8f);
+            SoundManager.PlaySound("e_hit");
         }
         else if(tempStun == false || tempStunLength > 0)
         {
@@ -185,6 +186,7 @@ public class Enemy : MonoBehaviour, IStunnable
             GetComponent<BoxCollider2D>().isTrigger = true;
             GetComponent<PlayerHit>().setHurts(true);
             GetComponent<SpriteRenderer>().color = Color.red;
+            SoundManager.PlaySound("wake");
             delayTime = delayTimeLength;
         }
         return true;
@@ -198,6 +200,7 @@ public class Enemy : MonoBehaviour, IStunnable
             if(!groundEnemy)
                 vely = bumpSpeed * bumpStrength * Mathf.Cos(angle);
             bumped = true;
+            SoundManager.PlaySound("e_hit");
         }
         return true;
     }

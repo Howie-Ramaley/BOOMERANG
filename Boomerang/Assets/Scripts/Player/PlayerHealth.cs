@@ -43,6 +43,7 @@ public class PlayerHealth : MonoBehaviour
         if (iFrameProgress == 0 || ignoreIFrames)
         {
             health -= damage;
+            SoundManager.PlaySound("p_hit");
             startIFrames(false);
 
             //Debug.Log("HURT");
