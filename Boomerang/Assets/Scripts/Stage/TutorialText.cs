@@ -4,62 +4,45 @@ using UnityEngine;
 
 public class TutorialText : MonoBehaviour
 {
-    bool fadingIn;
-    bool fadingOut;
     private GameObject player;
-
+    private TextMesh text;
     [SerializeField] private float fadeSpeed;
 
     // Start is called before the first frame update
     void Start()
     {
+        text = GetComponent<TextMesh>();
         player = GameObject.FindGameObjectWithTag("Player");
-        fadingIn = false;
-        fadingOut = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        TextMesh text = GetComponent<TextMesh>();
-        if (text.color.a < 1.0f && GetComponentInChildren<BasicTrigger>().getPlayerEnter() && !fadingIn)
+        if (text.color.a < 1.0f && GetComponentInChildren<BasicTrigger>().getPlayerCollide())
         {
-            StartCoroutine(FadeTextToFullAlpha(fadeSpeed, text));
-            fadingIn = true;
+            //Debug.Log("fade in");
+            FadeIn();
         }
-        else
-            fadingIn = false;
         
-        if (GetComponent<TextMesh>().color.a > 0.0f && GetComponentInChildren<BasicTrigger>().getPlayerExit() && !fadingOut)
+        if (GetComponent<TextMesh>().color.a > 0.0f && !GetComponentInChildren<BasicTrigger>().getPlayerCollide())
         {
-            StartCoroutine(FadeTextToZeroAlpha(fadeSpeed, text));
-            fadingOut = true;
+            //Debug.Log("fade out");
+            FadeOut();
         }
-        else
-            fadingOut = false;
     }
 
-    public IEnumerator FadeTextToFullAlpha(float t, TextMesh i)
+    private void FadeIn()
     {
-        //i.color = new Color(i.color.r, i.color.g, i.color.b, 0);
-        while (i.color.a < 1.0f)
-        {
-            i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a + (Time.deltaTime / t));
-            yield return null;
-        }
-        if(i.color.a > 0.99f)
-            fadingIn = false;
+        //text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
+        text.color = new Color(text.color.r, text.color.g, text.color.b, text.color.a + (fadeSpeed / 50f));
+        if(text.color.a > 1f)
+            text.color = new Color(text.color.r, text.color.g, text.color.b, 1.0f);
     }
  
-    public IEnumerator FadeTextToZeroAlpha(float t, TextMesh i)
+    private void FadeOut()
     {
-        //i.color = new Color(i.color.r, i.color.g, i.color.b, 1);
-        while (i.color.a > 0.0f)
-        {
-            i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a - (Time.deltaTime / t));
-            yield return null;
-        }
-        if(i.color.a < 0.01f)
-            fadingOut = false;
+        //text.color = new Color(text.color.r, text.color.g, text.color.b, 1);
+        text.color = new Color(text.color.r, text.color.g, text.color.b, text.color.a - (fadeSpeed / 50f));
+        if(text.color.a < 0f)
+            text.color = new Color(text.color.r, text.color.g, text.color.b, 0f);
     }
 }

@@ -46,7 +46,6 @@ public class BasicTrigger : MonoBehaviour
     {
         if(collider.gameObject.tag == "Player")
         {
-            playerExit = false;
             playerEnter = true;
             framesSinceEnter = 0;
         }

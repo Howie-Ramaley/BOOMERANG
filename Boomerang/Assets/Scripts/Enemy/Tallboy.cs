@@ -9,6 +9,8 @@ public class Tallboy : Enemy
     private Vector2 xy2 = new Vector2();
     private bool approachingPoint2;
     //private Rigidbody2D body;
+    private Transform leftWall;
+    private Transform rightWall;
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +20,9 @@ public class Tallboy : Enemy
 
         xy2.x = transform.parent.Find("Point2").transform.position.x;
         xy2.y = transform.parent.Find("Point2").transform.position.y;
+
+        leftWall = transform.parent.Find("LeftWall");
+        rightWall = transform.parent.Find("RightWall");
         
         approachingPoint2 = true;
 
@@ -29,7 +34,12 @@ public class Tallboy : Enemy
         base.FixedUpdate();
         //body.velocity = new Vector2(velx, vely);
         transform.position = new Vector3(transform.position.x + velx, transform.position.y + vely, transform.position.z);
-        
+
+        if(transform.position.x < leftWall.position.x)
+            transform.position = new Vector3(leftWall.position.x, transform.position.y, transform.position.z);
+        else if(transform.position.x > rightWall.position.x)
+            transform.position = new Vector3(rightWall.position.x, transform.position.y, transform.position.z);
+
         animator.SetFloat("velx", velx);
 
         if(velx > 0.01F)
