@@ -415,6 +415,7 @@ public class Boomerang : MonoBehaviour
             }
             else if(returning && collider.gameObject.tag == "Player")
             {
+                //SoundManager.PlaySound("throw");
                 superThrow = false;
                 readyToThrow = true;
                 returning = false;

@@ -32,7 +32,7 @@ public class SoundManager : MonoBehaviour
         //boomerangCatch = Resources.Load<AudioClip>("boomerangCatch");
         
         enemyHit = Resources.Load<AudioClip>("enemyHit");
-        //enemyRoar = Resources.Load<AudioClip>("enemyRoar");
+        enemyRoar = Resources.Load<AudioClip>("enemyRoar");
         enemyWake = Resources.Load<AudioClip>("enemyWake");
         //enemyTeleport = Resources.Load<AudioClip>("enemyTeleport");
         //enemyLob = Resources.Load<AudioClip>("enemyLob");
@@ -83,9 +83,9 @@ public class SoundManager : MonoBehaviour
             case "e_hit":
                 audioSrc.PlayOneShot(enemyHit);
                 break;
-            /*case "roar":
+            case "roar":
                 audioSrc.PlayOneShot(enemyRoar);
-                break;*/
+                break;
             case "wake":
                 audioSrc.PlayOneShot(enemyWake);
                 break;
