@@ -13,7 +13,7 @@ public class SoundManager : MonoBehaviour
 
     public static AudioClip enemyHit, enemyRoar, enemyWake, enemyTeleport, enemyLob, enemyProjectile;
 
-    public static AudioClip bubblePop;
+    public static AudioClip lightCheckpoint, bubblePop, bellJingle;
     
 
     // Start is called before the first frame update
@@ -38,7 +38,10 @@ public class SoundManager : MonoBehaviour
         //enemyLob = Resources.Load<AudioClip>("enemyLob");
         //enemyProjectile = Resources.Load<AudioClip>("enemyProjectile");
         
-        //bubblePop = Resources.Load<AudioClip>("bubblePop");
+
+        lightCheckpoint = Resources.Load<AudioClip>("lightCheckpoint");
+        bubblePop = Resources.Load<AudioClip>("bubblePop");
+        bellJingle = Resources.Load<AudioClip>("bellJingle");
     }
 
     public static void PlaySound(string clip)
@@ -48,20 +51,25 @@ public class SoundManager : MonoBehaviour
         {
             case "jump":
                 audioSrc.PlayOneShot(playerJump);
+                audioSrc.PlayOneShot(bellJingle);
                 break;
             case "land":
                 audioSrc.volume = 0.5f;
                 audioSrc.PlayOneShot(playerLand);
+                audioSrc.PlayOneShot(bellJingle);
                 break;
             case "p_hit":
                 audioSrc.PlayOneShot(playerHit);
+                audioSrc.PlayOneShot(bellJingle);
                 break;
             case "roll":
                 audioSrc.PlayOneShot(playerRoll);
+                audioSrc.PlayOneShot(bellJingle);
                 break;
 
             case "throw":
                 audioSrc.PlayOneShot(boomerangThrow);
+                audioSrc.PlayOneShot(bellJingle);
                 break;
             case "d_stuck":
                 audioSrc.PlayOneShot(boomerangDirtStuck);
@@ -89,11 +97,13 @@ public class SoundManager : MonoBehaviour
                 break;
             /*case "projectile":
                 audioSrc.PlayOneShot(enemyProjectile);
+                break;*/
+            case "checkpoint":
+                audioSrc.PlayOneShot(lightCheckpoint);
                 break;
-            /*case "pop":
+            case "pop":
                 audioSrc.PlayOneShot(bubblePop);
                 break;
-            */
         }
 
     }

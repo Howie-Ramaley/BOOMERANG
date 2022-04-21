@@ -74,6 +74,7 @@ public class Bubble : MonoBehaviour
         if(collider.gameObject.tag == "Player")
         {
             player.launch(0F, force);
+            SoundManager.PlaySound("pop");
             circCollider.enabled = false;
             //sprite.GetComponent<SpriteRenderer>().enabled = false;
             spriteOffset = Vector2.zero;
