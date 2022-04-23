@@ -38,7 +38,10 @@ public class Checkpoint : MonoBehaviour
         if(collider.gameObject.tag == "Player" && !lit)
         {
             SoundManager.PlaySound("checkpoint");
-            player.setCheckpoint(transform.position.x, transform.position.y, !lit);
+            if(player != null)
+                player.setCheckpoint(transform.position.x, transform.position.y, !lit);
+            else
+                player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
             lit = true;
             animator.SetBool("lit", lit);
         }
