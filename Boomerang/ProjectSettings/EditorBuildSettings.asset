@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: c397006a312e03f45a60ce04e56e08da
+  - enabled: 1
     path: Assets/Scenes/GreatGroves.unity
     guid: 12d867f8f540b044183314decf72c511
   - enabled: 1
