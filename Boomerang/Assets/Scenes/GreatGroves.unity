@@ -2304,6 +2304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3261a3304e8c9428fd320816f8b6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 890348191}
 --- !u!61 &327346699
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2679,11 +2680,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7556954581694184278, guid: c23dd36e749f67d4a904dd114fff7cae, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.48
+      value: 1.53
       objectReference: {fileID: 0}
     - target: {fileID: 7556954581694184278, guid: c23dd36e749f67d4a904dd114fff7cae, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.18
+      value: -3.39
       objectReference: {fileID: 0}
     - target: {fileID: 7556954581694184278, guid: c23dd36e749f67d4a904dd114fff7cae, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2892,6 +2893,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3261a3304e8c9428fd320816f8b6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 890348191}
 --- !u!61 &397129523
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4085,6 +4087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3261a3304e8c9428fd320816f8b6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 890348191}
 --- !u!61 &546728189
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4782,6 +4785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3261a3304e8c9428fd320816f8b6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 890348191}
 --- !u!61 &616163668
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5017,6 +5021,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3261a3304e8c9428fd320816f8b6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 890348191}
 --- !u!61 &638723016
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5623,7 +5628,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1445798677024856631, guid: 5727b152222d6d641b328ec015573c98, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.93
+      value: -4.37
       objectReference: {fileID: 0}
     - target: {fileID: 1445798677144489368, guid: 5727b152222d6d641b328ec015573c98, type: 3}
       propertyPath: m_Name
@@ -8914,7 +8919,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1445798677024856631, guid: 5727b152222d6d641b328ec015573c98, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.32
+      value: 5.73
       objectReference: {fileID: 0}
     - target: {fileID: 1445798677024856631, guid: 5727b152222d6d641b328ec015573c98, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8970,7 +8975,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1445798677144489370, guid: 5727b152222d6d641b328ec015573c98, type: 3}
       propertyPath: m_Size.x
-      value: 3.3472672
+      value: 2.6610794
       objectReference: {fileID: 0}
     - target: {fileID: 1445798677144489370, guid: 5727b152222d6d641b328ec015573c98, type: 3}
       propertyPath: m_Size.y
@@ -8978,7 +8983,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1445798677144489370, guid: 5727b152222d6d641b328ec015573c98, type: 3}
       propertyPath: m_Offset.x
-      value: -0.8377495
+      value: -0.4946556
       objectReference: {fileID: 0}
     - target: {fileID: 1445798677144489370, guid: 5727b152222d6d641b328ec015573c98, type: 3}
       propertyPath: m_Offset.y
@@ -8990,7 +8995,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1445798677144489371, guid: 5727b152222d6d641b328ec015573c98, type: 3}
       propertyPath: cameraZoom
-      value: 2.3
+      value: 1.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5727b152222d6d641b328ec015573c98, type: 3}
@@ -9292,6 +9297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3261a3304e8c9428fd320816f8b6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 890348191}
 --- !u!61 &1125823283
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9416,6 +9422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3261a3304e8c9428fd320816f8b6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 890348191}
 --- !u!61 &1170421572
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13497,6 +13504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3261a3304e8c9428fd320816f8b6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 890348191}
 --- !u!61 &1675235240
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -14190,7 +14198,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1445798677144489371, guid: 5727b152222d6d641b328ec015573c98, type: 3}
       propertyPath: cameraZoom
-      value: 2.4
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5727b152222d6d641b328ec015573c98, type: 3}
@@ -18783,6 +18791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3261a3304e8c9428fd320816f8b6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 890348191}
 --- !u!61 &2092120729
 BoxCollider2D:
   m_ObjectHideFlags: 0

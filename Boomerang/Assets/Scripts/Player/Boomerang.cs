@@ -72,6 +72,7 @@ public class Boomerang : MonoBehaviour
 
     //Reference to child object GuideArrow's SpriteRenderer
     private SpriteRenderer guideArrow;
+    private SpriteRenderer guideArrowShadow;
 
     // Start is called before the first frame update
     void Start()
@@ -91,6 +92,7 @@ public class Boomerang : MonoBehaviour
         hitList = new List<GameObject>();
         superThrow = false;
         guideArrow = transform.Find("GuideArrow").GetComponent<SpriteRenderer>();
+        guideArrowShadow = guideArrow.transform.Find("GuideArrowShadow").GetComponent<SpriteRenderer>();
 
         transform.position = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
 
@@ -186,6 +188,7 @@ public class Boomerang : MonoBehaviour
         if(showGuideArrow && throwKeyHeldFrames > 5)
         {
             guideArrow.enabled = true;
+            guideArrowShadow.enabled = true;
             Transform guideTransform = guideArrow.gameObject.transform;
             float deg = Mathf.Atan2(throwAngle.y, throwAngle.x) * 180f / Mathf.PI;
             //if(throwAngle.x < 0)
@@ -194,7 +197,10 @@ public class Boomerang : MonoBehaviour
             guideTransform.eulerAngles = new Vector3(guideTransform.eulerAngles.x, guideTransform.eulerAngles.y, deg);
         }
         else
+        {
             guideArrow.enabled = false;
+            guideArrowShadow.enabled = false;
+        }
     }
 
     void LateUpdate()

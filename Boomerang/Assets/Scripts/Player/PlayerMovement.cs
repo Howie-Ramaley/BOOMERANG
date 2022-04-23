@@ -203,6 +203,9 @@ public class PlayerMovement : MonoBehaviour
         //add shockwave/groundpound (pushes enemies away and up upon hitting ground with boomerang)?
         //fix vertical segment of background platform becoming solid while inside of the player
 
+        /*if(Input.GetKey(KeyCode.Escape))
+            Application.Quit();*/
+
         animate.idle();
 
         if(isNearGround())

@@ -33,6 +33,9 @@ public class Bubble : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(player == null)
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+
         frameCounter++;
 
         if(respawnFrames > 0)
@@ -65,7 +68,13 @@ public class Bubble : MonoBehaviour
     {
         if(collider.gameObject.tag == "Player")
         {
-            player.launch(0F, force);
+            if(player != null)
+                player.launch(0F, force);
+            else
+            {
+                player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+                player.launch(0F, force);
+            }
         }
     }
 
@@ -73,7 +82,13 @@ public class Bubble : MonoBehaviour
     {
         if(collider.gameObject.tag == "Player")
         {
-            player.launch(0F, force);
+            if(player != null)
+                player.launch(0F, force);
+            else
+            {
+                player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+                player.launch(0F, force);
+            }
             SoundManager.PlaySound("pop");
             circCollider.enabled = false;
             //sprite.GetComponent<SpriteRenderer>().enabled = false;

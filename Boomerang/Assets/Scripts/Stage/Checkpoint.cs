@@ -23,6 +23,8 @@ public class Checkpoint : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(player == null)
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
         /*
         if(playerCollide)
         {
@@ -41,7 +43,10 @@ public class Checkpoint : MonoBehaviour
             if(player != null)
                 player.setCheckpoint(transform.position.x, transform.position.y, !lit);
             else
+            {
                 player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+                player.setCheckpoint(transform.position.x, transform.position.y, !lit);
+            }
             lit = true;
             animator.SetBool("lit", lit);
         }

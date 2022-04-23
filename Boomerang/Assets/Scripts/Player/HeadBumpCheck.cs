@@ -10,7 +10,7 @@ public class HeadBumpCheck : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        player = transform.parent.gameObject.GetComponent<PlayerMovement>();
     }
 
     //Triggers when collider intersects HeadCheck
@@ -46,6 +46,6 @@ public class HeadBumpCheck : MonoBehaviour
             }
         }
         else
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+            player = transform.parent.gameObject.GetComponent<PlayerMovement>();
     }
 }
