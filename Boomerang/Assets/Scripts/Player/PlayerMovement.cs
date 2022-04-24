@@ -195,7 +195,6 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         //TO-DO:
-        //fix getting stuck on small stuff rarely
         //fix falling while running off downward angles
         //fix player knockback when hurt by enemies/thorns and add editable boolean for slight directional bias
         //variable jump height based on how long you hold the jump key
@@ -382,7 +381,7 @@ public class PlayerMovement : MonoBehaviour
         if(!isNearGround())
         {
             framesNotGrounded++;
-            inAir = true;
+            //inAir = true;
         }
         else
             framesNotGrounded = 0;
@@ -393,13 +392,11 @@ public class PlayerMovement : MonoBehaviour
         //else if , the player is grounded, start halting the player's gravity
         else if(gravityVel >= vely && isNearGround())
         {
-            if(inAir)
+            if(inAir && isGrounded())
             {
                 inAir = false;
-                if(freeFallCheck.isApproachingGround())
-                {
+                if(animate.getAnimState() != PlayerAnimation.AnimationState.jump)
                     SoundManager.PlaySound("land");
-                }
             }
             //if FeetCheck is right under the player, set player's gravity to 0
             if(isGrounded())
@@ -430,7 +427,10 @@ public class PlayerMovement : MonoBehaviour
                 //Debug.Log("Fall");
             }
             if(freeFallCheck.isApproachingGround() && !isNearGround())
+            {
                 animate.fallingLand();
+                inAir = true;
+            }
             gravityVel += (gravityScale * 0.1962F);
             if(gravityVel > gravityMax)
                 gravityVel = gravityMax;

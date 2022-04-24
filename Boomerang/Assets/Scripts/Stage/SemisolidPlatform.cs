@@ -17,13 +17,11 @@ public class SemisolidPlatform : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if(player != null && player.gameObject != null)
         {
             float playerHeight = 1.5F;
-            //if(player.GetComponentInChildren<PlayerAnimation>().getAnimState() == PlayerAnimation.AnimationState.roll)
-                //playerHeight = 1F;
             playerHeight *= player.localScale.y;
             float playerWidth = 1F * player.localScale.x;
             float pBottom = player.position.y - (playerHeight / 2F);
@@ -38,7 +36,7 @@ public class SemisolidPlatform : MonoBehaviour
             bool horizontalIntersect = (pRight > left && pRight < right) || (pLeft > left && pLeft < right);
             if(!Input.GetKey(KeyCode.S) && Input.GetAxis("Vertical") > -0.8F && horizontalIntersect)
             {
-                if(pBottom > bottom && pBottom < top)
+                if(pBottom >= bottom && pBottom < top)
                 {
                     player.position = new Vector3(player.position.x, top + 0.01F + (playerHeight / 2F), player.position.z);
                     PlayerMovement playerMovement = player.gameObject.GetComponent<PlayerMovement>();
