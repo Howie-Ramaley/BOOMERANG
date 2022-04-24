@@ -7,6 +7,7 @@ public class SemisolidPlatform : MonoBehaviour
     [SerializeField] private Transform player;
     private BoxCollider2D boxCollider;
     private PolygonCollider2D polyCollider;
+    private float top, bottom, right, left;
 
     // Start is called before the first frame update
     void Start()
@@ -14,10 +15,22 @@ public class SemisolidPlatform : MonoBehaviour
         //player = GameObject.FindGameObjectWithTag("Player").transform;
         boxCollider = GetComponent<BoxCollider2D>();
         polyCollider = GetComponent<PolygonCollider2D>();
+        top = transform.position.y + (boxCollider.offset.y * transform.localScale.y) + transform.localScale.y * boxCollider.size.y / 2F;
+        bottom = transform.position.y + (boxCollider.offset.y * transform.localScale.y) - transform.localScale.y * boxCollider.size.y / 2F;
+        right = transform.position.x + transform.localScale.x / 2;
+        left = transform.position.x - transform.localScale.x / 2;
     }
 
-    // Update is called once per frame
-    void LateUpdate()
+    void FixedUpdate()
+    {
+        updateCollision();
+    }
+    /*void LateUpdate()
+    {
+        updateCollision();
+    }*/
+
+    void updateCollision()
     {
         if(player != null && player.gameObject != null)
         {
@@ -28,14 +41,24 @@ public class SemisolidPlatform : MonoBehaviour
             float pRight = player.position.x + playerWidth / 2F;
             float pLeft = player.position.x - playerWidth / 2F;
 
-            float top = transform.position.y + (boxCollider.offset.y * transform.localScale.y) + transform.localScale.y * boxCollider.size.y / 2F;
-            float bottom = transform.position.y + (boxCollider.offset.y * transform.localScale.y) - transform.localScale.y * boxCollider.size.y / 2F;
-            float right = transform.position.x + transform.localScale.x / 2;
-            float left = transform.position.x - transform.localScale.x / 2;
-
             bool horizontalIntersect = (pRight > left && pRight < right) || (pLeft > left && pLeft < right);
             if(!Input.GetKey(KeyCode.S) && Input.GetAxis("Vertical") > -0.8F && horizontalIntersect)
             {
+                if(polyCollider == null)
+                {
+                    if(pBottom >= bottom)
+                        boxCollider.isTrigger = false;
+                    else
+                        boxCollider.isTrigger = true;
+                }
+                else
+                {
+                    if(pBottom >= bottom)
+                        polyCollider.isTrigger = false;
+                    else
+                        polyCollider.isTrigger = true;
+                }
+                
                 if(pBottom >= bottom && pBottom < top)
                 {
                     player.position = new Vector3(player.position.x, top + 0.01F + (playerHeight / 2F), player.position.z);
@@ -47,20 +70,6 @@ public class SemisolidPlatform : MonoBehaviour
                         playerMovement.getRigidbody().velocity = new Vector2(playerMovement.getRigidbody().velocity.x, 0);
                     }
                 }
-                if(polyCollider == null)
-                {
-                    if(pBottom >= top)
-                        boxCollider.isTrigger = false;
-                    else
-                        boxCollider.isTrigger = true;
-                }
-                else
-                {
-                    if(pBottom >= top)
-                        polyCollider.isTrigger = false;
-                    else
-                        polyCollider.isTrigger = true;
-                }
             }
             else
             {
@@ -71,8 +80,6 @@ public class SemisolidPlatform : MonoBehaviour
             }
         }
         else
-        {
             player = GameObject.FindGameObjectWithTag("Player").transform;
-        }
     }
 }
