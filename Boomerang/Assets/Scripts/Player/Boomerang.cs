@@ -456,6 +456,11 @@ public class Boomerang : MonoBehaviour
             return false;
     }
 
+    public bool getReadyToThrow()
+    {
+        return readyToThrow;
+    }
+
     private void returnBoomerang()
     {
         throwAngle = Vector2.zero;
