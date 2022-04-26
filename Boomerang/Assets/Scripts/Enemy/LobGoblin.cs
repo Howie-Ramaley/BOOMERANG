@@ -11,15 +11,17 @@ public class LobGoblin : Enemy
     [SerializeField] private float projectileSpeed;
     [SerializeField] private float projectileAmplitude;
     [SerializeField] private float projectileFrequency;
+    [SerializeField] private float platformSpeed;
     private int startTeleportFrames;
     private int teleportingFrames;
     private int attackFrames;
     private List<Vector2> points;
     private int atPointIndex;
-
     private bool frozen;
-
     private List<LobGob> lobGobs;
+    private Transform platformPoint1;
+    private Transform platformPoint2;
+    private Vector2 platformTarget;
     
 
     // Start is called before the first frame update
@@ -53,17 +55,41 @@ public class LobGoblin : Enemy
             lgTransform = transform.parent.Find("Projectile" + n);
         }
 
+        platformPoint1 = transform.parent.Find("PlatformPoint1");
+        platformPoint2 = transform.parent.Find("PlatformPoint2");
+
         frozen = false;
     }
 
     override protected void FixedUpdate()
     {
         base.FixedUpdate();
-        
-        if(player.transform.position.x >= transform.position.x)
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, 180, transform.eulerAngles.z);
+        if(!stunned)
+        {
+            if(player.transform.position.x >= transform.position.x)
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, 180, transform.eulerAngles.z);
+            else
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0, transform.eulerAngles.z);
+        }
         else
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0, transform.eulerAngles.z);
+        {
+            float x = platformTarget.x;
+            float y = platformTarget.y;
+            float dist = Mathf.Sqrt(Mathf.Pow(x - transform.position.x, 2) + Mathf.Pow(y - transform.position.y, 2));
+            float angle = -Mathf.Atan2(y - transform.position.y, x - transform.position.x) + Mathf.PI / 2;
+            if (dist < platformSpeed)
+            {
+                if(platformTarget == (Vector2)platformPoint1.position)
+                    platformTarget = platformPoint2.position;
+                else
+                    platformTarget = platformPoint1.position;
+            }
+            else
+                dist = platformSpeed;
+            velx = dist * Mathf.Sin(angle);
+            vely = dist * Mathf.Cos(angle);
+            transform.position = new Vector3(transform.position.x + velx, transform.position.y + vely, transform.position.z);
+        }
 
         if(startTeleportFrames == 0 && teleportingFrames == 0 && attackFrames == 0)
         {
@@ -89,10 +115,15 @@ public class LobGoblin : Enemy
                 teleportingFrames++;
                 if(teleportingFrames > teleportingTime)
                 {
+                    //actual teleport
                     teleportingFrames = 0;
                     atPointIndex++;
                     if(atPointIndex >= points.Count)
                         atPointIndex = 0;
+                    platformPoint1.position = points[atPointIndex] + (Vector2)platformPoint1.position - (Vector2)transform.position;
+                    platformPoint2.position = points[atPointIndex] + (Vector2)platformPoint2.position - (Vector2)transform.position;
+                    //platformPoint1 = new Vector2(points[atPointIndex].x + platformPoint1.x - transform.position.x, points[atPointIndex].y + platformPoint1.y - transform.position.y);
+                    //platformPoint2 = new Vector2(points[atPointIndex].x + platformPoint2.x - transform.position.x, points[atPointIndex].y + platformPoint2.y - transform.position.y);
                     transform.position = points[atPointIndex];
                     GetComponent<SpriteRenderer>().color = Color.red;
                 }
@@ -137,6 +168,7 @@ public class LobGoblin : Enemy
         frozen = false;
         for(int i = 0; i < lobGobs.Count; i++)
             lobGobs[i].reset();
+        platformTarget = platformPoint1.position;
     }
 
     override protected void patrol()
