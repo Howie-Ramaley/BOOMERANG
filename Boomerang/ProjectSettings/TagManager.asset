@@ -11,6 +11,7 @@ TagManager:
   - BG Platform
   - Wall
   - Death Counter
+  - LevelTransitioner
   layers:
   - Default
   - TransparentFX

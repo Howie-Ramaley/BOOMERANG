@@ -24,15 +24,20 @@ public class DeathScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(player.GetComponent<PlayerHealth>().getDied() && wait == 0)
+        if(player != null)
         {
-            deaths += 1;
-            wait = 2;
+            if(player.GetComponent<PlayerHealth>().getDied() && wait == 0)
+            {
+                deaths += 1;
+                wait = 2;
+            }
+            else if(wait > 0)
+            {
+                wait--;
+            }
         }
-        else if(wait > 0)
-        {
-            wait--;
-        }
+        else
+            player = GameObject.FindGameObjectWithTag("Player");
         deathCounter.text = "Deaths: " + deaths;
     }
 }
