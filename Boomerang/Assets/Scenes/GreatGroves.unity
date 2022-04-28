@@ -671,8 +671,12 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6547413132030222129, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
+      propertyPath: m_Size.x
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6547413132030222129, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_Offset.x
-      value: 3
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 6547413132030222129, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_Offset.y
@@ -680,7 +684,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6587151290433416416, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_Text
-      value: Use the LEFT STICK to move.
+      value: Use the LEFT STICK / WASD to move.
       objectReference: {fileID: 0}
     - target: {fileID: 8304534522398654628, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_RootOrder
@@ -688,7 +692,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8304534522398654628, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -57.07
+      value: -58.12
       objectReference: {fileID: 0}
     - target: {fileID: 8304534522398654628, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8880,10 +8884,10 @@ PrefabInstance:
       propertyPath: m_Text
       value: 'Hold and release the RIGHT
 
-        STICK to perform a Heavy Throw.
+        STICK / IJKL to perform a Heavy
+        Throw.
 
-        Heavy
-        Throws will lodge into WAVY walls.'
+        Heavy Throws will lodge into WAVY walls.'
       objectReference: {fileID: 0}
     - target: {fileID: 6587151290433416416, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_CharacterSize
@@ -11874,7 +11878,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6587151290433416416, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_Text
-      value: 'Flick the RIGHT STICK to
+      value: 'Flick the RIGHT STICK / press IJKL to
 
         Light Throw the Boomerang.'
       objectReference: {fileID: 0}
@@ -14353,7 +14357,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6547413132030222129, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_Offset.x
-      value: 3.0342846
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 6547413132030222129, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_Offset.y
@@ -14361,7 +14365,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6587151290433416416, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_Text
-      value: 'Hold the LEFT STICK down
+      value: 'Hold the LEFT STICK down / press D
 
         to drop through platforms.'
       objectReference: {fileID: 0}
@@ -14371,7 +14375,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8304534522398654628, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -17.84
+      value: -19.23
       objectReference: {fileID: 0}
     - target: {fileID: 8304534522398654628, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_LocalPosition.y
@@ -17895,7 +17899,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6587151290433416416, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_Text
-      value: 'Press TRIANGLE to recall
+      value: 'Press TRIANGLE / IJKL to recall
 
         the Boomerang.'
       objectReference: {fileID: 0}
@@ -18936,7 +18940,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6547413132030222129, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_Offset.x
-      value: 3.259737
+      value: 3.7
       objectReference: {fileID: 0}
     - target: {fileID: 6547413132030222129, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_Offset.y
@@ -18944,7 +18948,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6587151290433416416, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_Text
-      value: Press SQUARE to roll.
+      value: Press SQUARE / SHIFT to roll.
       objectReference: {fileID: 0}
     - target: {fileID: 8304534522398654628, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_RootOrder
@@ -18952,7 +18956,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8304534522398654628, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.65
+      value: -6.93
       objectReference: {fileID: 0}
     - target: {fileID: 8304534522398654628, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_LocalPosition.y
@@ -19360,6 +19364,12 @@ PrefabInstance:
     - target: {fileID: 6547413132030222129, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_Offset.y
       value: -2.8326983
+      objectReference: {fileID: 0}
+    - target: {fileID: 6587151290433416416, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
+      propertyPath: m_Text
+      value: 'Press X or flick up
+
+        LEFT STICK / press SPACE to jump.'
       objectReference: {fileID: 0}
     - target: {fileID: 8304534522398654628, guid: ae29589b5f3335e4297d87e3d06b7faf, type: 3}
       propertyPath: m_RootOrder
