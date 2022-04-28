@@ -18,15 +18,19 @@ public class LevelTransitioner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        white = transform.Find("White").GetComponent<Image>();
+        title = transform.Find("Title").GetComponent<Image>();
         if(fadeIn)
+        {
             fadeInTime = 60;
+            white.enabled = true;
+            title.enabled = true;
+        }
         else
             fadeInTime = 0;
         fadeOutTime = 20;
         fadeOutFrames = 0;
         fadeInFrames = 1;
-        white = transform.Find("White").GetComponent<Image>();
-        title = transform.Find("Title").GetComponent<Image>();
         scene = "";
     }
 
