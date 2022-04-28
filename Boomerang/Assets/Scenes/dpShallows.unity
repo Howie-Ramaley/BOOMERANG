@@ -1389,6 +1389,10 @@ PrefabInstance:
       propertyPath: respawnTime
       value: 110
       objectReference: {fileID: 0}
+    - target: {fileID: 7585926382324302781, guid: 390447881a8024d46a2336a09998e911, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 1421574101}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 390447881a8024d46a2336a09998e911, type: 3}
 --- !u!4 &83987395 stripped
@@ -2055,6 +2059,10 @@ PrefabInstance:
       propertyPath: respawnTime
       value: 110
       objectReference: {fileID: 0}
+    - target: {fileID: 7585926382324302781, guid: 390447881a8024d46a2336a09998e911, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 1421574101}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 390447881a8024d46a2336a09998e911, type: 3}
 --- !u!1 &154546999
@@ -2812,7 +2820,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1761590917257801151, guid: 19562986950fc2b4792b2d6a23cba5aa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.0180254
+      value: 6.964
       objectReference: {fileID: 0}
     - target: {fileID: 1761590917257801151, guid: 19562986950fc2b4792b2d6a23cba5aa, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2877,11 +2885,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7556954581694184278, guid: c23dd36e749f67d4a904dd114fff7cae, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.64
+      value: -7.66
       objectReference: {fileID: 0}
     - target: {fileID: 7556954581694184278, guid: c23dd36e749f67d4a904dd114fff7cae, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.47
+      value: 2.16
       objectReference: {fileID: 0}
     - target: {fileID: 7556954581694184278, guid: c23dd36e749f67d4a904dd114fff7cae, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3353,6 +3361,10 @@ PrefabInstance:
       propertyPath: respawnTime
       value: 110
       objectReference: {fileID: 0}
+    - target: {fileID: 7585926382324302781, guid: 390447881a8024d46a2336a09998e911, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 1421574101}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 390447881a8024d46a2336a09998e911, type: 3}
 --- !u!4 &282242016 stripped
@@ -4015,6 +4027,10 @@ PrefabInstance:
       propertyPath: respawnTime
       value: 110
       objectReference: {fileID: 0}
+    - target: {fileID: 7585926382324302781, guid: 390447881a8024d46a2336a09998e911, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 1421574101}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 390447881a8024d46a2336a09998e911, type: 3}
 --- !u!4 &359373525 stripped
@@ -6695,6 +6711,10 @@ PrefabInstance:
       propertyPath: respawnTime
       value: 110
       objectReference: {fileID: 0}
+    - target: {fileID: 7585926382324302781, guid: 390447881a8024d46a2336a09998e911, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 1421574101}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 390447881a8024d46a2336a09998e911, type: 3}
 --- !u!1001 &659137662
@@ -6768,6 +6788,10 @@ PrefabInstance:
       propertyPath: respawnTime
       value: 110
       objectReference: {fileID: 0}
+    - target: {fileID: 7585926382324302781, guid: 390447881a8024d46a2336a09998e911, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 1421574101}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 390447881a8024d46a2336a09998e911, type: 3}
 --- !u!1 &687495165
@@ -8058,6 +8082,10 @@ PrefabInstance:
       propertyPath: respawnTime
       value: 110
       objectReference: {fileID: 0}
+    - target: {fileID: 7585926382324302781, guid: 390447881a8024d46a2336a09998e911, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 1421574101}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 390447881a8024d46a2336a09998e911, type: 3}
 --- !u!4 &758507694 stripped
@@ -9267,7 +9295,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.48124862}
+  m_Offset: {x: 0, y: 0.47045007}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -9278,7 +9306,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.037502766}
+  m_Size: {x: 1, y: 0.059099853}
   m_EdgeRadius: 0
 --- !u!212 &883670698
 SpriteRenderer:
@@ -13840,6 +13868,10 @@ PrefabInstance:
       propertyPath: respawnTime
       value: 110
       objectReference: {fileID: 0}
+    - target: {fileID: 7585926382324302781, guid: 390447881a8024d46a2336a09998e911, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 1421574101}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 390447881a8024d46a2336a09998e911, type: 3}
 --- !u!4 &1294842677 stripped
@@ -14757,6 +14789,10 @@ PrefabInstance:
       propertyPath: respawnTime
       value: 110
       objectReference: {fileID: 0}
+    - target: {fileID: 7585926382324302781, guid: 390447881a8024d46a2336a09998e911, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 1421574101}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 390447881a8024d46a2336a09998e911, type: 3}
 --- !u!1 &1359568592
@@ -15037,6 +15073,10 @@ PrefabInstance:
       propertyPath: respawnTime
       value: 80
       objectReference: {fileID: 0}
+    - target: {fileID: 7585926382324302781, guid: 390447881a8024d46a2336a09998e911, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 1421574101}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 390447881a8024d46a2336a09998e911, type: 3}
 --- !u!4 &1377771864 stripped
@@ -15193,6 +15233,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1421574101 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7556954581694184275, guid: c23dd36e749f67d4a904dd114fff7cae, type: 3}
+  m_PrefabInstance: {fileID: 242890352}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1427437712
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17825,6 +17870,10 @@ PrefabInstance:
       propertyPath: respawnTime
       value: 110
       objectReference: {fileID: 0}
+    - target: {fileID: 7585926382324302781, guid: 390447881a8024d46a2336a09998e911, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 1421574101}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 390447881a8024d46a2336a09998e911, type: 3}
 --- !u!1 &1700655239
@@ -18504,6 +18553,10 @@ PrefabInstance:
       propertyPath: respawnTime
       value: 110
       objectReference: {fileID: 0}
+    - target: {fileID: 7585926382324302781, guid: 390447881a8024d46a2336a09998e911, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 1421574101}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 390447881a8024d46a2336a09998e911, type: 3}
 --- !u!4 &1759117165 stripped
@@ -19807,6 +19860,10 @@ PrefabInstance:
       propertyPath: respawnTime
       value: 110
       objectReference: {fileID: 0}
+    - target: {fileID: 7585926382324302781, guid: 390447881a8024d46a2336a09998e911, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 1421574101}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 390447881a8024d46a2336a09998e911, type: 3}
 --- !u!4 &1937458547 stripped
@@ -20118,6 +20175,10 @@ PrefabInstance:
       propertyPath: respawnTime
       value: 110
       objectReference: {fileID: 0}
+    - target: {fileID: 7585926382324302781, guid: 390447881a8024d46a2336a09998e911, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 1421574101}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 390447881a8024d46a2336a09998e911, type: 3}
 --- !u!1 &1957204695
@@ -20378,6 +20439,10 @@ PrefabInstance:
       propertyPath: respawnTime
       value: 110
       objectReference: {fileID: 0}
+    - target: {fileID: 7585926382324302781, guid: 390447881a8024d46a2336a09998e911, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 1421574101}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 390447881a8024d46a2336a09998e911, type: 3}
 --- !u!1 &1992058849
@@ -20909,6 +20974,10 @@ PrefabInstance:
       propertyPath: respawnTime
       value: 110
       objectReference: {fileID: 0}
+    - target: {fileID: 7585926382324302781, guid: 390447881a8024d46a2336a09998e911, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 1421574101}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 390447881a8024d46a2336a09998e911, type: 3}
 --- !u!4 &2012299748 stripped
@@ -22072,6 +22141,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bubble
       objectReference: {fileID: 0}
+    - target: {fileID: 7585926382324302781, guid: 390447881a8024d46a2336a09998e911, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 1421574101}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 390447881a8024d46a2336a09998e911, type: 3}
 --- !u!1 &2111070273
@@ -22705,6 +22778,10 @@ PrefabInstance:
       propertyPath: respawnTime
       value: 110
       objectReference: {fileID: 0}
+    - target: {fileID: 7585926382324302781, guid: 390447881a8024d46a2336a09998e911, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 1421574101}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 390447881a8024d46a2336a09998e911, type: 3}
 --- !u!4 &2132406200 stripped

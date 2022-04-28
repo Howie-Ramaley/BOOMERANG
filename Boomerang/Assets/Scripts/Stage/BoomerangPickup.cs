@@ -16,6 +16,7 @@ public class BoomerangPickup : MonoBehaviour
                 GetComponent<BoxCollider2D>().enabled = false;
                 boomerang.GetComponent<Boomerang>().enabled = true;
                 boomerang.GetComponent<Animator>().enabled = true;
+                boomerang.GetComponent<SpriteRenderer>().enabled = true;
             }
         }
     }

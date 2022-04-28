@@ -8,7 +8,7 @@ public class DeathScript : MonoBehaviour
 
     public TextMeshProUGUI deathCounter;
 
-    private GameObject player;
+    private PlayerHealth player;
 
     private int deaths;
 
@@ -17,7 +17,7 @@ public class DeathScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
         wait = 0;
     }
 
@@ -37,7 +37,7 @@ public class DeathScript : MonoBehaviour
             }
         }
         else
-            player = GameObject.FindGameObjectWithTag("Player");
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
         deathCounter.text = "Deaths: " + deaths;
     }
 }
