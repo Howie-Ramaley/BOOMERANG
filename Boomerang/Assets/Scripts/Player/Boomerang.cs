@@ -211,6 +211,8 @@ public class Boomerang : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(player == null)
+            player = GameObject.FindGameObjectWithTag("Player");
         if (Mathf.Sqrt(Mathf.Pow(player.transform.position.x - transform.position.x, 2) + Mathf.Pow(player.transform.position.y - transform.position.y, 2)) >= 30)
             returnBoomerang();
         if (throwCooldown > 0) 
@@ -401,6 +403,23 @@ public class Boomerang : MonoBehaviour
             {
                 if(superThrow && collider.gameObject.tag == "Dirt" && !returning)
                 {
+                    List<Transform> snaps = new List<Transform>();
+                    foreach (Transform child in collider.gameObject.transform)
+                    {
+                        if(child.gameObject.tag == "Snap")
+                            snaps.Add(child);
+                    }
+                    if(snaps.Count > 0)
+                    {
+                        foreach(Transform snap in snaps)
+                        {
+                            float dist = Mathf.Abs(snap.position.y - transform.position.y);
+                            if(dist < 0.5f)
+                                transform.position = new Vector3(snap.position.x, snap.position.y, transform.position.z);
+                        }
+                    }
+                    else
+                        Debug.LogError("No snap found on dirt wall.");
                     superThrow = false;
                     returning = false;
                     throwKeyPressedFrames = 0;

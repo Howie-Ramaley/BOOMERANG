@@ -12,6 +12,7 @@ TagManager:
   - Wall
   - Death Counter
   - LevelTransitioner
+  - Snap
   layers:
   - Default
   - TransparentFX
