@@ -644,4 +644,5 @@ public class PlayerMovement : MonoBehaviour
     public void setSpeed(float s) {speed = s;}
     public bool getFacingRight() {return facingRight;}
     public void setFacingRight(bool f) {facingRight = f;} 
+    public FollowPlayer getCamera(){return gameCamera;}
 }

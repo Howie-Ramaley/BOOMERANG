@@ -382,7 +382,10 @@ public class Boomerang : MonoBehaviour
                     {
                         bool reflect = false;
                         if(superThrow)
+                        {
                             reflect = enemy.stun();
+                            player.GetComponent<PlayerMovement>().getCamera().setShake(0.01f, 15);
+                        }
                         else
                         {
                             float angle = -Mathf.Atan2(player.transform.position.y - transform.position.y, player.transform.position.x - transform.position.x) + Mathf.PI / 2;
