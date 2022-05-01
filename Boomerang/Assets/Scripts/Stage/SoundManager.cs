@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
 
     static AudioSource audioSrc;
+
+    public Slider volumeSlider;
 
     public static AudioClip playerJump, playerLand, playerHit, playerRoll;
 
@@ -47,7 +50,7 @@ public class SoundManager : MonoBehaviour
 
     public static void PlaySound(string clip)
     {
-        audioSrc.volume = 1.0f;
+        //audioSrc.volume = 1.0f;
         switch(clip)
         {
             case "jump":
@@ -55,7 +58,7 @@ public class SoundManager : MonoBehaviour
                 audioSrc.PlayOneShot(bellJingle);
                 break;
             case "land":
-                audioSrc.volume = 0.5f;
+                //audioSrc.volume = 0.5f;
                 audioSrc.PlayOneShot(playerLand);
                 audioSrc.PlayOneShot(bellJingle);
                 break;
@@ -109,6 +112,20 @@ public class SoundManager : MonoBehaviour
                 audioSrc.PlayOneShot(splash);
                 break;
         }
+    }
 
+    void OnEnable()
+    {
+        volumeSlider.onValueChanged.AddListener(delegate { changeVolume(volumeSlider.value); });
+    }
+
+    void changeVolume(float sliderValue)
+    {
+        audioSrc.volume = sliderValue;
+    }
+
+    void OnDisable()
+    {
+        volumeSlider.onValueChanged.RemoveAllListeners();
     }
 }
