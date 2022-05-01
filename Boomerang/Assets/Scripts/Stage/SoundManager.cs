@@ -13,7 +13,7 @@ public class SoundManager : MonoBehaviour
 
     public static AudioClip enemyHit, enemyRoar, enemyWake, enemyTeleport, enemyLob, enemyProjectile;
 
-    public static AudioClip lightCheckpoint, bubblePop, bellJingle;
+    public static AudioClip lightCheckpoint, bubblePop, bellJingle, splash;
     
 
     // Start is called before the first frame update
@@ -42,6 +42,7 @@ public class SoundManager : MonoBehaviour
         lightCheckpoint = Resources.Load<AudioClip>("lightCheckpoint");
         bubblePop = Resources.Load<AudioClip>("bubblePop");
         bellJingle = Resources.Load<AudioClip>("bellJingle");
+        splash = Resources.Load<AudioClip>("splash");
     }
 
     public static void PlaySound(string clip)
@@ -103,6 +104,9 @@ public class SoundManager : MonoBehaviour
                 break;
             case "pop":
                 audioSrc.PlayOneShot(bubblePop);
+                break;
+            case "splash":
+                audioSrc.PlayOneShot(splash);
                 break;
         }
 
