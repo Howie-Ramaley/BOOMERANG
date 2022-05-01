@@ -26,7 +26,7 @@ public class TimerController : MonoBehaviour
         timeCounter.text = "Time: 00:00.00";
 
         timerGoing = true;
-        elapsedTime = 0f;
+        elapsedTime = GlobalVars.getTime();
 
         StartCoroutine(UpdateTimer());
     }
@@ -52,6 +52,8 @@ public class TimerController : MonoBehaviour
             timePlaying = TimeSpan.FromSeconds(elapsedTime);
             string timePlayingStr = "Time: " + timePlaying.ToString("mm':'ss'.'ff");
             timeCounter.text = timePlayingStr;
+
+            GlobalVars.setTime(elapsedTime);
 
             yield return null;
         }

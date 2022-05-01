@@ -19,6 +19,7 @@ public class DeathScript : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
         wait = 0;
+        deaths = GlobalVars.getDeaths();
     }
 
     // Update is called once per frame
@@ -29,6 +30,7 @@ public class DeathScript : MonoBehaviour
             if(player.GetComponent<PlayerHealth>().getDied() && wait == 0)
             {
                 deaths += 1;
+                GlobalVars.setDeaths(deaths);
                 wait = 2;
             }
             else if(wait > 0)
