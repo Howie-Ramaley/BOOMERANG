@@ -2120,6 +2120,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Music
       objectReference: {fileID: 0}
+    - target: {fileID: 677483587002252032, guid: d6d5416812ba3ba4a9efe79294b910e2, type: 3}
+      propertyPath: m_text
+      value: DIFFICULTY MODE
+      objectReference: {fileID: 0}
     - target: {fileID: 677483587002252033, guid: d6d5416812ba3ba4a9efe79294b910e2, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0

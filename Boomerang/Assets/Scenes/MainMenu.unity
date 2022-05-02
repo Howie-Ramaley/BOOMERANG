@@ -1824,7 +1824,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 677483587002252032, guid: d6d5416812ba3ba4a9efe79294b910e2, type: 3}
       propertyPath: m_text
-      value: DIFFICULTY PREFERENCES
+      value: DIFFICULTY MODE
       objectReference: {fileID: 0}
     - target: {fileID: 677483587178590820, guid: d6d5416812ba3ba4a9efe79294b910e2, type: 3}
       propertyPath: m_AnchorMax.x
