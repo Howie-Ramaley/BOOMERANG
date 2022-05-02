@@ -23,6 +23,7 @@ public class SoundManager : MonoBehaviour
     void Start()
     {
         audioSrc = GetComponent<AudioSource>();
+        changeVolume(GlobalVars.getSoundVolume());
 
         playerJump = Resources.Load<AudioClip>("playerJump");
         playerLand = Resources.Load<AudioClip>("playerLand");
@@ -116,7 +117,11 @@ public class SoundManager : MonoBehaviour
 
     void OnEnable()
     {
-        volumeSlider.onValueChanged.AddListener(delegate { changeVolume(volumeSlider.value); });
+        volumeSlider.onValueChanged.AddListener(delegate
+        {
+            changeVolume(volumeSlider.value);
+            GlobalVars.setSoundVolume(volumeSlider.value);
+        });
     }
 
     void changeVolume(float sliderValue)

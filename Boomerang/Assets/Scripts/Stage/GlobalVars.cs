@@ -9,6 +9,13 @@ public class GlobalVars : MonoBehaviour
     public static float time;
     public static int deaths;
 
+    public static float musicVolume = 0.18F;
+    public static float soundVolume = 1F;
+
+    public static bool hudEnabled;
+    public static bool timeEnabled;
+    public static bool deathsEnabled;
+
     public static void setDifficulty(DifficultyOptions o)
     {
         difficulty = o;
@@ -34,5 +41,50 @@ public class GlobalVars : MonoBehaviour
     public static int getDeaths()
     {
         return deaths;
+    }
+
+    public static void setMusicVolume(float v)
+    {
+        musicVolume = v;
+    }
+    public static float getMusicVolume()
+    {
+        return musicVolume;
+    }
+
+    public static void setSoundVolume(float v)
+    {
+        soundVolume = v;
+    }
+    public static float getSoundVolume()
+    {
+        return soundVolume;
+    }
+
+    public static void setHudEnabled(bool h)
+    {
+        hudEnabled = h;
+    }
+    public static bool getHudEnabled()
+    {
+        return hudEnabled;
+    }
+
+    public static void setTimeEnabled(bool t)
+    {
+        timeEnabled = t;
+    }
+    public static bool getTimeEnabled()
+    {
+        return timeEnabled;
+    }
+
+    public static void setDeathsEnabled(bool d)
+    {
+        deathsEnabled = d;
+    }
+    public static bool getDeathsEnabled()
+    {
+        return deathsEnabled;
     }
 }

@@ -14,11 +14,16 @@ public class MusicManager : MonoBehaviour
     void Start()
     {
         audioSrc = GetComponent<AudioSource>();
+        changeVolume(GlobalVars.getMusicVolume());
     }
 
     void OnEnable()
     {
-        volumeSlider.onValueChanged.AddListener(delegate { changeVolume(volumeSlider.value); });
+        volumeSlider.onValueChanged.AddListener(delegate
+        {
+        changeVolume(volumeSlider.value);
+        GlobalVars.setMusicVolume(volumeSlider.value);
+        });
     }
 
     void changeVolume(float sliderValue)
