@@ -159,7 +159,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 58ed1306a9cf6e04c82a66eca0340e42, type: 3}
-  m_Color: {r: 0.3317462, g: 0.990566, b: 0.990566, a: 1}
+  m_Color: {r: 0.56470275, g: 0.8490566, b: 0.8490566, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -318,3 +318,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   force: 10
   respawnTime: 100
+  playerObject: {fileID: 0}

@@ -19,11 +19,16 @@ public class MusicManager : MonoBehaviour
 
     void OnEnable()
     {
-        volumeSlider.onValueChanged.AddListener(delegate
+        if(volumeSlider != null)
         {
-        changeVolume(volumeSlider.value);
-        GlobalVars.setMusicVolume(volumeSlider.value);
-        });
+            volumeSlider.onValueChanged.AddListener(delegate
+            {
+            changeVolume(volumeSlider.value);
+            GlobalVars.setMusicVolume(volumeSlider.value);
+            });
+        }
+        else
+            volumeSlider = GameObject.FindGameObjectWithTag("Music").GetComponent<Slider>();
     }
 
     void changeVolume(float sliderValue)

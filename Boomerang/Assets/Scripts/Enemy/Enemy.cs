@@ -48,10 +48,12 @@ public class Enemy : MonoBehaviour, IStunnable
 
     protected BasicTrigger aggroArea;
 
+    protected float speedMultiplier;
+
     //
     [SerializeField] private float delayTimeLength;
     private float delayTime;
-    private Color color;
+    private Color colorYeah;
 
     // Start is called before the first frame update
     void Start()
@@ -68,14 +70,28 @@ public class Enemy : MonoBehaviour, IStunnable
         aggroArea = transform.parent.GetComponentInChildren<BasicTrigger>();
         AIDestinationSetter aids = GetComponent<AIDestinationSetter>();
         aids.target = player.transform;
-        color = GetComponent<SpriteRenderer>().color;
+        colorYeah = new Color(204f / 255f, 63f / 255f, 40f / 255f, 1f);
+        int diff = GlobalVars.getDifficulty();
+        if(diff == 0)
+            speedMultiplier = 0.85f;
+        else if(diff == 2)
+            speedMultiplier = 1.15f;
+        else
+            speedMultiplier = 1f;
     }
 
     protected virtual void FixedUpdate()
     {
-        if(color == null)
-            color = GetComponent<SpriteRenderer>().color;
-            
+        int diff = GlobalVars.getDifficulty();
+        if(diff == 0)
+            speedMultiplier = 0.85f;
+        else if(diff == 2)
+            speedMultiplier = 1.15f;
+        else
+            speedMultiplier = 1f;
+
+        colorYeah = new Color(204f / 255f, 63f / 255f, 40f / 255f, 1f);
+        
         if (delayTime > 0) 
         {
             delayTime -= Time.deltaTime;
@@ -134,6 +150,7 @@ public class Enemy : MonoBehaviour, IStunnable
                 {
                     velx = 0;
                     vely = 0;
+                    ((AIBase)astar).maxSpeed = (speed * speedMultiplier) * 50f;
                     astar.enabled = true;
                 }
                 else
@@ -189,7 +206,7 @@ public class Enemy : MonoBehaviour, IStunnable
             stunned = false;
             GetComponent<BoxCollider2D>().isTrigger = true;
             GetComponent<PlayerHit>().setHurts(true);
-            GetComponent<SpriteRenderer>().color = color;
+            GetComponent<SpriteRenderer>().color = colorYeah;
             SoundManager.PlaySound("wake");
             delayTime = delayTimeLength;
         }
@@ -220,8 +237,8 @@ public class Enemy : MonoBehaviour, IStunnable
             py += 1F;
         float dist = Mathf.Sqrt(Mathf.Pow(px - transform.position.x, 2) + Mathf.Pow(py - transform.position.y, 2));
         float angle = -Mathf.Atan2(py - transform.position.y, px - transform.position.x) + Mathf.PI / 2;
-        velx = ((dist < speed) ? dist : speed) * Mathf.Sin(angle);
+        velx = ((dist < (speed * speedMultiplier)) ? dist : (speed * speedMultiplier)) * Mathf.Sin(angle);
         if(!groundEnemy)
-            vely = ((dist < speed) ? dist : speed) * Mathf.Cos(angle);
+            vely = ((dist < (speed * speedMultiplier)) ? dist : (speed * speedMultiplier)) * Mathf.Cos(angle);
     }
 }

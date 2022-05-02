@@ -54,6 +54,7 @@ public class TimerController : MonoBehaviour
             timeCounter.text = timePlayingStr;
 
             GlobalVars.setTime(elapsedTime);
+            GlobalVars.setTimeText(timePlayingStr);
 
             yield return null;
         }

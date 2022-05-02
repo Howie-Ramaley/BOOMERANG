@@ -117,11 +117,16 @@ public class SoundManager : MonoBehaviour
 
     void OnEnable()
     {
-        volumeSlider.onValueChanged.AddListener(delegate
+        if(volumeSlider != null)
         {
-            changeVolume(volumeSlider.value);
-            GlobalVars.setSoundVolume(volumeSlider.value);
-        });
+            volumeSlider.onValueChanged.AddListener(delegate
+            {
+                changeVolume(volumeSlider.value);
+                GlobalVars.setSoundVolume(volumeSlider.value);
+            });
+        }
+        else
+            volumeSlider = GameObject.FindGameObjectWithTag("SFX").GetComponent<Slider>();
     }
 
     void changeVolume(float sliderValue)

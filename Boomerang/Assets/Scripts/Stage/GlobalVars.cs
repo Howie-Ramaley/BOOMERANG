@@ -5,24 +5,25 @@ using UnityEngine;
 public class GlobalVars : MonoBehaviour
 {
     public enum DifficultyOptions{easy, normal, hard};
-    public static DifficultyOptions difficulty;
-    public static float time;
-    public static int deaths;
+    public static DifficultyOptions difficulty = DifficultyOptions.normal;
+    public static float time = 0;
+    public static string timeText = "";
+    public static int deaths = 0;
 
-    public static float musicVolume = 0.18F;
-    public static float soundVolume = 1F;
+    public static float musicVolume = 0.18f;
+    public static float soundVolume = 0.72f;
 
-    public static bool hudEnabled;
-    public static bool timeEnabled;
-    public static bool deathsEnabled;
+    public static bool hudEnabled = true;
+    public static bool timeEnabled = true;
+    public static bool deathsEnabled = true;
 
-    public static void setDifficulty(DifficultyOptions o)
+    public static void setDifficulty(int o)
     {
-        difficulty = o;
+        difficulty = (DifficultyOptions)o;
     }
-    public static DifficultyOptions getDifficulty()
+    public static int getDifficulty()
     {
-        return difficulty;
+        return (int)difficulty;
     }
 
     public static void setTime(float t)
@@ -33,7 +34,14 @@ public class GlobalVars : MonoBehaviour
     {
         return time;
     }
-
+    public static void setTimeText(string t)
+    {
+        timeText = t;
+    }
+    public static string getTimeText()
+    {
+        return timeText;
+    }
     public static void setDeaths(int d)
     {
         deaths = d;

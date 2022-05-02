@@ -46,18 +46,18 @@ public class TookahMask : Enemy
         if (approachingPoint2) {
             dist = Mathf.Sqrt(Mathf.Pow(xy2.x - transform.position.x, 2) + Mathf.Pow(xy2.y - transform.position.y, 2));
             angle = -Mathf.Atan2(xy2.y - transform.position.y, xy2.x - transform.position.x) + Mathf.PI / 2;
-            velx = speed * Mathf.Sin(angle);
-            vely = speed * Mathf.Cos(angle);
-            if (dist < speed) {
+            velx = speed * speedMultiplier * Mathf.Sin(angle);
+            vely = speed * speedMultiplier * Mathf.Cos(angle);
+            if (dist < speed * speedMultiplier) {
                 approachingPoint2 = false;
             }
         } else {
             dist = Mathf.Sqrt(Mathf.Pow(xy1.x - transform.position.x, 2) + Mathf.Pow(xy1.y - transform.position.y, 2));
             angle = -Mathf.Atan2(xy1.y - transform.position.y, xy1.x - transform.position.x) + Mathf.PI / 2;
-            velx = speed * Mathf.Sin(angle);
-            vely = speed * Mathf.Cos(angle);
+            velx = speed * speedMultiplier * Mathf.Sin(angle);
+            vely = speed * speedMultiplier * Mathf.Cos(angle);
             
-            if (dist < speed) {
+            if (dist < speed * speedMultiplier) {
                 approachingPoint2 = true;
             }
         }

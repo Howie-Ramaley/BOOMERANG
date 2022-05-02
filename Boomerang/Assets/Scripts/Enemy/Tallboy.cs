@@ -40,8 +40,6 @@ public class Tallboy : Enemy
         else if(transform.position.x > rightWall.position.x)
             transform.position = new Vector3(rightWall.position.x, transform.position.y, transform.position.z);
 
-        animator.SetFloat("velx", velx);
-
         if(velx > 0.01F)
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, 180, transform.eulerAngles.z);
         else if(velx < -0.01F)
@@ -50,7 +48,7 @@ public class Tallboy : Enemy
         if(aggro)
             speed = 0.1F;
         else
-            speed = 0.07F;
+            speed = 0.07f;
     }
 
     override protected void patrol()
@@ -60,21 +58,34 @@ public class Tallboy : Enemy
         if (approachingPoint2) {
             dist = Mathf.Sqrt(Mathf.Pow(xy2.x - transform.position.x, 2) + Mathf.Pow(xy2.y - transform.position.y, 2));
             angle = -Mathf.Atan2(xy2.y - transform.position.y, xy2.x - transform.position.x) + Mathf.PI / 2;
-            velx = speed * Mathf.Sin(angle);
-            vely = speed * Mathf.Cos(angle);
-            if (dist < speed) {
+            velx = speed * speedMultiplier * Mathf.Sin(angle);
+            vely = speed * speedMultiplier * Mathf.Cos(angle);
+            if (dist < (speed * speedMultiplier)) {
                 approachingPoint2 = false;
             }
         } else {
             dist = Mathf.Sqrt(Mathf.Pow(xy1.x - transform.position.x, 2) + Mathf.Pow(xy1.y - transform.position.y, 2));
             angle = -Mathf.Atan2(xy1.y - transform.position.y, xy1.x - transform.position.x) + Mathf.PI / 2;
             velx = speed * Mathf.Sin(angle);
-            vely = speed * Mathf.Cos(angle);
+            animator.SetFloat("velx", velx);
+            velx *= speedMultiplier;
+            vely = speed * speedMultiplier * Mathf.Cos(angle);
                 
-            if (dist < speed) {
+            if (dist < (speed * speedMultiplier)) {
                 approachingPoint2 = true;
             }
         }
+    }
+
+    protected override void aggroBehavior()
+    {
+        float px = player.transform.position.x;
+        float py = player.transform.position.y;
+        float dist = Mathf.Sqrt(Mathf.Pow(px - transform.position.x, 2) + Mathf.Pow(py - transform.position.y, 2));
+        float angle = -Mathf.Atan2(py - transform.position.y, px - transform.position.x) + Mathf.PI / 2;
+        velx = ((dist < speed) ? dist : speed) * Mathf.Sin(angle);
+        animator.SetFloat("velx", velx);
+        velx = ((dist < (speed * speedMultiplier)) ? dist : (speed * speedMultiplier)) * Mathf.Sin(angle);
     }
 
     override public bool stun()
