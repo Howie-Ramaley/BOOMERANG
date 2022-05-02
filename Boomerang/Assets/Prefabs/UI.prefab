@@ -905,6 +905,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   optionsMenu: {fileID: 806235256646908346}
   PauseMenuUI: {fileID: 3460411323906876906}
+  timer: {fileID: 7852523834588476085}
 --- !u!114 &7852523834588476085
 MonoBehaviour:
   m_ObjectHideFlags: 0

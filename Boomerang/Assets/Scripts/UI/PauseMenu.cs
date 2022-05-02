@@ -13,6 +13,8 @@ public class PauseMenu : MonoBehaviour
     private LevelTransitioner levelTransitioner;
     private bool goingToMenu;
 
+    [SerializeField] private TimerController timer;
+
     void Start()
     {
         levelTransitioner = GameObject.FindGameObjectWithTag("LevelTransitioner").GetComponent<LevelTransitioner>();
@@ -22,6 +24,8 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(timer == null)
+            timer = GetComponent<TimerController>();
         if(levelTransitioner == null)
             levelTransitioner = GameObject.FindGameObjectWithTag("LevelTransitioner").GetComponent<LevelTransitioner>();
 
@@ -58,8 +62,11 @@ public class PauseMenu : MonoBehaviour
             levelTransitioner = GameObject.FindGameObjectWithTag("LevelTransitioner").GetComponent<LevelTransitioner>();
         if(levelTransitioner != null && !goingToMenu)
         {
+            timer.EndTimer();
             goingToMenu = true;
             Time.timeScale = 1f;
+            GlobalVars.setDeaths(0);
+            GlobalVars.setTime(0);
             levelTransitioner.changeLevel("MainMenu");
         }
         else

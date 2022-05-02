@@ -28,6 +28,7 @@ public class GlobalVars : MonoBehaviour
 
     public static void setTime(float t)
     {
+        //Debug.Log("time set to " + t);
         time = t;
     }
     public static float getTime()

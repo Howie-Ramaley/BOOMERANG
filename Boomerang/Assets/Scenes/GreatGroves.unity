@@ -7268,6 +7268,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &882094093 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7852523834588476085, guid: e4a4f380ef8706d418b0f72b14904ca1, type: 3}
+  m_PrefabInstance: {fileID: 945728378}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77e64108b68c20445ae7bc1c33554713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &888123267
 GameObject:
   m_ObjectHideFlags: 0
@@ -7899,6 +7910,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 8071437918158376941, guid: e4a4f380ef8706d418b0f72b14904ca1, type: 3}
+      propertyPath: timer
+      value: 
+      objectReference: {fileID: 882094093}
     - target: {fileID: 8071437918158376941, guid: e4a4f380ef8706d418b0f72b14904ca1, type: 3}
       propertyPath: PauseMenuUI
       value: 

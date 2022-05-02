@@ -20,6 +20,8 @@ public class ReturnToMenu : MonoBehaviour
         if(levelTransitioner != null && !activated)
         {
             activated = true;
+            GlobalVars.setDeaths(0);
+            GlobalVars.setTime(0);
             levelTransitioner.changeLevel("MainMenu");
         }
         else
