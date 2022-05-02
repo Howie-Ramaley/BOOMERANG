@@ -539,7 +539,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.13830543, g: 0.26415092, b: 0.26415092, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -808,7 +808,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'You win!
+  m_text: 'YOU WIN!
 
     Thank you for playing.'
   m_isRightToLeft: 0
@@ -947,8 +947,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Deaths: '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b0dc09cc7dc0fe3418b45ffcc9aa8417, type: 2}
-  m_sharedMaterial: {fileID: -3429482321812613679, guid: b0dc09cc7dc0fe3418b45ffcc9aa8417, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e8afa09e33e83054e8f3c4bf7af94b61, type: 2}
+  m_sharedMaterial: {fileID: -4659492698630406455, guid: e8afa09e33e83054e8f3c4bf7af94b61, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1206,10 +1206,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Time: '
+  m_text: 'Time:'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b0dc09cc7dc0fe3418b45ffcc9aa8417, type: 2}
-  m_sharedMaterial: {fileID: -3429482321812613679, guid: b0dc09cc7dc0fe3418b45ffcc9aa8417, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e8afa09e33e83054e8f3c4bf7af94b61, type: 2}
+  m_sharedMaterial: {fileID: -4659492698630406455, guid: e8afa09e33e83054e8f3c4bf7af94b61, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

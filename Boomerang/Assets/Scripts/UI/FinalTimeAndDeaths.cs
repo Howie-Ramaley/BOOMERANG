@@ -22,7 +22,7 @@ public class FinalTimeAndDeaths : MonoBehaviour
     {
         if(time != null)
         {
-            time.text = "Time: " + GlobalVars.getTimeText();
+            time.text = GlobalVars.getTimeText();
         }
         else
             time = transform.Find("Time").GetComponent<TMPro.TextMeshProUGUI>();

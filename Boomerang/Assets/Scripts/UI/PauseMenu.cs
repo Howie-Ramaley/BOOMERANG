@@ -25,7 +25,7 @@ public class PauseMenu : MonoBehaviour
         if(levelTransitioner == null)
             levelTransitioner = GameObject.FindGameObjectWithTag("LevelTransitioner").GetComponent<LevelTransitioner>();
 
-        if(Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Pause"))
+        if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Tab) || Input.GetButtonDown("Pause"))
         {
             if(GameIsPaused)
             {

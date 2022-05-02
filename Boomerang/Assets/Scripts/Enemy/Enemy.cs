@@ -207,7 +207,7 @@ public class Enemy : MonoBehaviour, IStunnable
             GetComponent<BoxCollider2D>().isTrigger = true;
             GetComponent<PlayerHit>().setHurts(true);
             GetComponent<SpriteRenderer>().color = colorYeah;
-            SoundManager.PlaySound("wake");
+            //SoundManager.PlaySound("wake");
             delayTime = delayTimeLength;
         }
         return true;
