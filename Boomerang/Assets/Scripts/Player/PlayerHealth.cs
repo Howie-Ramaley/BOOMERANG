@@ -60,11 +60,11 @@ public class PlayerHealth : MonoBehaviour
         SpriteRenderer sprite = player.GetComponentInChildren<PlayerAnimation>().gameObject.GetComponent<SpriteRenderer>();
         if(health == 2)
         {
-            sprite.color = new Color(1, 0.75f, 0.75f);
+            sprite.color = new Color(0.88f, 0.44f, 0.44f);
         }
         else if(health == 1)
         {
-            sprite.color = new Color(1, 0.2f, 0.2f);
+            sprite.color = new Color(0.77f, 0.13f, 0.21f);
         }
         else if (health <= 0)
         {

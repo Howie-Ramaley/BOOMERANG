@@ -51,6 +51,7 @@ public class Enemy : MonoBehaviour, IStunnable
     //
     [SerializeField] private float delayTimeLength;
     private float delayTime;
+    private Color color;
 
     // Start is called before the first frame update
     void Start()
@@ -67,10 +68,14 @@ public class Enemy : MonoBehaviour, IStunnable
         aggroArea = transform.parent.GetComponentInChildren<BasicTrigger>();
         AIDestinationSetter aids = GetComponent<AIDestinationSetter>();
         aids.target = player.transform;
+        color = GetComponent<SpriteRenderer>().color;
     }
 
     protected virtual void FixedUpdate()
     {
+        if(color == null)
+            color = GetComponent<SpriteRenderer>().color;
+            
         if (delayTime > 0) 
         {
             delayTime -= Time.deltaTime;
@@ -184,7 +189,7 @@ public class Enemy : MonoBehaviour, IStunnable
             stunned = false;
             GetComponent<BoxCollider2D>().isTrigger = true;
             GetComponent<PlayerHit>().setHurts(true);
-            GetComponent<SpriteRenderer>().color = Color.red;
+            GetComponent<SpriteRenderer>().color = color;
             SoundManager.PlaySound("wake");
             delayTime = delayTimeLength;
         }

@@ -118,14 +118,28 @@ public class Boomerang : MonoBehaviour
             else
             {
                 Vector2 inAngle = Vector2.zero;
-                if(Input.GetKeyDown(KeyCode.I))
-                    inAngle.y += 1F;
-                if(Input.GetKeyDown(KeyCode.J))
-                    inAngle.x -= 1F;
-                if(Input.GetKeyDown(KeyCode.K))
-                    inAngle.y -= 1F;
-                if(Input.GetKeyDown(KeyCode.L))
-                    inAngle.x += 1F;
+                if(throwKeyPressedFrames == diagonalInputBufferTime + 1)
+                {
+                    if(Input.GetKey(KeyCode.I))
+                        inAngle.y = 1F;
+                    if(Input.GetKey(KeyCode.L))
+                        inAngle.x = 1F;
+                    if(Input.GetKey(KeyCode.J))
+                        inAngle.x = -1F;
+                    if(Input.GetKey(KeyCode.K))
+                        inAngle.y = -1F;
+                }
+                else
+                {
+                    if(Input.GetKeyDown(KeyCode.I))
+                        inAngle.y = 1F;
+                    if(Input.GetKeyDown(KeyCode.L))
+                        inAngle.x = 1F;
+                    if(Input.GetKeyDown(KeyCode.J))
+                        inAngle.x = -1F;
+                    if(Input.GetKeyDown(KeyCode.K))
+                        inAngle.y = -1F;
+                }
                 
                 if(aThrowKeyIsPressed())
                 {
@@ -142,10 +156,14 @@ public class Boomerang : MonoBehaviour
                 
                 if(inAngle.x > 0.01F || inAngle.x < -0.01F || inAngle.y > 0.01F || inAngle.y < -0.01F)
                 {
-                    if(inAngle.x > 1.99f || inAngle.x < -199f)
-                        inAngle.x /= 2;
-                    if(inAngle.y > 1.99f || inAngle.y < -1.99f)
-                        inAngle.y /= 2;
+                    if(inAngle.x > 1.01f)
+                        inAngle.x = 1f;
+                    if(inAngle.x < -1.01f)
+                        inAngle.x = -1f;
+                    if(inAngle.y > 1.01f)
+                        inAngle.y = 1f;
+                    if(inAngle.y < -1.01f)
+                        inAngle.y = -1f;
                     if(throwKeyPressedFrames <= diagonalInputBufferTime)
                     {
                         if(throwKeyPressedFrames == 0)
@@ -157,10 +175,10 @@ public class Boomerang : MonoBehaviour
                     }
                     else
                     {
-                        if(inAngle.x != throwAngle.x)
-                            throwAngle.x += inAngle.x;
-                        if(inAngle.y != throwAngle.y)
-                            throwAngle.y += inAngle.y;
+                        if(inAngle.x != throwAngle.x && inAngle.x != 0)
+                            throwAngle.x = inAngle.x;
+                        if(inAngle.y != throwAngle.y && inAngle.y != 0)
+                            throwAngle.y = inAngle.y;
                     }
                 }
             }
@@ -224,14 +242,15 @@ public class Boomerang : MonoBehaviour
         {
             throwKeyHeldFrames++;
             if(throwKeyHeldFrames > superThrowHoldTime)
-                GameObject.FindGameObjectWithTag("Player").transform.Find("PlayerSprite").gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+                GameObject.FindGameObjectWithTag("Player").transform.Find("PlayerSprite").gameObject.GetComponent<SpriteRenderer>().color = GetComponent<SpriteRenderer>().color;
             if(IReleasedFrames > 0)
             {
                 IReleasedFrames++;
                 if(IReleasedFrames > diagonalInputBufferTime)
                 {
                     IReleasedFrames = 0;
-                    throwAngle.y -= 1f;
+                    if(throwAngle.y > 0.99f && throwAngle.x != 0 && !Input.GetKey(KeyCode.I))
+                        throwAngle.y -= 1f;
                 }
             }
             if(JReleasedFrames > 0)
@@ -240,7 +259,8 @@ public class Boomerang : MonoBehaviour
                 if(JReleasedFrames > diagonalInputBufferTime)
                 {
                     JReleasedFrames = 0;
-                    throwAngle.x += 1f;
+                    if(throwAngle.x < -0.99f && throwAngle.y != 0 && !Input.GetKey(KeyCode.J))
+                        throwAngle.x += 1f;
                 }
             }
             if(KReleasedFrames > 0)
@@ -249,7 +269,8 @@ public class Boomerang : MonoBehaviour
                 if(KReleasedFrames > diagonalInputBufferTime)
                 {
                     KReleasedFrames = 0;
-                    throwAngle.y += 1f;
+                    if(throwAngle.y < -0.99f && throwAngle.x != 0 && !Input.GetKey(KeyCode.K))
+                        throwAngle.y += 1f;
                 }
             }
             if(LReleasedFrames > 0)
@@ -258,7 +279,8 @@ public class Boomerang : MonoBehaviour
                 if(LReleasedFrames > diagonalInputBufferTime)
                 {
                     LReleasedFrames = 0;
-                    throwAngle.x -= 1f;
+                    if(throwAngle.x > 0.99f && throwAngle.y != 0 && !Input.GetKey(KeyCode.L))
+                        throwAngle.x -= 1f;
                 }
             }
         }
@@ -317,6 +339,8 @@ public class Boomerang : MonoBehaviour
             */
             float dist = Mathf.Sqrt(Mathf.Pow(throwAngle.x, 2) + Mathf.Pow(throwAngle.y, 2));
             throwAngle *= 1.0F / dist;
+            transform.position = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
+            returning = false;
             velx = throwAngle.x * throwSpeed;
             vely = throwAngle.y * throwSpeed;
         }
@@ -434,6 +458,7 @@ public class Boomerang : MonoBehaviour
                     hitList.RemoveRange(0, hitList.Count);
                     GetComponent<Animator>().enabled = false;
                     SoundManager.PlaySound("d_stuck");
+                    player.GetComponent<PlayerMovement>().getCamera().setShake(0.01f, 15);
                 }
                 else
                 {
@@ -445,7 +470,6 @@ public class Boomerang : MonoBehaviour
             {
                 //SoundManager.PlaySound("throw");
                 superThrow = false;
-                readyToThrow = true;
                 returning = false;
                 throwKeyPressedFrames = 0;
                 framesSinceThrown = 0;
@@ -456,6 +480,7 @@ public class Boomerang : MonoBehaviour
                 hitList.RemoveRange(0, hitList.Count);
                 throwCooldown = throwCooldownLength;
                 transform.position = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
+                readyToThrow = true;
             }
         }
     }
@@ -485,6 +510,7 @@ public class Boomerang : MonoBehaviour
 
     private void returnBoomerang()
     {
+        Debug.Log("BOOMERANG RETURNED");
         throwAngle = Vector2.zero;
         GetComponent<Animator>().enabled = true;
         returning = true;
