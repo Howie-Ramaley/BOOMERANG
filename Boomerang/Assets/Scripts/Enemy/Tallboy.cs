@@ -94,6 +94,7 @@ public class Tallboy : Enemy
         {
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 90F);
             transform.position = new Vector3(transform.position.x, transform.position.y - 1, transform.position.z);
+            animator.SetFloat("velx", 0);
         }
         else
         {
